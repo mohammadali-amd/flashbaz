@@ -1,0 +1,30 @@
+import { useEffect, useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
+
+interface Product {
+   id: number;
+   product: string;
+   price: string;
+}
+
+export const useFetchProducts = (): Product[] | null => {
+   const [products, setProducts] = useState<Product[] | null>(null);
+
+   const url = process.env.API_URL || 'http://localhost:3000/products';
+
+   useEffect(() => {
+      const fetchProducts = async () => {
+         try {
+            const response: AxiosResponse<Product[]> = await axios.get(url);
+            setProducts(response.data);
+         } catch (error) {
+            console.error('Error fetching products:', error);
+            setProducts(null); // Set products to null in case of error
+         }
+      };
+
+      fetchProducts();
+   }, [url]);
+
+   return products;
+};
