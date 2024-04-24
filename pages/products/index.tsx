@@ -1,4 +1,5 @@
 import { useFetchProducts } from '@/hooks/useFetchProducts';
+import Link from 'next/link';
 
 const Products = () => {
    const products = useFetchProducts();
@@ -15,7 +16,7 @@ const Products = () => {
          <div className='flex justify-between gap-8'>
             {/* Filters */}
             <div className="filter">
-               <div className='space-y-8 border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl py-8 px-10'>
+               <div className='space-y-8 border border-stone-300 rounded-xl py-8 px-10'>
                   <h4 className='text-xl font-medium'>
                      فیلترها
                   </h4>
@@ -28,17 +29,23 @@ const Products = () => {
             {/* Products */}
             <div className="grid grid-cols-4 gap-8">
                {products?.map((product) => (
-                  <div key={product.id} className='space-y-8 border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl py-8 px-10'>
-                     <div className="flex justify-center">
-                        <i className="lni lni-image text-[14rem] text-stone-600"></i>
+                  <Link href={`/products/${product.id}`} key={product.id}>
+                     <div className='space-y-8 border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl py-8 px-10'>
+                        <div className="flex justify-center">
+                           <i className="lni lni-image text-[14rem] text-stone-600"></i>
+                        </div>
+                        <h4 className='text-2xl font-medium'>
+                           {product.product}
+                        </h4>
+                        <h5 className='text-lg text-left'>
+                           {parseInt(product.price, 10).toLocaleString()} تومان
+                        </h5>
+                        {/* Add to Cart */}
+                        <button className='flex justify-center bg-slate-300 rounded-lg w-full p-4'>
+                           اضافه به سبد خرید
+                        </button>
                      </div>
-                     <h4 className='text-2xl font-medium'>
-                        {product.product}
-                     </h4>
-                     <h5 className='text-lg text-left'>
-                        {parseInt(product.price, 10).toLocaleString()} تومان
-                     </h5>
-                  </div>
+                  </Link>
                ))}
             </div>
          </div>
