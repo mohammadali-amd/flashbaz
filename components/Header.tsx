@@ -1,8 +1,19 @@
+import { PersianNumber } from '@/hooks/PersianNumber';
+import { RootState } from '@/store/store';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 
 const Header = () => {
    const [query, setQuery] = useState('');
+   const [isClient, setIsClient] = useState(false)
+
+   useEffect(() => {
+      setIsClient(true)
+   }, []);
+
+   const cartItems = useSelector((state: RootState) => state.cart.items);
+   const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
 
    return (
       <div className='px-20 pt-5 pb-3 shadow-md border-b border-stone-300'>
@@ -29,12 +40,17 @@ const Header = () => {
             </div>
             <div className='flex items-center gap-8'>
                {/* Login/Signup */}
-               <div className="border border-black rounded-lg py-2 px-4">
-                  <p>ورود | ثبت نام</p>
-               </div>
+               <Link href={''} className="border border-black rounded-lg py-2 px-4">
+                  ورود | ثبت نام
+               </Link>
                {/* Cart */}
-               <div className="">
-                  <i className="lni lni-cart border border-black rounded-lg py-1 px-2 text-2xl"></i>
+               <div className='relative'>
+                  <Link href={'/cart'}>
+                     <i className="lni lni-cart border border-black rounded-lg py-1 px-2 text-2xl"></i>
+                     <span className='absolute bottom-1 right-1 bg-red-600 rounded-full text-white px-1 text-xs'>
+                        {isClient && PersianNumber(totalQuantity.toString())}
+                     </span>
+                  </Link>
                </div>
             </div>
          </div>
@@ -45,7 +61,7 @@ const Header = () => {
                   <Link href='/'>صفحه اصلی</Link>
                </li>
                <li>
-                  <Link href={"/products"}>محصولات</Link>
+                  <Link href={"/products"}>فروشگاه</Link>
                </li>
                <li>
                   <Link href={"#"}>مقالات</Link>
