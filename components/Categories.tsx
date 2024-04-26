@@ -52,8 +52,8 @@ const categories = [
 
 const Categories = () => {
    return (
-      <div className='flex justify-center my-8 mx-20'>
-         <CarouselLayout slidesPerView={7} >
+      <div className='flex justify-center my-8 md:mx-20'>
+         <CarouselLayout mobileSlidesPerView={1} tabletSlidesPerView={3} laptopSlidesPerView={5} desktopSlidesPerView={7}>
             {categories.map((item) => (
                <SwiperSlide key={item.name}>
                   <div className="grid justify-center gap-6">

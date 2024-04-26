@@ -4,17 +4,18 @@ import { SwiperSlide } from 'swiper/react';
 import { useFetchProducts } from '@/hooks/useFetchProducts';
 import CarouselLayout from './CarouselLayout';
 import Link from 'next/link';
+import { PersianNumber } from '@/hooks/PersianNumber';
 
 const BestSellingProducts = (): JSX.Element => {
    const products = useFetchProducts();
 
    return (
-      <div className='m-20'>
+      <div className='my-20 md:mx-20'>
          <h3 className='text-4xl'>
             پرفروش ترین محصولات
          </h3>
          <div>
-            <CarouselLayout slidesPerView={5} navigation={true} spaceBetween={50}>
+            <CarouselLayout mobileSlidesPerView={1} tabletSlidesPerView={2} laptopSlidesPerView={3} desktopSlidesPerView={5} spaceBetween={50}>
                {products?.map(product => (
                   <SwiperSlide key={product.id}>
                      <Link href={`/products/${product.id}`}>
@@ -26,12 +27,8 @@ const BestSellingProducts = (): JSX.Element => {
                               {product.product}
                            </h4>
                            <h5 className='text-lg text-left'>
-                              {parseInt(product.price, 10).toLocaleString()} تومان
+                              {PersianNumber(parseInt(product.price, 10).toLocaleString())} تومان
                            </h5>
-                           {/* Add to Cart */}
-                           <button className='flex justify-center bg-slate-300 rounded-lg w-full p-4'>
-                              اضافه به سبد خرید
-                           </button>
                         </div>
                      </Link>
                   </SwiperSlide>

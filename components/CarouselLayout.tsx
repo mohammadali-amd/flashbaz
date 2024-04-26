@@ -6,14 +6,18 @@ import "swiper/css/pagination";
 
 type CarouselLayout = {
    children?: React.ReactNode;
-   slidesPerView: number;
+   mobileSlidesPerView?: number;
+   tabletSlidesPerView?: number;
+   laptopSlidesPerView?: number;
+   desktopSlidesPerView?: number;
    spaceBetween?: number;
    navigation?: boolean;
    className?: string;
    color?: string;
+
 }
 
-const CarouselLayout: React.FC<CarouselLayout> = ({ children, slidesPerView, navigation = true, spaceBetween, className, color = "#000" }) => {
+const CarouselLayout: React.FC<CarouselLayout> = ({ children, mobileSlidesPerView = 1, tabletSlidesPerView = 3, laptopSlidesPerView = 5, desktopSlidesPerView = 7, navigation = true, spaceBetween, className, color = "#000" }) => {
    return (
       <Swiper
          style={{
@@ -21,11 +25,25 @@ const CarouselLayout: React.FC<CarouselLayout> = ({ children, slidesPerView, nav
             '--swiper-pagination-color': color,
             'padding': '0 40px'
          } as React.CSSProperties}
-         slidesPerView={slidesPerView}
+         slidesPerView={mobileSlidesPerView}
          spaceBetween={spaceBetween}
          navigation={navigation}
          modules={[Navigation]}
          className={className}
+         breakpoints={{
+            768: {
+               slidesPerView: tabletSlidesPerView,
+               // spaceBetween: 5
+            },
+            1023: {
+               slidesPerView: laptopSlidesPerView,
+               // spaceBetween: 10
+            },
+            1440: {
+               slidesPerView: desktopSlidesPerView,
+               // spaceBetween: 10
+            },
+         }}
       >
          {children}
       </Swiper>

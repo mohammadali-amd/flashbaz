@@ -1,3 +1,4 @@
+import { PersianNumber } from '@/hooks/PersianNumber';
 import { useFetchProducts } from '@/hooks/useFetchProducts';
 import Link from 'next/link';
 
@@ -38,12 +39,8 @@ const Products = () => {
                            {product.product}
                         </h4>
                         <h5 className='text-lg text-left'>
-                           {parseInt(product.price, 10).toLocaleString()} تومان
+                           {PersianNumber(parseInt(product.price, 10).toLocaleString())} تومان
                         </h5>
-                        {/* Add to Cart */}
-                        <button className='flex justify-center bg-slate-300 rounded-lg w-full p-4'>
-                           اضافه به سبد خرید
-                        </button>
                      </div>
                   </Link>
                ))}

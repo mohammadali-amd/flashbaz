@@ -16,7 +16,7 @@ const Header = () => {
    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
 
    return (
-      <div className='px-20 pt-5 pb-3 shadow-md border-b border-stone-300'>
+      <div className='hidden lg:block px-20 pt-5 pb-3 shadow-md border-b border-stone-300'>
          <div className="flex items-center justify-between">
             <div className='flex items-center gap-10'>
                {/* Logo */}
