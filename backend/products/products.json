@@ -1,0 +1,90 @@
+[
+  {
+    "_id": "8154",
+    "product": "فلش سن دیسک",
+    "price": "20000",
+    "category": "فلش",
+    "description": "متن نمونه",
+    "tags": [
+      "flash",
+      "sandisk"
+    ],
+    "dateSubmitted": "2024-04-24T09:42:29.821Z",
+    "stock": "1"
+  },
+  {
+    "_id": "f54f",
+    "product": "گوشی شیائومی",
+    "price": "10000000",
+    "category": "گوشی موبایل",
+    "description": "متن نمونه",
+    "tags": [
+      "mobile",
+      "xiaomi"
+    ],
+    "dateSubmitted": "2024-04-23T17:28:58.217Z",
+    "stock": "5"
+  },
+  {
+    "_id": "030b",
+    "product": "لپتاپ دل",
+    "price": "5500000",
+    "category": "لپتاپ",
+    "description": "متن نمونه",
+    "tags": [
+      "dell",
+      "laptop"
+    ],
+    "dateSubmitted": "2024-04-23T17:09:55.769Z",
+    "stock": "8"
+  },
+  {
+    "_id": "15f3",
+    "product": "کیبورد گرین",
+    "price": "23000",
+    "category": "کیبورد",
+    "description": "تست",
+    "tags": [
+      "keyboard",
+      "green"
+    ],
+    "dateSubmitted": "2024-04-23T17:08:15.377Z",
+    "stock": "15"
+  },
+  {
+    "_id": "6517",
+    "product": "aksbd",
+    "price": "2222",
+    "category": "askdjb",
+    "description": "ksdjbnfkjbn",
+    "tags": [
+      "ksdbfs"
+    ],
+    "dateSubmitted": "2024-04-23T18:30:45.177Z",
+    "stock": "4"
+  },
+  {
+    "_id": "f6df",
+    "product": "qqqqqq",
+    "price": "333",
+    "category": "asdsad",
+    "description": "asd",
+    "tags": [
+      "qqqqq"
+    ],
+    "dateSubmitted": "2024-04-23T17:08:22.297Z",
+    "stock": "1"
+  },
+  {
+    "_id": "3d0f",
+    "product": "asddfsa",
+    "price": "70000",
+    "category": "asdasdsa",
+    "description": "asdsadsad",
+    "tags": [
+      "asdassad"
+    ],
+    "dateSubmitted": "2024-04-23T17:07:48.561Z",
+    "stock": "8"
+  }
+]
