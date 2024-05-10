@@ -1,10 +1,10 @@
 import React from 'react';
 import { SwiperSlide } from 'swiper/react';
 
-import { useFetchProducts } from '@/hooks/useFetchProducts';
+import { useFetchProducts } from '@/utils/useFetchProducts';
 import CarouselLayout from './CarouselLayout';
 import Link from 'next/link';
-import { PersianNumber } from '@/hooks/PersianNumber';
+import { PersianNumber } from '@/utils/PersianNumber';
 
 const BestSellingProducts = (): JSX.Element => {
    const products = useFetchProducts();
@@ -23,7 +23,7 @@ const BestSellingProducts = (): JSX.Element => {
                            <div className="flex justify-center">
                               <i className="lni lni-image text-[14rem] text-stone-600"></i>
                            </div>
-                           <h4 className='text-2xl font-medium'>
+                           <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
                               {product.product}
                            </h4>
                            <h5 className='text-lg text-left'>

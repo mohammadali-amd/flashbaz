@@ -1,5 +1,5 @@
-import { PersianNumber } from '@/hooks/PersianNumber';
-import { useFetchProducts } from '@/hooks/useFetchProducts';
+import { PersianNumber } from '@/utils/PersianNumber';
+import { useFetchProducts } from '@/utils/useFetchProducts';
 import Link from 'next/link';
 
 const Products = () => {
@@ -35,7 +35,7 @@ const Products = () => {
                         <div className="flex justify-center">
                            <i className="lni lni-image text-[14rem] text-stone-600"></i>
                         </div>
-                        <h4 className='text-2xl font-medium'>
+                        <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
                            {product.product}
                         </h4>
                         <h5 className='text-lg text-left'>

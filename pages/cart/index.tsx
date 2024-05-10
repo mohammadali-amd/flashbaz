@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState, addItem, clearCart, removeItem } from '@/store/store';
 import { Product } from '@/types/types';
-import { PersianNumber } from '@/hooks/PersianNumber';
+import { PersianNumber } from '@/utils/PersianNumber';
 
 const Cart = () => {
    const dispatch = useDispatch();
@@ -39,9 +39,9 @@ const Cart = () => {
             سبد خرید
          </h2>
 
-         <div className='flex justify-between gap-20'>
+         <div className='flex justify-between gap-14'>
             {/* Cart */}
-            <div className='w-full space-y-8'>
+            <div className='w-3/4 space-y-8'>
                {isClient && cartItems.map((item, index) => (
                   <div key={index} className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
                      <div>
@@ -86,7 +86,7 @@ const Cart = () => {
 
             </div>
             {/* Submit */}
-            <div className='min-w-fit'>
+            <div className='w-1/4 min-w-fit'>
                <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
                   <div className="flex justify-between gap-20">
                      <h4>قیمت محصولات</h4>

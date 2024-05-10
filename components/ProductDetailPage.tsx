@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { addItem } from '@/store/store';
 import { Product } from '@/types/types';
-import { PersianNumber } from '@/hooks/PersianNumber';
+import { PersianNumber } from '@/utils/PersianNumber';
 
 interface ProductDetailPageProps {
    productId: string;
@@ -40,44 +40,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
 
    return (
       <div className='mx-20 my-5'>
-
-
-         {/* <div className='space-y-8 text-center'>
-            <div>
-               <i className="lni lni-image text-[14rem] text-stone-600"></i>
-            </div>
-            <h1 className='text-3xl'>
-               {productDetails.product}
-            </h1>
-            <h2 className='text-xl'>
-               {parseInt(productDetails.price).toLocaleString()} تومان
-            </h2>
-            <h3>
-               دسته بندی: {productDetails.category}
-            </h3>
-            <p>
-               {productDetails.description}
-            </p>
-            <p>
-               موجودی: {productDetails.stock}
-            </p>
-            <p>
-               تگ ها:
-               {productDetails.tags.map(index => (
-                  <li key={index}>
-                     {index}
-                  </li>
-               ))}
-            </p>
-            {// Add to Cart }
-            <button onClick={handleAddToCart} className='flex justify-center bg-slate-300 rounded-lg w-full p-4'>
-               اضافه به سبد خرید
-            </button>
-         </div> */}
-
-
-
-
          <div className='flex justify-between gap-20'>
             {/* Cart */}
             <div className='w-full space-y-8'>

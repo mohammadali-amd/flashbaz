@@ -1,4 +1,4 @@
-import { PersianNumber } from '@/hooks/PersianNumber';
+import { PersianNumber } from '@/utils/PersianNumber';
 import { RootState } from '@/store/store';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -40,7 +40,7 @@ const Header = () => {
             </div>
             <div className='flex items-center gap-8'>
                {/* Login/Signup */}
-               <Link href={''} className="border border-black rounded-lg py-2 px-4">
+               <Link href={'/login'} className="border border-black rounded-lg py-2 px-4">
                   ورود | ثبت نام
                </Link>
                {/* Cart */}
