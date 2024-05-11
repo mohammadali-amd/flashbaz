@@ -77,7 +77,7 @@ const Cart = () => {
                               <span className='text-xl font-medium'>
                                  {item.quantity}
                               </span>
-                              <button onClick={() => handleRemoveItem(item.product.id)} className="lni lni-trash-can text-2xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>
+                              <button onClick={() => handleRemoveItem(item.product._id)} className="lni lni-trash-can text-2xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>
                            </div>
                         </div>
                      </div>

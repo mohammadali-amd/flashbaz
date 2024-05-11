@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 
 interface Product {
-   id: number;
+   _id: number;
    product: string;
    price: string;
 }
@@ -10,7 +10,7 @@ interface Product {
 export const useFetchProducts = (): Product[] | null => {
    const [products, setProducts] = useState<Product[] | null>(null);
 
-   const url = process.env.API_URL || 'http://localhost:3000/products';
+   const url = process.env.API_URL || 'http://localhost:5000/api/products';
 
    useEffect(() => {
       const fetchProducts = async () => {

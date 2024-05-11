@@ -30,7 +30,7 @@ const Products = () => {
             {/* Products */}
             <div className="grid grid-cols-4 gap-8">
                {products?.map((product) => (
-                  <Link href={`/products/${product.id}`} key={product.id}>
+                  <Link href={`/api/products/${product._id}`} key={product._id}>
                      <div className='space-y-8 border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl py-8 px-10'>
                         <div className="flex justify-center">
                            <i className="lni lni-image text-[14rem] text-stone-600"></i>
@@ -38,7 +38,7 @@ const Products = () => {
                         <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
                            {product.product}
                         </h4>
-                        <h5 className='text-lg text-left'>
+                        <h5 className='text-lg text-left overflow-hidden overflow-ellipsis whitespace-nowrap'>
                            {PersianNumber(parseInt(product.price, 10).toLocaleString())} تومان
                         </h5>
                      </div>
