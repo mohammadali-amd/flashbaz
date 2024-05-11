@@ -14,6 +14,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    const [productDetails, setProductDetails] = useState<Product | null>(null)
    const dispatch = useDispatch();
 
+   console.log(productDetails);
+
    const handleAddToCart = () => {
       if (productDetails) {
          dispatch(addItem(productDetails)); // Pass productDetails to addItem
@@ -23,7 +25,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    useEffect(() => {
       const fetchProducts = async () => {
          try {
-            const response: AxiosResponse<Product> = await axios.get(`http://localhost:3000/products/${productId}`);
+            const response: AxiosResponse<Product> = await axios.get(`http://localhost:5000/api/products/${productId}`);
 
             setProductDetails(response.data);
          } catch (error) {
