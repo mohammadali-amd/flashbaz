@@ -46,7 +46,7 @@ const Cart = () => {
                   <div key={index} className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
                      <div>
                         <h3 className='text-2xl'>
-                           {item.product.product}
+                           {item.product.name}
                         </h3>
                         <div className='text-stone-600 space-y-4 mt-10'>
                            <h4 className='flex items-center gap-2'>

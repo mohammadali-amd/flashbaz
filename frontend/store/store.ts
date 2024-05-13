@@ -1,6 +1,7 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Product } from '@/types/types';
+import { productsApiSlice } from '@/slices/productsApiSlice';
 
 interface CartItem {
    product: Product;
@@ -57,10 +58,13 @@ if (typeof window !== 'undefined') {
 export const store = configureStore({
    reducer: {
       cart: cartSlice.reducer,
+      [productsApiSlice.reducerPath]: productsApiSlice.reducer,
    },
    preloadedState: {
       cart: initialCartState,
    },
+   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productsApiSlice.middleware),
+   devTools: true,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

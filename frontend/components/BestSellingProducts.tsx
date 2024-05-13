@@ -1,13 +1,24 @@
 import React from 'react';
 import { SwiperSlide } from 'swiper/react';
 
-import { useFetchProducts } from '@/utils/useFetchProducts';
 import CarouselLayout from './CarouselLayout';
 import Link from 'next/link';
 import { PersianNumber } from '@/utils/PersianNumber';
+import { useGetProductsQuery } from '@/slices/productsApiSlice';
+import Loader from './Loader';
+import ErrorMessage from './ErrorMessage';
 
 const BestSellingProducts = (): JSX.Element => {
-   const products = useFetchProducts();
+   const { data: products, isLoading, error } = useGetProductsQuery('bestSelling_products')
+
+   if (isLoading) {
+      return <Loader />
+   }
+
+   if (error) {
+      const errMsg = 'error' in error ? error.error : JSON.stringify(error)
+      return <ErrorMessage>{errMsg}</ErrorMessage>
+   }
 
    return (
       <div className='my-20 md:mx-20'>
@@ -24,7 +35,7 @@ const BestSellingProducts = (): JSX.Element => {
                               <i className="lni lni-image text-[14rem] text-stone-600"></i>
                            </div>
                            <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                              {product.product}
+                              {product.name}
                            </h4>
                            <h5 className='text-lg text-left'>
                               {PersianNumber(parseInt(product.price, 10).toLocaleString())} تومان

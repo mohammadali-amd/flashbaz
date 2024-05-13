@@ -1,9 +1,20 @@
+import ErrorMessage from '@/components/ErrorMessage';
+import Loader from '@/components/Loader';
+import { useGetProductsQuery } from '@/slices/productsApiSlice';
 import { PersianNumber } from '@/utils/PersianNumber';
-import { useFetchProducts } from '@/utils/useFetchProducts';
 import Link from 'next/link';
 
 const Products = () => {
-   const products = useFetchProducts();
+   const { data: products, isLoading, error } = useGetProductsQuery('flashbaz_products')
+
+   if (isLoading) {
+      return <Loader />
+   }
+
+   if (error) {
+      const errMsg = 'error' in error ? error.error : JSON.stringify(error)
+      return <ErrorMessage>{errMsg}</ErrorMessage>
+   }
 
    return (
       <div className='mx-20 my-5'>
@@ -36,7 +47,7 @@ const Products = () => {
                            <i className="lni lni-image text-[14rem] text-stone-600"></i>
                         </div>
                         <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                           {product.product}
+                           {product.name}
                         </h4>
                         <h5 className='text-lg text-left overflow-hidden overflow-ellipsis whitespace-nowrap'>
                            {PersianNumber(parseInt(product.price, 10).toLocaleString())} تومان

@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
 
 import { addItem } from '@/store/store';
-import { Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
+import { useGetProductDetailsQuery } from '@/slices/productsApiSlice';
+import ErrorMessage from './ErrorMessage';
+import Loader from './Loader';
 
 interface ProductDetailPageProps {
    productId: string;
 }
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
-   const [productDetails, setProductDetails] = useState<Product | null>(null)
+   const { data: productDetails, isLoading, error } = useGetProductDetailsQuery(productId)
    const dispatch = useDispatch();
-
-   console.log(productDetails);
 
    const handleAddToCart = () => {
       if (productDetails) {
@@ -22,22 +20,13 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
       }
    };
 
-   useEffect(() => {
-      const fetchProducts = async () => {
-         try {
-            const response: AxiosResponse<Product> = await axios.get(`http://localhost:5000/api/products/${productId}`);
+   if (isLoading) {
+      return <Loader />
+   }
 
-            setProductDetails(response.data);
-         } catch (error) {
-            console.error('Error fetching product:', error);
-         }
-      };
-
-      fetchProducts();
-   }, [productId]);
-
-   if (!productDetails) {
-      return <div>Loading...</div>;
+   if (error) {
+      const errMsg = 'error' in error ? error.error : JSON.stringify(error)
+      return <ErrorMessage>{errMsg}</ErrorMessage>
    }
 
    return (
@@ -48,10 +37,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                <div className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
                   <div>
                      <h3 className='text-2xl'>
-                        {productDetails.product}
+                        {productDetails?.name}
                      </h3>
                      <p className='py-2 text-xl'>
-                        {productDetails.description}
+                        {productDetails?.description}
                      </p>
                      <div className='text-stone-600 space-y-4 mt-10'>
                         <h4 className='flex items-center gap-2'>
@@ -68,11 +57,12 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                         </h4>
                      </div>
                      <div className='flex gap-2  text-sm pt-10'>
-                        {productDetails.tags.map(index => (
+                        #tags
+                        {/* {productDetails?.tags.map(index => (
                            <h6 key={index}>
                               #{index}
                            </h6>
-                        ))}
+                        ))} */}
                      </div>
                   </div>
                   <div>
@@ -89,15 +79,15 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
                   <div className="flex justify-between gap-20">
                      <h4>قیمت</h4>
-                     <h5>
-                        {PersianNumber(parseInt(productDetails.price).toLocaleString())} تومان
-                     </h5>
+                     {productDetails && <h5>
+                        {PersianNumber(parseInt(productDetails?.price).toLocaleString())} تومان
+                     </h5>}
                   </div>
                   <div className="flex justify-between gap-20 text-red-600">
                      <h4>تخفیف</h4>
                      <h5>0 تومان</h5>
                   </div>
-                  {parseInt(productDetails.stock) === 1 && (
+                  {productDetails && parseInt(productDetails?.countInStock) === 1 && (
                      <p className='text-red-500 font-semibold text-sm'>
                         فقط 1 عدد از این کالا در انبار موجود است.
                      </p>
