@@ -36,7 +36,7 @@ const Carousel = () => {
             } as React.CSSProperties}
          >
             <SwiperSlide>
-               <Image src={slider_banner_1} alt="slider-banner" className='w-full' />
+               <Image src={slider_banner_1} alt="slider-banner" className='w-full' priority={true} />
             </SwiperSlide>
             <SwiperSlide>
                <Image src={slider_banner_2} alt="slider-banner" className='w-full' />

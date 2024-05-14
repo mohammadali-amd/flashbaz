@@ -1,10 +1,11 @@
 import { useDispatch } from 'react-redux';
 
-import { addItem } from '@/store/store';
+import { addItem } from '@/slices/cartSlice';
 import { PersianNumber } from '@/utils/PersianNumber';
 import { useGetProductDetailsQuery } from '@/slices/productsApiSlice';
 import ErrorMessage from './ErrorMessage';
 import Loader from './Loader';
+import { useRouter } from 'next/navigation';
 
 interface ProductDetailPageProps {
    productId: string;
@@ -13,10 +14,12 @@ interface ProductDetailPageProps {
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    const { data: productDetails, isLoading, error } = useGetProductDetailsQuery(productId)
    const dispatch = useDispatch();
+   const router = useRouter();
 
    const handleAddToCart = () => {
       if (productDetails) {
          dispatch(addItem(productDetails)); // Pass productDetails to addItem
+         router.push('/cart')
       }
    };
 
