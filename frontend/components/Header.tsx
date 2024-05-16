@@ -1,19 +1,41 @@
-import { PersianNumber } from '@/utils/PersianNumber';
-import { RootState } from '@/store/store';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { RootState } from '@/store/store';
+import { useLogoutMutation } from '@/slices/usersApiSlice';
+import { logout } from '@/slices/authSlice'
+import { PersianNumber } from '@/utils/PersianNumber';
 
 const Header = () => {
    const [query, setQuery] = useState('');
+   const [isToggle, setIsToggle] = useState(false)
    const [isClient, setIsClient] = useState(false)
 
    useEffect(() => {
       setIsClient(true)
    }, []);
 
+   const router = useRouter()
+   const dispatch = useDispatch()
+
+   const [logoutApiCall] = useLogoutMutation()
+
+   const logoutHandler = async () => {
+      try {
+         await logoutApiCall('userInfo').unwrap()
+         dispatch(logout())
+         router.push('/login')
+      } catch (error) {
+         console.log(error);
+      }
+   }
+
    const cartItems = useSelector((state: RootState) => state.cart.items);
    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+   const { userInfo } = useSelector((state: RootState) => state.auth);
 
    return (
       <div className='hidden lg:block px-20 pt-5 pb-3 shadow-md border-b border-stone-300'>
@@ -38,21 +60,44 @@ const Header = () => {
                   </div>
                </div>
             </div>
-            <div className='flex items-center gap-8'>
-               {/* Login/Signup */}
-               <Link href={'/login'} className="border border-black rounded-lg py-2 px-4">
-                  ورود | ثبت نام
-               </Link>
-               {/* Cart */}
-               <div className='relative'>
-                  <Link href={'/cart'}>
-                     <i className="lni lni-cart border border-black rounded-lg py-1 px-2 text-2xl"></i>
-                     <span className='absolute bottom-1 right-1 bg-red-600 rounded-full text-white px-1 text-xs'>
-                        {isClient && PersianNumber(totalQuantity.toString())}
-                     </span>
-                  </Link>
+            {isClient && (
+               <div className='flex items-center gap-8'>
+                  {/* Login/Signup */}
+                  {userInfo ? (
+                     <div className="relative inline-block text-left">
+                        <div>
+                           <button type="button" className="inline-flex items-end w-full justify-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-black hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true"
+                              onClick={() => setIsToggle((prev) => !prev)}
+                           >
+                              <span>{userInfo?.name}</span>
+                              <i className="lni lni-user text-xl"></i>
+                           </button>
+                        </div>
+                        <div className={`${isToggle ? 'hidden' : ''} absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
+                           <div className="py-1" role="none">
+                              <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-0">Account settings</a>
+                              <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-1">Support</a>
+                              <a href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-2">License</a>
+                              <button onClick={logoutHandler} className="text-gray-700 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabIndex={-1} id="menu-item-3">Sign out</button>
+                           </div>
+                        </div>
+                     </div>
+                  ) : (
+                     <Link href={'/login'} className="border border-black rounded-lg py-2 px-4">
+                        ورود | ثبت نام
+                     </Link>
+                  )}
+                  {/* Cart */}
+                  <div className='relative'>
+                     <Link href={'/cart'}>
+                        <i className="lni lni-cart border border-black rounded-lg py-1 px-2 text-2xl"></i>
+                        <span className='absolute bottom-1 right-1 bg-red-600 rounded-full text-white px-1 text-xs'>
+                           {PersianNumber(totalQuantity.toString())}
+                        </span>
+                     </Link>
+                  </div>
                </div>
-            </div>
+            )}
          </div>
          {/* Pages link */}
          <div className="flex pt-5">

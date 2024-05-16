@@ -1,13 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
-import { PRODUCTS_URL, BASE_URL } from "@/constants/constants";
+import { PRODUCTS_URL } from "@/constants/constants";
 import { Product } from "@/types/types";
+import { apiSlice } from './apiSlice';
 
 type Products = Product[]
 
-export const productsApiSlice = createApi({
-   reducerPath: 'productsApiSlice',
-   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+export const productsApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getProducts: builder.query<Products, string>({
          query: () => ({

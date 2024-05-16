@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { productsApiSlice } from '@/slices/productsApiSlice';
 import { cartSlice } from '@/slices/cartSlice'
+import { authSlice } from '@/slices/authSlice';
+import { apiSlice } from '@/slices/apiSlice';
 
 export const store = configureStore({
    reducer: {
-      [productsApiSlice.reducerPath]: productsApiSlice.reducer,
+      [apiSlice.reducerPath]: apiSlice.reducer,
       cart: cartSlice.reducer,
+      auth: authSlice.reducer,
    },
-   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productsApiSlice.middleware),
+   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
    devTools: true,
 });
 
