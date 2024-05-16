@@ -1,5 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from './Header'
 import Footer from './Footer'
@@ -18,6 +20,7 @@ const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
             <Header />
             <main>{children}</main>
             <Footer />
+            <ToastContainer />
          </div>
       </div>
    )
