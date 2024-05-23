@@ -1,43 +1,53 @@
 import asyncHandler from "../middleWare/asyncHandler.js"
 import Order from "../models/orderModel.js"
+import Product from "../models/productModel.js"
 
 // @desc Create new order
 // @route POST /api/orders
 // @access Private
 export const addOrderItems = asyncHandler(async (req, res) => {
-   const {
-      orderItems,
+   const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
+
+   if (!orderItems || orderItems.length === 0) {
+      res.status(400);
+      throw new Error('No order items');
+   }
+
+   const productIds = orderItems.map(item => item._id);
+
+   const productsFromDB = await Product.find({ _id: { $in: productIds } });
+
+   const dbOrderItems = orderItems.map((item) => {
+      const product = productsFromDB.find(p => p._id.toString() === item._id);
+
+      if (!product) throw new Error(`Product not found: ${item._id}`);
+
+      return {
+         name: product.name,
+         qty: item.quantity,
+         image: product.image,
+         price: product.price,
+         product: item._id
+      };
+   });
+
+   const itemsPrice = dbOrderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+
+   const order = new Order({
+      orderItems: dbOrderItems,
+      user: req.user._id,
       shippingAddress,
       paymentMethod,
-      // itemsPrice,
-      // taxPrice,
-      // shippingPrice,
+      itemsPrice: itemsPrice,
+      taxPrice: 0, // Assuming taxPrice is calculated elsewhere or is 0
+      shippingPrice: 0, // Assuming shippingPrice is calculated elsewhere or is 0
       totalPrice,
-   } = req.body
+   });
 
-   if (orderItems && orderItems.length === 0) {
-      res.status(400)
-      throw new Error('No order item')
-   } else {
-      const order = new Order({
-         orderItems: orderItems.map((item) => ({
-            ...item,
-            product: item._id,
-            _id: undefined
-         })),
-         user: req.user._id,
-         shippingAddress,
-         paymentMethod,
-         // itemsPrice,
-         // taxPrice,
-         // shippingPrice,
-         totalPrice,
-      })
-      const createOrder = await order.save()
+   const createOrder = await order.save();
 
-      res.status(201).json(createOrder)
-   }
-})
+   res.status(201).json(createOrder);
+});
 
 // @desc Get logged in users orders
 // @route GET /api/orders/myorders
