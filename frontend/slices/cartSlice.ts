@@ -6,18 +6,40 @@ interface CartItem {
    quantity: number;
 }
 
+interface ShippingAddress {
+   address: string,
+   city: string,
+   postalCode: string,
+}
+
 interface CartState {
    items: CartItem[];
+   shippingAddress: ShippingAddress,
+   paymentMethod: string,
 }
 
 const initialState: CartState = {
    items: [],
+   shippingAddress: {
+      address: '',
+      city: '',
+      postalCode: '',
+   },
+   paymentMethod: 'PayPal',
 };
 
 const getInitialCartState = (): CartState => {
    if (typeof window !== 'undefined') {
       const storedCartData = localStorage.getItem('cart');
-      return storedCartData ? { items: JSON.parse(storedCartData) } : initialState;
+      const storedShippingAddress = localStorage.getItem('shippingAddress');
+
+      return storedCartData
+         ? {
+            items: JSON.parse(storedCartData),
+            shippingAddress: storedShippingAddress ? JSON.parse(storedShippingAddress) : initialState.shippingAddress,
+            paymentMethod: 'PayPal'
+         }
+         : initialState;
    }
    return initialState;
 };
@@ -56,7 +78,15 @@ export const cartSlice = createSlice({
          state.items = [];
          localStorage.removeItem('cart');
       },
+      saveShippingAddress: (state, action: PayloadAction<ShippingAddress>) => {
+         state.shippingAddress = action.payload
+         localStorage.setItem('shippingAddress', JSON.stringify(state.shippingAddress));
+      },
+      savePaymentMethod: (state, action) => {
+         state.paymentMethod = action.payload
+         localStorage.setItem('paymentMethod', JSON.stringify(state.paymentMethod));
+      }
    },
 });
 
-export const { addItem, removeItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, clearCart, saveShippingAddress, savePaymentMethod } = cartSlice.actions;
