@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addItem, clearCart, removeItem } from '@/slices/cartSlice';
 import { RootState } from '@/store/store'
 import { Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
-import Link from 'next/link';
 
 const Cart = () => {
    const dispatch = useDispatch();
    const [isClient, setIsClient] = useState(false)
    const cartItems = useSelector((state: RootState) => state.cart.items);
 
+   const router = useRouter()
    // Hydration error: Initial UI does not match server render.
    // To prevent Hydration error, ensure consistency between server-side and client-side rendering. 👇
    useEffect(() => {
@@ -119,7 +121,7 @@ const Cart = () => {
                         <h5>{isClient && PersianNumber(totalPrice.toLocaleString())} تومان</h5>
                      </div>
 
-                     <button className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
+                     <button onClick={() => { router.push('payment') }} className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
                         تایید و تکمیل سفارش
                      </button>
                   </div>

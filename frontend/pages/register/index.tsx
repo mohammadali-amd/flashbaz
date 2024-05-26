@@ -56,19 +56,19 @@ const RegisterPage = () => {
             <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>نام</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="text" name="name" id="name" value={name} onChange={(e) => { setName(e.target.value) }} />
+                  <input className='text-center border border-stone-300 rounded-md py-2' type="text" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} />
                </div>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>ایمیل</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="email" name="email" id="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                  <input className='text-center border border-stone-300 rounded-md py-2' type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                </div>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>رمز عبور</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="password" id="password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                  <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                </div>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>تایید رمز عبور</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="confirm-password" id="confirm-password" value={ConfirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} />
+                  <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="confirm-password" id="confirm-password" value={ConfirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                </div>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>کد امنیتی</h4>

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import Loader from '@/components/Loader'
 import { useLoginMutation } from '@/slices/usersApiSlice'
 import { setCredentials } from '@/slices/authSlice'
-import { RootState, store } from '@/store/store'
+import { RootState } from '@/store/store'
 
 const LoginPage = () => {
    const [email, setEmail] = useState('')
@@ -31,6 +31,18 @@ const LoginPage = () => {
 
    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
+
+      // // Get Cookie from backend
+      // const response = await fetch('http://localhost:5000/api/users/login', {
+      //    method: 'POST',
+      //    credentials: 'include', // This ensures cookies are included in the request
+      //    headers: {
+      //       'Content-Type': 'application/json'
+      //    },
+      //    body: JSON.stringify({ email, password })
+      // });
+      // await response.json();
+
       try {
          const res = await login({ email, password }).unwrap()
          dispatch(setCredentials({ ...res }))
@@ -49,11 +61,11 @@ const LoginPage = () => {
             <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>ایمیل</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="email" name="email" id="email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                  <input className='text-center border border-stone-300 rounded-md py-2' type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                </div>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>رمز عبور</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="password" id="password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                  <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                </div>
                <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>کد امنیتی</h4>
