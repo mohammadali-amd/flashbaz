@@ -7,6 +7,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
          query: (data) => ({
             url: `${USERS_URL}/login`,
             method: 'POST',
+            credentials: 'include',
             body: data
          }),
       }),
@@ -21,6 +22,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
          query: () => ({
             url: `${USERS_URL}/logout`,
             method: 'POST',
+            credentials: 'include',
          }),
       }),
    }),
