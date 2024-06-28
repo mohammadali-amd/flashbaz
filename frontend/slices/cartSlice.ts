@@ -76,7 +76,8 @@ export const cartSlice = createSlice({
       },
       clearCart(state) {
          state.items = [];
-         localStorage.removeItem('cart');
+         // localStorage.removeItem('cart');
+         localStorage.setItem('cart', JSON.stringify(state.items))
       },
       saveShippingAddress: (state, action: PayloadAction<ShippingAddress>) => {
          state.shippingAddress = action.payload
