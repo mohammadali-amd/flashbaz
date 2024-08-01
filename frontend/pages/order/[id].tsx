@@ -37,11 +37,11 @@ const OrderPage = () => {
                   <h3>آدرس: {order.shippingAddress.address}</h3>
                   {order.isDelivered ? (
                      <p className='flex justify-between items-center md:w-1/4 text-lg bg-green-300 text-green-700 border border-green-700 rounded-md p-4 my-4'>
-                        Delivered on {order.deliveredAt}
+                        در تاریخ {order.deliveredAt} ارسال شده
                      </p>
                   ) : (
                      <p className='flex justify-between items-center md:w-1/4 text-lg bg-red-300 text-red-800 border border-red-800 rounded-md p-4 my-4'>
-                        Not Delivered
+                        ارسال نشده
                      </p>
                   )}
                </div>
@@ -51,11 +51,11 @@ const OrderPage = () => {
                   <h2>وضعیت پرداخت</h2>
                   {order.isPaid ? (
                      <p className='flex justify-between items-center md:w-1/4 text-lg bg-green-300 text-green-700 border border-green-700 rounded-md p-4 my-4'>
-                        Paid on {order.paidAt}
+                        در تاریخ {order.paidAt} پرداخت شده
                      </p>
                   ) : (
                      <p className='flex justify-between items-center md:w-1/4 text-lg bg-red-300 text-red-800 border border-red-800 rounded-md p-4 my-4'>
-                        Not Paid
+                        پرداخت نشده
                      </p>
                   )}
                </div>
@@ -93,7 +93,7 @@ const OrderPage = () => {
                      <h5>تومان {PersianNumber(parseFloat(order.totalPrice).toLocaleString())}</h5>
                   </div>
 
-                  <button onClick={() => { router.push('payment') }} className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
+                  <button className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
                      تایید و تکمیل سفارش
                   </button>
                </div>

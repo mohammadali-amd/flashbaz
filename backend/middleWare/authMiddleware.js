@@ -4,10 +4,8 @@ import User from '../models/userModel.js'
 
 // Protect routes
 export const protect = asyncHandler(async (req, res, next) => {
-   let token
-
    // Read the JWT from the 'jwt' cookie
-   token = req.cookies.jwt
+   let token = req.cookies.jwt
 
    if (token) {
       try {
@@ -15,11 +13,12 @@ export const protect = asyncHandler(async (req, res, next) => {
          req.user = await User.findById(decoded.userId).select('-password')
          next()
       } catch (error) {
-         console.log(error);
+         console.log('Token verification failed:', error);
          res.status(401)
          throw new Error('Not authorized, token failed.')
       }
    } else {
+      console.log('No token found in cookies')
       res.status(401)
       throw new Error('Not authorized, no token.')
    }
