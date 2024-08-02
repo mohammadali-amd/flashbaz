@@ -63,7 +63,7 @@ const PaymentPage = () => {
          const res = await createOrder({
             orderItems: validOrderItems,
             shippingAddress: cart.shippingAddress,
-            paymentMethod: cart.paymentMethod,
+            paymentMethod: paymentMethod,
             // itemsPrice: cart.itemsPrice,
             // shippingPrice: cart.shippingPrice,
             // taxPrice: cart.taxPrice,
@@ -124,7 +124,7 @@ const PaymentPage = () => {
                      <h4 className='text-xl font-semibold'>روش پرداخت</h4>
                      <label className='flex gap-3 items-center text-xl'>
                         <span>PayPal</span>
-                        <input type="checkbox" value={paymentMethod} className='accent-teal-600' checked onChange={(e: any) => setPaymentMethod(e.target.value)} />
+                        <input type="radio" value={paymentMethod} className='accent-teal-600' checked onChange={(e: any) => setPaymentMethod(e.target.value)} />
                      </label>
                   </div>
 

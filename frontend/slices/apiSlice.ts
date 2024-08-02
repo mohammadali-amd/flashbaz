@@ -8,7 +8,9 @@ const baseQuery = fetchBaseQuery({
    baseUrl: BASE_URL,
    credentials: 'include',  // This will include cookies in requests
    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.userInfo;
+      const state = getState() as RootState;
+      const token = state.auth.userInfo;
+
       if (token) {
          headers.set('Authorization', `Bearer ${token}`);
       }
