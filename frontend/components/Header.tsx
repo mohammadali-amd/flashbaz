@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,15 +12,23 @@ const Header = () => {
    const [query, setQuery] = useState('');
    const [isToggle, setIsToggle] = useState(false)
    const [isClient, setIsClient] = useState(false)
-
-   useEffect(() => {
-      setIsClient(true)
-   }, []);
+   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
    const router = useRouter()
    const dispatch = useDispatch()
-
    const [logoutApiCall] = useLogoutMutation()
+
+   const cartItems = useSelector((state: RootState) => state.cart.items);
+
+   const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+   const { userInfo } = useSelector((state: RootState) => state.auth);
+
+   const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+         setIsToggle(false);
+      }
+   };
 
    const logoutHandler = async () => {
       try {
@@ -32,10 +40,13 @@ const Header = () => {
       }
    }
 
-   const cartItems = useSelector((state: RootState) => state.cart.items);
-   const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
-
-   const { userInfo } = useSelector((state: RootState) => state.auth);
+   useEffect(() => {
+      setIsClient(true)
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+         document.removeEventListener("mousedown", handleClickOutside);
+      };
+   }, []);
 
    return (
       <div className='hidden lg:block px-20 pt-5 pb-3 shadow-md border-b border-stone-300'>
@@ -64,7 +75,7 @@ const Header = () => {
                <div className='flex items-center gap-8'>
                   {/* Login/Signup */}
                   {userInfo ? (
-                     <div className="relative inline-block text-left">
+                     <div ref={dropdownRef} className="relative inline-block text-left">
                         <div>
                            <button type="button" className="inline-flex items-end w-full justify-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-black hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true"
                               onClick={() => setIsToggle((prev) => !prev)}
