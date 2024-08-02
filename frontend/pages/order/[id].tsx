@@ -1,9 +1,12 @@
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
-import { useGetOrderDetailsQuery } from '@/slices/ordersApiSlice'
+import { useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation } from '@/slices/ordersApiSlice'
 import Loader from '@/components/Loader'
 import ErrorMessage from '@/components/ErrorMessage'
 import { PersianNumber } from '@/utils/PersianNumber'
+// import { useSelector } from 'react-redux'
+// import { RootState } from '@/store/store'
 
 const OrderPage = () => {
    const router = useRouter()
@@ -11,14 +14,27 @@ const OrderPage = () => {
 
    const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId)
 
-   console.log(order);
+   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
+
+   // const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery({})
+
+   // const { userInfo } = useSelector((state: RootState) => state.auth)
+
+   const onApproveTest = async () => {
+      await payOrder({ orderId, details: { payer: {} } })
+      refetch()
+      toast.success('عملیات پرداخت با موفقیت انجام شد.')
+   }
+
+   // console.log(order);
 
    if (isLoading) {
       return <Loader />
    }
 
    if (error) {
-      return <ErrorMessage>ABCD</ErrorMessage>
+      const errMsg = 'error' in error ? error.error : JSON.stringify(error)
+      return <ErrorMessage>{errMsg}</ErrorMessage>
    }
 
    return (
@@ -93,9 +109,12 @@ const OrderPage = () => {
                      <h5>تومان {PersianNumber(parseFloat(order.totalPrice).toLocaleString())}</h5>
                   </div>
 
-                  <button className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
-                     تایید و تکمیل سفارش
-                  </button>
+                  {!order.isPaid && (
+                     <button onClick={onApproveTest} className='flex justify-center items-center gap-3 bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
+                        پرداخت
+                        {loadingPay && <Loader size={20} />}
+                     </button>
+                  )}
                </div>
             </div>
 
