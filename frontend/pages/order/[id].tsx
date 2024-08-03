@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
-import { useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation } from '@/slices/ordersApiSlice'
+import { useDeliverOrderMutation, useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation } from '@/slices/ordersApiSlice'
 import Loader from '@/components/Loader'
 import ErrorMessage from '@/components/ErrorMessage'
 import { PersianNumber } from '@/utils/PersianNumber'
-// import { useSelector } from 'react-redux'
-// import { RootState } from '@/store/store'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
 
 const OrderPage = () => {
    const router = useRouter()
@@ -16,9 +16,11 @@ const OrderPage = () => {
 
    const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
 
+   const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation({})
+
    // const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery({})
 
-   // const { userInfo } = useSelector((state: RootState) => state.auth)
+   const { userInfo } = useSelector((state: RootState) => state.auth)
 
    const onApproveTest = async () => {
       await payOrder({ orderId, details: { payer: {} } })
@@ -26,7 +28,15 @@ const OrderPage = () => {
       toast.success('عملیات پرداخت با موفقیت انجام شد.')
    }
 
-   // console.log(order);
+   const deliverOrderHandler = async () => {
+      try {
+         await deliverOrder(orderId)
+         refetch()
+         toast.success('Order Delivered')
+      } catch (error) {
+         toast.error((error as any)?.data?.message || (error as any)?.message);
+      }
+   }
 
    if (isLoading) {
       return <Loader />
@@ -52,13 +62,20 @@ const OrderPage = () => {
                   <h3>ایمیل: {order.user.email}</h3>
                   <h3>آدرس: {order.shippingAddress.address}</h3>
                   {order.isDelivered ? (
-                     <p className='flex justify-between items-center md:w-1/4 text-lg bg-green-300 text-green-700 border border-green-700 rounded-md p-4 my-4'>
+                     <p className='flex justify-between items-center w-fit text-lg bg-green-300 text-green-700 border border-green-700 rounded-md p-4 my-4'>
                         در تاریخ {order.deliveredAt} ارسال شده
                      </p>
                   ) : (
-                     <p className='flex justify-between items-center md:w-1/4 text-lg bg-red-300 text-red-800 border border-red-800 rounded-md p-4 my-4'>
-                        ارسال نشده
-                     </p>
+                     <div className='flex gap-3'>
+                        <p className='flex justify-between items-center w-fit text-lg bg-red-300 text-red-800 border border-red-800 rounded-md p-4 my-4'>
+                           ارسال نشده
+                        </p>
+                        {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                           <button onClick={deliverOrderHandler} className='flex justify-between items-center text-lg bg-cyan-300 text-cyan-800 border border-cyan-800 rounded-md p-4 my-4'>
+                              ارسال شد ✔
+                           </button>
+                        )}
+                     </div>
                   )}
                </div>
                <hr />
@@ -66,11 +83,11 @@ const OrderPage = () => {
                <div>
                   <h2>وضعیت پرداخت</h2>
                   {order.isPaid ? (
-                     <p className='flex justify-between items-center md:w-1/4 text-lg bg-green-300 text-green-700 border border-green-700 rounded-md p-4 my-4'>
+                     <p className='flex justify-between items-center w-fit text-lg bg-green-300 text-green-700 border border-green-700 rounded-md p-4 my-4'>
                         در تاریخ {order.paidAt} پرداخت شده
                      </p>
                   ) : (
-                     <p className='flex justify-between items-center md:w-1/4 text-lg bg-red-300 text-red-800 border border-red-800 rounded-md p-4 my-4'>
+                     <p className='flex justify-between items-center w-fit text-lg bg-red-300 text-red-800 border border-red-800 rounded-md p-4 my-4'>
                         پرداخت نشده
                      </p>
                   )}
