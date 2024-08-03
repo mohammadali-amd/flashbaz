@@ -47,7 +47,11 @@ const OrdersListPage = () => {
    }
 
    return (
-      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10 m-10">
+
+      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 m-10 space-y-8">
+         <h1 className='text-3xl'>
+            لیست سفارشات
+         </h1>
          {loadingOrders ? (
             <Loader />
          ) : error ? (

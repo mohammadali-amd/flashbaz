@@ -22,3 +22,23 @@ export const getProduct = asyncHandler(async (req, res) => {
       throw new Error('Recource not found')
    }
 })
+
+// @desc Create a product
+// @route POST /api/products
+// @access Private/Admin
+export const createProducts = asyncHandler(async (req, res) => {
+   const product = new Product({
+      name: 'Sample name',
+      price: 0,
+      user: req.user._id,
+      image: '/image/sample.jpg',
+      brand: 'Sample brand',
+      category: 'Electronics',
+      countInStock: 0,
+      numReviews: 0,
+      description: 'Sample description',
+   })
+
+   const createdProduct = await product.save()
+   res.status(201).json(createdProduct)
+})
