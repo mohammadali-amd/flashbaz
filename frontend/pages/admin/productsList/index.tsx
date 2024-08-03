@@ -8,7 +8,7 @@ import { Product } from '@/types/types';
 import { RootState } from '@/store/store';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
-import { useCreateProductMutation, useGetProductsQuery } from '@/slices/productsApiSlice';
+import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '@/slices/productsApiSlice';
 
 const OrdersListPage = () => {
    const router = useRouter()
@@ -20,6 +20,8 @@ const OrdersListPage = () => {
    const { data: products, isLoading: loadingProducts, error, refetch } = useGetProductsQuery('admin_products')
 
    const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation()
+
+   const [deleteProduct, { isLoading: loadingDelete }] = useDeleteProductMutation()
 
    useEffect(() => {
       if (!userInfo?.isAdmin) {
@@ -41,7 +43,15 @@ const OrdersListPage = () => {
    }
 
    const deleteHandler = async (id: number) => {
-      console.log('delet ', id);
+      if (window.confirm('Are you sure to remove this product?')) {
+         try {
+            await deleteProduct(id)
+            refetch()
+            toast.success('Product Deleted')
+         } catch (error) {
+            toast.error((error as any)?.data?.message || (error as any)?.message);
+         }
+      }
    }
 
    if (isLoading) {
@@ -61,6 +71,7 @@ const OrdersListPage = () => {
          </div>
 
          {loadingCreate && <Loader />}
+         {loadingDelete && <Loader />}
 
          {loadingProducts ? (
             <Loader />
