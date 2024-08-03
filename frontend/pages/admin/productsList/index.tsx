@@ -71,7 +71,7 @@ const OrdersListPage = () => {
                <table className='min-w-full text-center border-collapse overflow-hidden'>
                   <thead className='bg-gray-100 border-b'>
                      <tr>
-                        <th className='px-4 py-2'>سفارش</th>
+                        <th className='px-4 py-2'>شناسه سفارش</th>
                         <th className='px-4 py-2'>نام محصول</th>
                         <th className='px-4 py-2'>قیمت</th>
                         <th className='px-4 py-2'>دسته بندی</th>
@@ -88,7 +88,7 @@ const OrdersListPage = () => {
                            <td className='px-4 py-2'>{product.category}</td>
                            <td className='px-4 py-2'>{product.countInStock}</td>
                            <td className='px-4 py-2'>
-                              <Link href={`admin/product/${product._id}/edit`} className='text-teal-600'>
+                              <Link href={`/admin/productsList/edit/${product._id}`} className='text-teal-600'>
                                  <i className="text-xl lni lni-pencil"></i>
                               </Link>
                               <button onClick={() => { deleteHandler(product._id) }

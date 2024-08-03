@@ -1,10 +1,12 @@
 export interface Product {
    _id: number;
    name: string;
-   price: string;
+   price: number;
    description: string;
-   countInStock: string;
+   countInStock: number;
    category: string;
+   image: string;
+   brand: string;
    tags: string[];
 }
 
