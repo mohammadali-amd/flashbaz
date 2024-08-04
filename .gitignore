@@ -29,3 +29,4 @@
 
 # Ignore npm lock files
 /package-lock.json
+/backend/uploads
