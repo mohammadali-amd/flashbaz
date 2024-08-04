@@ -6,6 +6,7 @@ import { useGetProductDetailsQuery } from '@/slices/productsApiSlice';
 import ErrorMessage from './ErrorMessage';
 import Loader from './Loader';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface ProductDetailPageProps {
    productId: string;
@@ -13,6 +14,7 @@ interface ProductDetailPageProps {
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    const { data: productDetails, isLoading, error } = useGetProductDetailsQuery(productId)
+
    const dispatch = useDispatch();
    const router = useRouter();
 
@@ -71,7 +73,16 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                   <div>
                      {/* Product Photo */}
                      <div className='text-left mb-6'>
-                        <i className="lni lni-image text-[14rem] text-stone-600"></i>
+                        <div className="relative w-96 h-96">
+                           <Image
+                              src={`${productDetails?.image}`}
+                              className='rounded-xl'
+                              alt='Product image'
+                              layout='fill'
+                              objectFit='cover'
+                           />
+                        </div>
+                        {/* <img src={productDetails?.image} alt="" /> */}
                      </div>
                   </div>
                </div>
@@ -83,14 +94,14 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                   <div className="flex justify-between gap-20">
                      <h4>قیمت</h4>
                      {productDetails && <h5>
-                        {PersianNumber(parseInt(productDetails?.price).toLocaleString())} تومان
+                        {PersianNumber(productDetails?.price.toLocaleString())} تومان
                      </h5>}
                   </div>
                   <div className="flex justify-between gap-20 text-red-600">
                      <h4>تخفیف</h4>
                      <h5>0 تومان</h5>
                   </div>
-                  {productDetails && parseInt(productDetails?.countInStock) === 1 && (
+                  {productDetails && productDetails?.countInStock === 1 && (
                      <p className='text-red-500 font-semibold text-sm'>
                         فقط 1 عدد از این کالا در انبار موجود است.
                      </p>

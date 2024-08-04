@@ -7,6 +7,7 @@ import { PersianNumber } from '@/utils/PersianNumber';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
+import Image from 'next/image';
 
 const BestSellingProducts = (): JSX.Element => {
    const { data: products, isLoading, error } = useGetProductsQuery('bestSelling_products')
@@ -30,16 +31,26 @@ const BestSellingProducts = (): JSX.Element => {
                {products?.map(product => (
                   <SwiperSlide key={product._id}>
                      <Link href={`/products/${product._id}`}>
-                        <div className='space-y-8 border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl my-10 py-8 px-10'>
-                           <div className="flex justify-center">
-                              <i className="lni lni-image text-[14rem] text-stone-600"></i>
+                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl my-10 pb-4'>
+                           <div className="flex justify-center pb-4">
+                              <div className="relative w-80 h-52">
+                                 <Image
+                                    src={product.image}
+                                    className='rounded-t-xl'
+                                    alt='Product image'
+                                    layout='fill'
+                                    objectFit='cover'
+                                 />
+                              </div>
                            </div>
-                           <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                              {product.name}
-                           </h4>
-                           <h5 className='text-lg text-left'>
-                              {PersianNumber(parseInt(product.price, 10).toLocaleString())} تومان
-                           </h5>
+                           <div className="px-4 space-y-4">
+                              <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
+                                 {product.name}
+                              </h4>
+                              <h5 className='text-lg text-left'>
+                                 {PersianNumber(product.price.toLocaleString())} تومان
+                              </h5>
+                           </div>
                         </div>
                      </Link>
                   </SwiperSlide>

@@ -2,6 +2,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 import Loader from '@/components/Loader';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
 import { PersianNumber } from '@/utils/PersianNumber';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const Products = () => {
@@ -33,7 +34,7 @@ const Products = () => {
                      فیلترها
                   </h4>
                   <div className="flex justify-center">
-                     <i className="lni lni-image text-[14rem] text-stone-600"></i>
+                     <i className="lni lni-image text-[1//4rem] text-stone-600"></i>
                   </div>
                </div>
             </div>
@@ -42,16 +43,26 @@ const Products = () => {
             <div className="grid grid-cols-4 gap-8">
                {products?.map((product) => (
                   <Link href={`/products/${product._id}`} key={product._id}>
-                     <div className='space-y-8 border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl py-8 px-10'>
-                        <div className="flex justify-center">
-                           <i className="lni lni-image text-[14rem] text-stone-600"></i>
+                     <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pb-4'>
+                        <div className="flex justify-center pb-4">
+                           <div className="relative w-96 h-60">
+                              <Image
+                                 src={product.image}
+                                 className='rounded-t-xl'
+                                 alt='Product image'
+                                 layout='fill'
+                                 objectFit='cover'
+                              />
+                           </div>
                         </div>
-                        <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                           {product.name}
-                        </h4>
-                        <h5 className='text-lg text-left overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                           {PersianNumber(parseInt(product.price, 10).toLocaleString())} تومان
-                        </h5>
+                        <div className="space-y-4 px-4">
+                           <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
+                              {product.name}
+                           </h4>
+                           <h5 className='text-lg text-left overflow-hidden overflow-ellipsis whitespace-nowrap'>
+                              {PersianNumber(product.price.toLocaleString())} تومان
+                           </h5>
+                        </div>
                      </div>
                   </Link>
                ))}

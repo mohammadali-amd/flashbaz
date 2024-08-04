@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 // import { RootState } from '@/store/store';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
-import { useGetProductDetailsQuery, useUpdateProductMutation } from '@/slices/productsApiSlice';
+import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from '@/slices/productsApiSlice';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
+import { BASE_URL } from '@/constants/constants';
 
 const EditProductPage = () => {
    const router = useRouter();
@@ -17,6 +18,8 @@ const EditProductPage = () => {
    const { data: product, isLoading, error, refetch } = useGetProductDetailsQuery(productId as string);
 
    const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
+
+   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation()
 
    const [name, setName] = useState('');
    const [price, setPrice] = useState(0);
@@ -37,6 +40,19 @@ const EditProductPage = () => {
          setDescription(product.description);
       }
    }, [product]);
+
+   const uploadFileHandler = async (e: any) => {
+      const formData = new FormData()
+      formData.append('image', e.target.files[0])
+      try {
+         const res = await uploadProductImage(formData).unwrap()
+         setImage(BASE_URL + res.image)
+         toast.success(res.message)
+      } catch (error) {
+         toast.error((error as any)?.data?.message || (error as any)?.message);
+      }
+   }
+
 
    const submitHandler = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -143,6 +159,13 @@ const EditProductPage = () => {
                      onChange={(e) => setImage(e.target.value)}
                      className="w-full px-4 py-2 border rounded-lg"
                   />
+                  <input type="file" onChange={uploadFileHandler} />
+                  {loadingUpload && <Loader />}
+                  {image && (
+                     <div className="mt-4">
+                        <img src={image} alt="Uploaded image" className="h-80 object-cover" />
+                     </div>
+                  )}
                </div>
                <button
                   type="submit"
