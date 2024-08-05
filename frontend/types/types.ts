@@ -8,6 +8,14 @@ export interface Product {
    image: string;
    brand: string;
    tags: string[];
+   reviews: Review[];
+}
+
+export interface Review {
+   rating: number;
+   comment: string;
+   name: string;
+   createdAt: string
 }
 
 export interface CartItem {
