@@ -8,9 +8,10 @@ import { useGetProductsQuery } from '@/slices/productsApiSlice';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
 import Image from 'next/image';
+import { Product } from '@/types/types';
 
 const BestSellingProducts = (): JSX.Element => {
-   const { data: products, isLoading, error } = useGetProductsQuery('bestSelling_products')
+   const { data, isLoading, error } = useGetProductsQuery('bestSelling_products')
 
    if (isLoading) {
       return <Loader />
@@ -28,7 +29,7 @@ const BestSellingProducts = (): JSX.Element => {
          </h3>
          <div>
             <CarouselLayout mobileSlidesPerView={1} tabletSlidesPerView={2} laptopSlidesPerView={3} desktopSlidesPerView={5} spaceBetween={50}>
-               {products?.map(product => (
+               {data?.products.map((product: Product) => (
                   <SwiperSlide key={product._id}>
                      <Link href={`/products/${product._id}`}>
                         <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl my-10 pb-4'>

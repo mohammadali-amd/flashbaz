@@ -17,7 +17,7 @@ const OrdersListPage = () => {
 
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
-   const { data: products, isLoading: loadingProducts, error, refetch } = useGetProductsQuery('admin_products')
+   const { data, isLoading: loadingProducts, error, refetch } = useGetProductsQuery('admin_products')
 
    const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation()
 
@@ -91,7 +91,7 @@ const OrdersListPage = () => {
                      </tr>
                   </thead>
                   <tbody>
-                     {products?.slice().reverse().map((product: Product) => (
+                     {data?.products.slice().reverse().map((product: Product) => (
                         <tr key={product._id} className='hover:bg-gray-50 border-b'>
                            <td className='px-4 py-2'>{product._id}</td>
                            <td className='px-4 py-2'>{product.name}</td>

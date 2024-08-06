@@ -2,13 +2,14 @@ import { PRODUCTS_URL, UPLOAD_URL } from "@/constants/constants";
 import { Product } from "@/types/types";
 import { apiSlice } from './apiSlice';
 
-type Products = Product[]
-
 export const productsApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
-      getProducts: builder.query<Products, string>({
-         query: () => ({
-            url: PRODUCTS_URL
+      getProducts: builder.query({
+         query: ({ pageNumber }) => ({
+            url: PRODUCTS_URL,
+            params: {
+               pageNumber
+            }
          }),
          providesTags: ['Product'],
          keepUnusedDataFor: 5
