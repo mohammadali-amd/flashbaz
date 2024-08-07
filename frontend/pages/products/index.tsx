@@ -7,16 +7,20 @@ import Loader from '@/components/Loader';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
 import { PersianNumber } from '@/utils/PersianNumber';
 import { useRouter } from 'next/router';
-import Paginate from '@/components/paginate';
+import Paginate from '@/components/Paginate';
+import { GetServerSideProps } from 'next';
 
-const Products = () => {
+interface ProductsProps {
+   initialKeyword: string;
+   initialPageNumber: number;
+}
+
+const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }) => {
    const router = useRouter();
-   const pageNumber = parseInt((router.query.page as string) || '1', 10);
+   const pageNumber = parseInt((router.query.page as string) || `${initialPageNumber}`, 10);
+   const keyword = (router.query.keyword as string) || initialKeyword
 
-   const { data, isLoading, error } = useGetProductsQuery({ pageNumber })
-
-   console.log(data);
-
+   const { data, isLoading, error } = useGetProductsQuery({ keyword, pageNumber })
 
    if (isLoading) {
       return <Loader />
@@ -81,7 +85,6 @@ const Products = () => {
 
                <div className='mt-14'>
                   <Paginate totalPages={data.pages} currentPage={data.page} />
-                  ss
                </div>
             </div>
 
@@ -89,5 +92,15 @@ const Products = () => {
       </div>
    )
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+   const { keyword = '', page = '1' } = context.query;
+   return {
+      props: {
+         initialKeyword: keyword,
+         initialPageNumber: parseInt(page as string, 10),
+      },
+   };
+};
 
 export default Products;

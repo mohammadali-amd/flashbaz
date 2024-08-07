@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface PaginationProps {
    currentPage: number;
@@ -6,6 +7,8 @@ interface PaginationProps {
 }
 
 const Paginate: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
+   const router = useRouter();
+
    const getPages = () => {
       const pages = [];
       const showPages = 5;
@@ -38,11 +41,19 @@ const Paginate: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
       return pages;
    };
 
+   const constructHref = (page: number | string) => {
+      const href = {
+         pathname: router.pathname,
+         query: { ...router.query, page: typeof page === 'number' ? page : undefined },
+      };
+      return href;
+   };
+
    return (
       <div className="flex justify-center my-4">
          <div className="flex items-center gap-2">
             {currentPage > 1 && (
-               <Link href={`?page=${currentPage - 1}`}>
+               <Link href={constructHref(currentPage - 1)} scroll={false}>
                   <span className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 cursor-pointer">قبلی</span>
                </Link>
             )}
@@ -51,7 +62,7 @@ const Paginate: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
                typeof page === 'string' ? (
                   <span key={index} className="px-3 py-1 rounded-md">...</span>
                ) : (
-                  <Link key={page} href={`?page=${page}`}>
+                  <Link key={page} href={constructHref(page)} scroll={false}>
                      <span
                         className={`px-3 py-1 rounded-md cursor-pointer ${page === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
                            }`}
@@ -63,7 +74,7 @@ const Paginate: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
             )}
 
             {currentPage < totalPages && (
-               <Link href={`?page=${currentPage + 1}`}>
+               <Link href={constructHref(currentPage + 1)} scroll={false}>
                   <span className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 cursor-pointer">بعدی</span>
                </Link>
             )}

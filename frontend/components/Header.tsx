@@ -7,9 +7,9 @@ import { RootState } from '@/store/store';
 import { useLogoutMutation } from '@/slices/usersApiSlice';
 import { logout } from '@/slices/authSlice'
 import { PersianNumber } from '@/utils/PersianNumber';
+import Search from './Search';
 
 const Header = () => {
-   const [query, setQuery] = useState('');
    const [isToggle, setIsToggle] = useState(false)
    const [isClient, setIsClient] = useState(false)
    const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -58,18 +58,7 @@ const Header = () => {
                   <p className='text-2xl'>نام برند</p>
                </div>
                {/* Search */}
-               <div className="relative">
-                  <input
-                     type="text"
-                     className='bg-stone-200 rounded-lg p-4 pr-14 w-[40rem]'
-                     placeholder='جستجو'
-                     value={query}
-                     onChange={(e) => setQuery(e.target.value)}
-                  />
-                  <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                     <i className="lni lni-search-alt text-3xl text-stone-500"></i>
-                  </div>
-               </div>
+               <Search />
             </div>
             {isClient && (
                <div className='flex items-center gap-8'>
