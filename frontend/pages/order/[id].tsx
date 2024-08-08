@@ -7,6 +7,8 @@ import ErrorMessage from '@/components/ErrorMessage'
 import { PersianNumber } from '@/utils/PersianNumber'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const OrderPage = () => {
    const router = useRouter()
@@ -23,9 +25,13 @@ const OrderPage = () => {
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
    const onApproveTest = async () => {
-      await payOrder({ orderId, details: { payer: {} } })
-      refetch()
-      toast.success('عملیات پرداخت با موفقیت انجام شد.')
+      try {
+         await payOrder({ orderId, details: { payer: {} } }).unwrap()
+         refetch()
+         toast.success('عملیات پرداخت با موفقیت انجام شد.')
+      } catch (error) {
+         console.log(error);
+      }
    }
 
    const deliverOrderHandler = async () => {
@@ -94,16 +100,34 @@ const OrderPage = () => {
                </div>
                <hr />
                {/* Orders */}
-               <div>
-                  {order.orderItems.map((item: any) => (
-                     <div key={item._id} >
-                        <div>
-                           <h3 className='text-2xl'>
-                              {item.name}
-                           </h3>
-                        </div>
-                     </div>
-                  ))}
+               <div className="border border-gray-200 rounded-lg">
+                  <table className='min-w-full border-collapse overflow-hidden'>
+                     <thead className='bg-gray-100 border-b'>
+                        <tr>
+                           <th className='px-4 py-2 text-right'>نام محصول</th>
+                           <th className='px-4 py-2 text-center'>فی ($)</th>
+                           <th className='px-4 py-2 text-center'>تعداد</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {order.orderItems.map((item: any) => (
+                           <tr key={item._id} className='hover:bg-gray-50 border-b'>
+                              <td className='flex items-center gap-2 px-4 py-2 text-right'>
+                                 <Image
+                                    src={item.image}
+                                    className='rounded-sm'
+                                    alt={item.name}
+                                    width={40}
+                                    height={40}
+                                 />
+                                 <Link href={`/products/${item.product}`}>{item.name}</Link>
+                              </td>
+                              <td className='px-4 py-2 text-center'>{item.price}</td>
+                              <td className='px-4 py-2 text-center'>{item.qty}</td>
+                           </tr>
+                        ))}
+                     </tbody>
+                  </table>
                </div>
             </div>
             {/* Submit */}

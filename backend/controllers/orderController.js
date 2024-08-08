@@ -1,52 +1,56 @@
 import asyncHandler from "../middleWare/asyncHandler.js"
 import Order from "../models/orderModel.js"
 import Product from "../models/productModel.js"
+import { calcPrices } from '../utils/calcPrices.js';
 
 // @desc Create new order
 // @route POST /api/orders
 // @access Private
 export const addOrderItems = asyncHandler(async (req, res) => {
-   const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
+   const { orderItems, shippingAddress, paymentMethod } = req.body;
 
    if (!orderItems || orderItems.length === 0) {
       res.status(400);
       throw new Error('No order items');
    }
 
-   const productIds = orderItems.map(item => item._id);
+   // Get the ordered items from the database
+   const itemsFromDB = await Product.find({
+      _id: { $in: orderItems.map(x => x._id) },
+   });
 
-   const productsFromDB = await Product.find({ _id: { $in: productIds } });
-
-   const dbOrderItems = orderItems.map((item) => {
-      const product = productsFromDB.find(p => p._id.toString() === item._id);
-
-      if (!product) throw new Error(`Product not found: ${item._id}`);
-
+   // Map over the order items and use the price from the items from the database
+   const dbOrderItems = orderItems.map((itemFromClient) => {
+      const matchingItemFromDB = itemsFromDB.find(
+         (itemFromDB) => itemFromDB._id.toString() === itemFromClient._id
+      );
       return {
-         name: product.name,
-         qty: item.quantity,
-         image: product.image,
-         price: product.price,
-         product: item._id
+         ...itemFromClient,
+         product: itemFromClient._id,
+         price: matchingItemFromDB.price,
+         image: matchingItemFromDB.image,
+         qty: itemFromClient.quantity,
+         _id: undefined,
       };
    });
 
-   const itemsPrice = dbOrderItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+   // Calculate prices
+   const { itemsPrice, taxPrice, shippingPrice, totalPrice } = calcPrices(dbOrderItems);
 
    const order = new Order({
       orderItems: dbOrderItems,
       user: req.user._id,
       shippingAddress,
       paymentMethod,
-      itemsPrice: itemsPrice,
-      taxPrice: 0, // Assuming taxPrice is calculated elsewhere or is 0
-      shippingPrice: 0, // Assuming shippingPrice is calculated elsewhere or is 0
-      totalPrice,
+      itemsPrice: Number(itemsPrice),
+      taxPrice: Number(taxPrice),
+      shippingPrice: Number(shippingPrice),
+      totalPrice: Number(totalPrice),
    });
 
-   const createOrder = await order.save();
+   const createdOrder = await order.save();
 
-   res.status(201).json(createOrder);
+   res.status(201).json(createdOrder);
 });
 
 // @desc Get logged in users orders

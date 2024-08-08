@@ -8,7 +8,8 @@ import { Product } from '@/types/types';
 import { RootState } from '@/store/store';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
-import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '@/slices/productsApiSlice';
+import { useCreateProductMutation, useDeleteProductMutation, useGetAdminProductsQuery } from '@/slices/productsApiSlice';
+import Paginate from '@/components/Paginate';
 
 const OrdersListPage = () => {
    const router = useRouter()
@@ -17,7 +18,10 @@ const OrdersListPage = () => {
 
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
-   const { data, isLoading: loadingProducts, error, refetch } = useGetProductsQuery('admin_products')
+   const pageNumber = parseInt((router.query.page as string) || '1', 10);
+   const keyword = (router.query.keyword as string)
+
+   const { data, isLoading: loadingProducts, error, refetch } = useGetAdminProductsQuery({ keyword, pageNumber })
 
    const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation()
 
@@ -91,10 +95,12 @@ const OrdersListPage = () => {
                      </tr>
                   </thead>
                   <tbody>
-                     {data?.products.slice().reverse().map((product: Product) => (
+                     {data?.products.map((product: Product) => (
                         <tr key={product._id} className='hover:bg-gray-50 border-b'>
                            <td className='px-4 py-2'>{product._id}</td>
-                           <td className='px-4 py-2'>{product.name}</td>
+                           <td className='px-4 py-2'>
+                              <Link href={`/products/${product._id}`}>{product.name}</Link>
+                           </td>
                            <td className='px-4 py-2'>{product.price}</td>
                            <td className='px-4 py-2'>{product.category}</td>
                            <td className='px-4 py-2'>{product.countInStock}</td>
@@ -111,6 +117,10 @@ const OrdersListPage = () => {
                      ))}
                   </tbody>
                </table>
+
+               <div className='mt-6'>
+                  <Paginate totalPages={data.pages} currentPage={data.page} />
+               </div>
             </div>
          )}
       </div>

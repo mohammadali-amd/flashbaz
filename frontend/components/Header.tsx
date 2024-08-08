@@ -8,6 +8,7 @@ import { useLogoutMutation } from '@/slices/usersApiSlice';
 import { logout } from '@/slices/authSlice'
 import { PersianNumber } from '@/utils/PersianNumber';
 import Search from './Search';
+import { resetCart } from '@/slices/cartSlice';
 
 const Header = () => {
    const [isToggle, setIsToggle] = useState(false)
@@ -34,6 +35,7 @@ const Header = () => {
       try {
          await logoutApiCall('userInfo').unwrap()
          dispatch(logout())
+         dispatch(resetCart())
          router.push('/login')
       } catch (error) {
          console.log(error);

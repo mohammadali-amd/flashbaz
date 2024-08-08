@@ -1,5 +1,6 @@
 import asyncHandler from "../middleWare/asyncHandler.js"
 import Product from "../models/productModel.js"
+import Order from "../models/orderModel.js"
 
 // @desc Fetch all products
 // @route GET /api/products
@@ -7,7 +8,7 @@ import Product from "../models/productModel.js"
 export const getProducts = asyncHandler(async (req, res) => {
    // const products = await Product.find({})
    // res.json(products)
-   const pageSize = 8;
+   const pageSize = process.env.PAGINATION_LIMIT;
    const page = Number(req.query.pageNumber) || 1;
 
    const keyword = req.query.keyword
@@ -19,13 +20,43 @@ export const getProducts = asyncHandler(async (req, res) => {
       }
       : {};
 
+   const sortBy = req.query.sortBy || '-createdAt';
+
    const count = await Product.countDocuments({ ...keyword });
    const products = await Product.find({ ...keyword })
+      .sort(sortBy)
       .limit(pageSize)
       .skip(pageSize * (page - 1));
 
    res.json({ products, page, pages: Math.ceil(count / pageSize) });
 })
+
+// @desc Fetch all products for admin
+// @route GET /api/products
+// @access Private/Admin
+export const getAdminProducts = asyncHandler(async (req, res) => {
+   const pageSize = process.env.PAGINATION_LIMIT_ADMIN;
+   const page = Number(req.query.pageNumber) || 1;
+
+   const keyword = req.query.keyword
+      ? {
+         name: {
+            $regex: req.query.keyword,
+            $options: 'i',
+         },
+      }
+      : {};
+
+   const sortBy = req.query.sortBy || '-createdAt';
+
+   const count = await Product.countDocuments({ ...keyword });
+   const products = await Product.find({ ...keyword })
+      .sort(sortBy)
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+   res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
 
 // @desc Fetch a product
 // @route GET /api/products/:id
@@ -138,3 +169,42 @@ export const createProductReview = asyncHandler(async (req, res) => {
       throw new Error('Resourse not found.')
    }
 })
+
+// @desc Get top selling products
+// @route GET /api/products/top
+// @access Public
+export const getTopSellingProducts = asyncHandler(async (req, res) => {
+   // Aggregate to calculate the total quantity of each product in orders
+   const topProducts = await Order.aggregate([
+      { $unwind: "$orderItems" }, // Decompose orderItems array
+      {
+         $group: {
+            _id: "$orderItems.product",
+            totalSold: { $sum: "$orderItems.qty" }
+         }
+      },
+      { $sort: { totalSold: -1 } }, // Sort by totalSold in descending order
+      { $limit: 6 } // Limit to top 6 products
+   ]);
+
+   // Populate the product details and add the totalSold count
+   const productIds = topProducts.map(p => p._id);
+   const products = await Product.find({ _id: { $in: productIds } });
+
+   // Create a map of product ID to totalSold
+   const productSalesMap = topProducts.reduce((map, product) => {
+      map[product._id] = product.totalSold;
+      return map;
+   }, {});
+
+   // Attach the totalSold to each product
+   const productsWithSales = products.map(product => ({
+      ...product.toObject(),
+      totalSold: productSalesMap[product._id] || 0
+   }));
+
+   // Sort products by totalSold
+   productsWithSales.sort((a, b) => b.totalSold - a.totalSold);
+
+   res.status(200).json(productsWithSales);
+});

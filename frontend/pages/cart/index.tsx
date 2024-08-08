@@ -7,6 +7,7 @@ import { addItem, clearCart, removeItem } from '@/slices/cartSlice';
 import { RootState } from '@/store/store'
 import { Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
+import Image from 'next/image';
 
 const Cart = () => {
    const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const Cart = () => {
    };
 
    const totalPrice = cartItems.reduce((total, { product, quantity }) => {
-      const itemPrice = parseFloat(product.price) || 0;
+      const itemPrice = product.price || 0;
       return total + (itemPrice * quantity);
    }, 0);
 
@@ -59,9 +60,9 @@ const Cart = () => {
                   {isClient && cartItems.map((item, index) => (
                      <div key={index} className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
                         <div>
-                           <h3 className='text-2xl'>
+                           <Link href={`/products/${item.product._id}`} className='text-2xl'>
                               {item.product.name}
-                           </h3>
+                           </Link>
                            <div className='text-stone-600 space-y-4 mt-10'>
                               <h4 className='flex items-center gap-2'>
                                  <i className="lni lni-drop"></i>
@@ -80,11 +81,19 @@ const Cart = () => {
                         <div>
                            {/* Product Photo */}
                            <div className='text-left mb-6'>
-                              <i className="lni lni-image text-[14rem] text-stone-600"></i>
+                              {/* <i className="lni lni-image text-[14rem] text-stone-600"></i> */}
+                              <Image
+                                 src={item.product.image}
+                                 className='rounded-xl'
+                                 alt={item.product.name}
+                                 loading='lazy'
+                                 width={300}
+                                 height={300}
+                              />
                            </div>
                            <div className='border border-stone-300 rounded-lg p-4'>
                               <h4 className='text-xl text-left pb-2'>
-                                 {PersianNumber(parseInt(item.product.price).toLocaleString())} تومان
+                                 {PersianNumber(item.product.price.toLocaleString())} تومان
                               </h4>
                               <div className="flex justify-between items-center gap-3">
                                  <button onClick={() => handleAddItem(item.product)} className="lni lni-plus text-2xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>

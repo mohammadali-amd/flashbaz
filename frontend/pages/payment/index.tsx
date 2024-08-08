@@ -8,6 +8,8 @@ import { clearCart, savePaymentMethod } from '@/slices/cartSlice'
 import ErrorMessage from '@/components/ErrorMessage'
 import { useCreateOrderMutation } from '@/slices/ordersApiSlice'
 import { toast } from 'react-toastify'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const PaymentPage = () => {
    const { userInfo } = useSelector((state: RootState) => state.auth)
@@ -34,7 +36,7 @@ const PaymentPage = () => {
    }
 
    const totalPrice = cart.items.reduce((total, { product, quantity }) => {
-      const itemPrice = parseFloat(product.price) || 0;
+      const itemPrice = product.price || 0;
       return total + (itemPrice * quantity);
    }, 0);
 
@@ -108,14 +110,41 @@ const PaymentPage = () => {
                         سبد خرید شما خالی است.
                      </ErrorMessage>
                   ) : (
-                     <div>
-                        {cart.items.map((item, index) => (
-                           <li key={index}>
-                              {item.product.name}
-                           </li>
-                        ))}
+                     <div className="border border-gray-200 rounded-lg">
+                        <table className='min-w-full border-collapse overflow-hidden'>
+                           <thead className='bg-gray-100 border-b'>
+                              <tr>
+                                 <th className='px-4 py-2 text-right'>نام محصول</th>
+                                 <th className='px-4 py-2 text-center'>فی ($)</th>
+                                 <th className='px-4 py-2 text-center'>تعداد</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              {cart.items.map((item, index) => (
+                                 <tr key={index} className='hover:bg-gray-50 border-b'>
+                                    <td className='flex items-center gap-2 px-4 py-2 text-right'>
+                                       <Image
+                                          src={item.product.image}
+                                          className='rounded-sm'
+                                          alt={item.product.name}
+                                          width={40}
+                                          height={40}
+                                       />
+                                       <span>{item.product.name}</span>
+                                    </td>
+                                    <td className='px-4 py-2 text-center'>{item.product.price}</td>
+                                    <td className='px-4 py-2 text-center'>{item.quantity}</td>
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </table>
                      </div>
                   )}
+               </div>
+
+               <div className="flex items-end gap-4 font-semibold">
+                  <h4 className='text-xl'>قیمت کل:</h4>
+                  <span>{totalPrice} تومان</span>
                </div>
 
                <hr />

@@ -8,6 +8,7 @@ import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductIm
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { BASE_URL } from '@/constants/constants';
+import Image from 'next/image';
 
 const EditProductPage = () => {
    const router = useRouter();
@@ -29,6 +30,8 @@ const EditProductPage = () => {
    const [countInStock, setCountInStock] = useState(0);
    const [description, setDescription] = useState('');
 
+   const [preview, setPreview] = useState<string | null>(null);
+
    useEffect(() => {
       if (product) {
          setName(product.name);
@@ -38,24 +41,47 @@ const EditProductPage = () => {
          setCategory(product.category);
          setCountInStock(product.countInStock);
          setDescription(product.description);
+         setPreview(product.image)
       }
    }, [product]);
 
-   const uploadFileHandler = async (e: any) => {
-      const formData = new FormData()
-      formData.append('image', e.target.files[0])
-      try {
-         const res = await uploadProductImage(formData).unwrap()
-         setImage(BASE_URL + res.image)
-         toast.success(res.message)
-      } catch (error) {
-         toast.error((error as any)?.data?.message || (error as any)?.message);
-      }
-   }
+   const [file, setFile] = useState<File | null>(null);
 
+   const uploadFileHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = e.target.files?.[0] || null;
+      if (selectedFile) {
+         setFile(selectedFile);
+         const previewUrl = URL.createObjectURL(selectedFile);
+         setPreview(previewUrl);
+
+         // Clean up the previous preview URL
+         return () => {
+            if (preview) {
+               URL.revokeObjectURL(preview);
+            }
+         };
+      }
+   };
 
    const submitHandler = async (e: React.FormEvent) => {
       e.preventDefault();
+
+      // Prepare the image upload
+      let imageUrl = image;  // Default to existing image URL if not changing
+
+      if (file) {
+         const formData = new FormData();
+         formData.append('image', file);
+
+         try {
+            const res = await uploadProductImage(formData).unwrap();
+            imageUrl = BASE_URL + res.image;  // Update image URL after successful upload
+         } catch (error) {
+            toast.error((error as any)?.data?.message || (error as any)?.message);
+            return;  // Exit the function if image upload fails
+         }
+      }
+
       try {
          await updateProduct({
             productId,
@@ -64,7 +90,7 @@ const EditProductPage = () => {
             category,
             countInStock,
             description,
-            image,
+            image: imageUrl,
             brand,
          }).unwrap()
 
@@ -153,17 +179,23 @@ const EditProductPage = () => {
                </div>
                <div>
                   <label className="block text-gray-700">عکس</label>
-                  <input
+                  {/* <input
                      type="text"
                      value={image}
                      onChange={(e) => setImage(e.target.value)}
                      className="w-full px-4 py-2 border rounded-lg"
-                  />
+                  /> */}
                   <input type="file" onChange={uploadFileHandler} />
                   {loadingUpload && <Loader />}
-                  {image && (
+                  {preview && (
                      <div className="mt-4">
-                        <img src={image} alt="Uploaded image" className="h-80 object-cover" />
+                        <Image
+                           src={preview}
+                           className='rounded-xl object-cover'
+                           alt='Product image'
+                           width={300}
+                           height={300}
+                        />
                      </div>
                   )}
                </div>

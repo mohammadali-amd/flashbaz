@@ -137,7 +137,7 @@ const ProfilePage = () => {
                         </tr>
                      </thead>
                      <tbody>
-                        {orders.map((order: Orders) => (
+                        {orders.slice().reverse().map((order: Orders) => (
                            <tr key={order._id} className='hover:bg-gray-50'>
                               <td className='px-4 py-2 border-b'>{order._id}</td>
                               <td className='px-4 py-2 border-b'>{order.createdAt.substring(0, 10)}</td>
