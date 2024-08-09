@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Header from './Header'
+import Header from './Header/Header'
 import Footer from './Footer'
 
 import { Vazirmatn } from "next/font/google";
