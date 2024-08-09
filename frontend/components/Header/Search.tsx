@@ -11,16 +11,16 @@ const Search = () => {
    };
 
    return (
-      <form onSubmit={handleSearch} className="relative">
+      <form onSubmit={handleSearch} className="relative w-full max-w-lg md:max-w-xl lg:max-w-2xl">
          <input
             type="text"
-            className='bg-stone-200 rounded-lg p-4 pr-14 w-[40rem]'
-            placeholder='جستجو'
+            className="bg-gray-200 rounded-lg p-2 lg:p-4 pr-14 lg:pr-14 w-full lg:w-[40rem]"
+            placeholder="جستجو"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
          />
          <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-            <i className="lni lni-search-alt text-3xl text-stone-500"></i>
+            <i className="lni lni-search-alt text-xl sm:text-2xl md:text-3xl text-gray-500"></i>
          </div>
       </form>
    );

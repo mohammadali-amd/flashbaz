@@ -38,14 +38,14 @@ const LoginButton: React.FC<LoginButtonProps> = ({ isToggle, dropdownRef, setIsT
          {userInfo ? (
             <div ref={dropdownRef} className="relative inline-block text-right">
                <div>
-                  <button type="button" className="inline-flex items-end w-full justify-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-black hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true"
+                  <button type="button" className="inline-flex items-end w-full justify-center gap-x-2 rounded-lg bg-white px-2 py-1 lg:px-3 lg:py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-black hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true"
                      onClick={() => setIsToggle((prev) => !prev)}
                   >
-                     <span>{userInfo?.name}</span>
+                     <span className='hidden lg:block'>{userInfo?.name}</span>
                      <i className="lni lni-user text-xl"></i>
                   </button>
                </div>
-               <div className={`${isToggle ? '' : 'hidden'} text-center absolute z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
+               <div className={`${isToggle ? '' : 'hidden'} text-center absolute left-0 w-36 lg:w-auto z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                   <div className="py-1" role="none">
                      <Link href="/profile" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">پروفایل</Link>
                      {userInfo.isAdmin && (

@@ -34,7 +34,7 @@ const BestSellingProducts = (): JSX.Element => {
                      <Link href={`/products/${product._id}`}>
                         <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl my-10 pb-4'>
                            <div className="flex justify-center pb-4">
-                              <div className="relative w-80 h-52">
+                              <div className="relative w-full h-52">
                                  <Image
                                     src={product.image}
                                     className='rounded-t-xl'
