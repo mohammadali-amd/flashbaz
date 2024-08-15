@@ -51,7 +51,7 @@ const OrdersListPage = () => {
          try {
             await deleteProduct(id)
             refetch()
-            toast.success('Product Deleted')
+            toast.success('محصول مورد نظر با موفقیت حذف شد')
          } catch (error) {
             toast.error((error as any)?.data?.message || (error as any)?.message);
          }
