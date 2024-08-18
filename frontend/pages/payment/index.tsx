@@ -83,9 +83,9 @@ const PaymentPage = () => {
    }
 
    return (
-      <div className='mx-auto w-1/2 justify-center my-20'>
+      <div className='mx-6 lg:mx-auto lg:w-1/2 justify-center my-20'>
          <form onSubmit={submitHandler}>
-            <div className='space-y-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10'>
+            <div className='space-y-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-4 lg:px-10'>
 
                <div className="space-y-3">
                   <h4 className='text-xl font-semibold'>نشانی ارسال کالا</h4>
@@ -121,7 +121,7 @@ const PaymentPage = () => {
                            </thead>
                            <tbody>
                               {cart.items.map((item, index) => (
-                                 <tr key={index} className='hover:bg-gray-50 border-b'>
+                                 <tr key={index} className='hover:bg-gray-50 border-b text-sm md:text-base'>
                                     <td className='flex items-center gap-2 px-4 py-2 text-right'>
                                        <Image
                                           src={item.product.image}
@@ -158,7 +158,7 @@ const PaymentPage = () => {
                   </div>
 
                   {error && <ErrorMessage>{error instanceof Error ? error.message : JSON.stringify(error)}</ErrorMessage>}
-                  <button type='submit' className='flex gap-3 justify-center items-center bg-emerald-600 w-1/3 text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
+                  <button type='submit' className='flex gap-3 justify-center items-center bg-emerald-600 lg:w-1/3 text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
                      ادامه و پرداخت
                      {isLoading && <Loader />}
                   </button>

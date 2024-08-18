@@ -38,7 +38,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    const handleAddToCart = () => {
       if (productDetails) {
          dispatch(addItem(productDetails)); // Pass productDetails to addItem
-         router.push('/cart')
+         // router.push('/cart')
+         toast.success('محصول مورد نظر به سبد خرید شما اضافه شد')
       }
    };
 
@@ -84,16 +85,16 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
             <meta property="og:type" content="product" />
          </Head>
 
-         <div className='mx-20 my-5'>
-            <div className='flex justify-between gap-20'>
+         <div className='mx-6 lg:mx-20 my-5'>
+            <div className='lg:flex lg:justify-between lg:gap-20'>
                {/* Cart */}
                <div className='w-full space-y-8'>
-                  <div className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
+                  <div className="lg:flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
                      <div>
                         <h3 className='text-2xl'>
                            {productDetails?.name}
                         </h3>
-                        <p className='py-2 text-xl'>
+                        <p className='py-2 lg:text-xl'>
                            {productDetails?.description}
                         </p>
                         <div className='text-stone-600 space-y-4 mt-10'>
@@ -136,7 +137,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                   </div>
 
                   {/* Reviews and Ratings */}
-                  <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10 mt-8">
+                  <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10 mt-10">
                      <h4 className='text-2xl'>نظرات</h4>
                      {reviews.length > 0 ? (
                         reviews.map((review: Review, index: number) => (
@@ -199,7 +200,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                </div>
 
                {/* Submit */}
-               <div className='min-w-fit'>
+               <div className='min-w-fit my-10 lg:my-0'>
                   <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
                      <div className="flex justify-between gap-20">
                         <h4>قیمت</h4>

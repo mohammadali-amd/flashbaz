@@ -48,8 +48,8 @@ const OrdersListPage = () => {
 
    return (
 
-      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 m-10 space-y-8">
-         <h1 className='text-3xl'>
+      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl 10 px-3 py-6 lg:p-8 mx-6 lg:mx-20 my-10 space-y-5">
+         <h1 className='px-2 text-center lg:text-right text-3xl'>
             لیست سفارشات
          </h1>
          {loadingOrders ? (
@@ -57,8 +57,8 @@ const OrdersListPage = () => {
          ) : error ? (
             <ErrorMessage>Error</ErrorMessage>
          ) : (
-            <div className="border border-gray-200 rounded-lg">
-               <table className='min-w-full text-center border-collapse overflow-hidden'>
+            <div className="border border-gray-200 rounded-lg overflow-auto">
+               <table className='min-w-full text-center border-collapse'>
                   <thead className='bg-gray-100'>
                      <tr>
                         <th className='px-4 py-2 border-b'>سفارش</th>

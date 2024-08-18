@@ -32,7 +32,7 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
    }
 
    return (
-      <div className='mx-20 my-5'>
+      <div className='mx-6 lg:mx-20 my-5'>
          <div className="breadcrumb">
             Breadcrumb
          </div>
@@ -40,7 +40,7 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
             فروشگاه
          </h2>
 
-         <div className='flex justify-between gap-8'>
+         <div className='lg:flex lg:justify-between lg:gap-8'>
             {/* Filters */}
             <div className="filter">
                <div className='space-y-8 border border-stone-300 rounded-xl py-8 px-10'>
@@ -55,12 +55,12 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
 
             <div>
                {/* Products */}
-               <div className="grid grid-cols-4 gap-8">
+               <div className="lg:grid lg:grid-cols-4 lg:gap-8">
                   {data?.products.map((product: Product) => (
                      <Link href={`/products/${product._id}`} key={product._id}>
-                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pb-4'>
+                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pb-4 my-8 lg:my-0'>
                            <div className="flex justify-center pb-4">
-                              <div className="relative w-96 h-60">
+                              <div className="relative min-w-full h-60">
                                  <Image
                                     src={product.image}
                                     className='rounded-t-xl'

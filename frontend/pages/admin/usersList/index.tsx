@@ -45,13 +45,10 @@ const UsersListPage = () => {
    }
 
    return (
-      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 space-y-8 m-10">
-         <div className='flex justify-between'>
-            <h1 className='text-3xl'>
-               لیست کاربران
-            </h1>
-         </div>
-
+      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-3 lg:p-8 space-y-4 my-10 mx-6 lg:mx-20">
+         <h1 className='text-3xl text-center lg:text-right py-4'>
+            لیست کاربران
+         </h1>
          {loadingDeleteUser && <Loader />}
 
          {loadingUsers ? (
@@ -59,8 +56,8 @@ const UsersListPage = () => {
          ) : error ? (
             <ErrorMessage>Error Load Users</ErrorMessage>
          ) : (
-            <div className="border border-gray-200 rounded-lg">
-               <table className='min-w-full text-center border-collapse overflow-hidden'>
+            <div className="border border-gray-200 rounded-lg overflow-auto">
+               <table className='min-w-full text-center border-collapse'>
                   <thead className='bg-gray-100 border-b'>
                      <tr>
                         <th className='px-4 py-2'>شناسه کاربر</th>
@@ -68,7 +65,8 @@ const UsersListPage = () => {
                         <th className='px-4 py-2'>ایمیل</th>
                         <th className='px-4 py-2'>تاریخ ثبت نام</th>
                         <th className='px-4 py-2'>سطح</th>
-                        <th className='px-4 py-2'></th>
+                        <th></th>
+                        <th></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -79,12 +77,14 @@ const UsersListPage = () => {
                            <td className='px-4 py-2'>{user.email}</td>
                            <td className='px-4 py-2'>{user.createdAt.substring(0, 10)}</td>
                            <td className='px-4 py-2'>{user.isAdmin ? <span className='text-red-600 font-bold'>مدیر</span> : 'کاربر'}</td>
-                           <td className='px-4 py-2'>
+                           <td className='pr-4 py-2'>
                               <Link href={`/admin/usersList/edit/${user._id}`} className='text-teal-600'>
                                  <i className="text-xl lni lni-pencil"></i>
                               </Link>
+                           </td>
+                           <td className='px-4 mx:pl-4 mx:pr-0 py-2'>
                               <button onClick={() => { deleteUserHandler(user._id) }
-                              } className='text-red-600 mr-6'>
+                              } className='text-red-600'>
                                  <i className="text-xl lni lni-trash-can"></i>
                               </button>
                            </td>

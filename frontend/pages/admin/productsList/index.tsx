@@ -63,12 +63,12 @@ const OrdersListPage = () => {
    }
 
    return (
-      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 space-y-8 m-10">
-         <div className='flex justify-between'>
+      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-4 space-y-8 my-10 mx-6 lg:mx-20">
+         <div className='lg:flex space-y-6 text-center justify-between items-center'>
             <h1 className='text-3xl'>
                لیست محصولات
             </h1>
-            <button onClick={createProductHandler} className='flex items-center gap-2 text-xl bg-teal-500 text-white rounded-lg p-3 hover:shadow-lg hover:bg-teal-600 duration-200'>
+            <button onClick={createProductHandler} className='flex w-full lg:w-fit justify-center items-center gap-2 text-xl bg-teal-500 text-white rounded-lg p-3 hover:shadow-lg hover:bg-teal-600 duration-200'>
                افزودن محصول
                <i className="lni lni-pencil-alt"></i>
             </button>
@@ -82,8 +82,8 @@ const OrdersListPage = () => {
          ) : error ? (
             <ErrorMessage>Error Load Products</ErrorMessage>
          ) : (
-            <div className="border border-gray-200 rounded-lg">
-               <table className='min-w-full text-center border-collapse overflow-hidden'>
+            <div className="border border-gray-200 rounded-lg overflow-auto">
+               <table className='min-w-full text-center border-collapse'>
                   <thead className='bg-gray-100 border-b'>
                      <tr>
                         <th className='px-4 py-2'>شناسه سفارش</th>
@@ -91,7 +91,8 @@ const OrdersListPage = () => {
                         <th className='px-4 py-2'>قیمت</th>
                         <th className='px-4 py-2'>دسته بندی</th>
                         <th className='px-4 py-2'>تعداد</th>
-                        <th className='px-4 py-2'></th>
+                        <th></th>
+                        <th></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -104,12 +105,14 @@ const OrdersListPage = () => {
                            <td className='px-4 py-2'>{product.price}</td>
                            <td className='px-4 py-2'>{product.category}</td>
                            <td className='px-4 py-2'>{product.countInStock}</td>
-                           <td className='px-4 py-2'>
+                           <td className='pr-4 py-2'>
                               <Link href={`/admin/productsList/edit/${product._id}`} className='text-teal-600'>
                                  <i className="text-xl lni lni-pencil"></i>
                               </Link>
+                           </td>
+                           <td className='px-4 mx:pl-4 mx:pr-0 py-2'>
                               <button onClick={() => { deleteHandler(product._id) }
-                              } className='text-red-600 mr-6'>
+                              } className='text-red-600'>
                                  <i className="text-xl lni lni-trash-can"></i>
                               </button>
                            </td>

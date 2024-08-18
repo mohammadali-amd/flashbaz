@@ -39,13 +39,13 @@ const Cart = () => {
    }, 0);
 
    return (
-      <div className='mx-20 my-5'>
+      <div className='mx-6 lg:mx-20 my-5'>
          <h2 className='text-4xl my-8 font-medium'>
             سبد خرید
          </h2>
 
          {isClient && cartItems.length === 0 ? (
-            <div className='flex justify-between items-center md:w-1/4 text-lg bg-cyan-300 text-cyan-800 border border-cyan-800 rounded-md p-4 my-4'>
+            <div className='lg:flex justify-between items-center lg:w-1/4 text-lg bg-cyan-300 text-cyan-800 border border-cyan-800 rounded-md p-4 my-4'>
                <p>
                   سبد خرید شما خالی می باشد.
                </p>
@@ -54,13 +54,13 @@ const Cart = () => {
                </Link>
             </div>
          ) : (
-            <div className='flex justify-between gap-14'>
+            <div className='lg:flex justify-between gap-14'>
                {/* Cart */}
-               <div className='w-3/4 space-y-8'>
+               <div className='lg:w-3/4 space-y-8'>
                   {isClient && cartItems.map((item, index) => (
                      <div key={index} className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
                         <div>
-                           <Link href={`/products/${item.product._id}`} className='text-2xl'>
+                           <Link href={`/products/${item.product._id}`} className='text-lg lg:text-2xl'>
                               {item.product.name}
                            </Link>
                            <div className='text-stone-600 space-y-4 mt-10'>
@@ -80,33 +80,35 @@ const Cart = () => {
                         </div>
                         <div>
                            {/* Product Photo */}
-                           <div className='text-left mb-6'>
+                           <div className='mb-6'>
                               {/* <i className="lni lni-image text-[14rem] text-stone-600"></i> */}
                               <Image
                                  src={item.product.image}
-                                 className='rounded-xl'
+                                 className='rounded-md lg:rounded-xl'
                                  alt={item.product.name}
                                  loading='lazy'
                                  width={300}
                                  height={300}
                               />
                            </div>
-                           <div className='border border-stone-300 rounded-lg p-4'>
-                              <h4 className='text-xl text-left pb-2'>
-                                 {PersianNumber(item.product.price.toLocaleString())} تومان
-                              </h4>
-                              <div className="flex justify-between items-center gap-3">
-                                 <button onClick={() => handleAddItem(item.product)} className="lni lni-plus text-2xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>
-                                 <span className='text-xl font-medium'>
-                                    {item.quantity}
-                                 </span>
-                                 <button
-                                    onClick={() => handleRemoveItem(item.product._id)}
-                                    className={
-                                       `${item.quantity === 1 ? "lni lni-trash-can" : "lni lni-minus"}` +
-                                       " text-2xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"
-                                    }
-                                 ></button>
+                           <div className='flex justify-end'>
+                              <div className='lg:border lg:border-stone-300 lg:rounded-lg lg:p-4 w-44 lg:w-52'>
+                                 <h4 className='text-xl text-left pb-2'>
+                                    {PersianNumber(item.product.price.toLocaleString())} تومان
+                                 </h4>
+                                 <div className="flex justify-between items-center gap-3">
+                                    <button onClick={() => handleAddItem(item.product)} className="lni lni-plus text-xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>
+                                    <span className='text-xl font-medium'>
+                                       {PersianNumber(item.quantity.toLocaleString())}
+                                    </span>
+                                    <button
+                                       onClick={() => handleRemoveItem(item.product._id)}
+                                       className={
+                                          `${item.quantity === 1 ? "lni lni-trash-can" : "lni lni-minus"}` +
+                                          " text-xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"
+                                       }
+                                    ></button>
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -115,7 +117,7 @@ const Cart = () => {
 
                </div>
                {/* Submit */}
-               <div className='w-1/4 min-w-fit'>
+               <div className='lg:w-1/4 min-w-fit mt-10 lg:mt-0'>
                   <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
                      <div className="flex justify-between gap-20">
                         <h4>قیمت محصولات</h4>
