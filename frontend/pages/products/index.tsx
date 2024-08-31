@@ -1,14 +1,13 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 
-import { Product } from '@/types/types';
 import ErrorMessage from '@/components/ErrorMessage';
 import Loader from '@/components/Loader';
-import { useGetProductsQuery } from '@/slices/productsApiSlice';
-import { PersianNumber } from '@/utils/PersianNumber';
-import { useRouter } from 'next/router';
+import Filter from '@/components/Filter';
 import Paginate from '@/components/Paginate';
-import { GetServerSideProps } from 'next';
+import ProductList from '@/components/ProductList';
+import { useGetProductsQuery } from '@/slices/productsApiSlice';
 
 interface ProductsProps {
    initialKeyword: string;
@@ -17,10 +16,61 @@ interface ProductsProps {
 
 const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }) => {
    const router = useRouter();
-   const pageNumber = parseInt((router.query.page as string) || `${initialPageNumber}`, 10);
-   const keyword = (router.query.keyword as string) || initialKeyword
+   const pageNumber = useMemo(() => parseInt((router.query.page as string) || `${initialPageNumber}`, 10), [router.query.page, initialPageNumber])
+   const keyword = useMemo(() => (router.query.keyword as string) || initialKeyword, [router.query.keyword, initialKeyword])
 
-   const { data, isLoading, error } = useGetProductsQuery({ keyword, pageNumber })
+   const [filters, setFilters] = useState({
+      selectedBrand: '',
+      selectedRating: 0,
+      priceRange: [0, 10000000] as [number, number],
+      sortOption: 'All',
+   });
+
+   const { selectedBrand, selectedRating, priceRange, sortOption } = filters;
+
+   // Debounced filter function
+   const debounce = (func: Function, delay: number) => {
+      let timer: NodeJS.Timeout;
+      return (...args: any) => {
+         clearTimeout(timer);
+         timer = setTimeout(() => func(...args), delay);
+      };
+   };
+
+   const updateFilters = debounce((newFilters: Partial<typeof filters>) => {
+      setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
+   }, 300);
+
+   // Fetch products with applied filters
+   const { data, isLoading, error } = useGetProductsQuery({
+      keyword,
+      pageNumber,
+      brand: selectedBrand,
+      rating: selectedRating,
+      minPrice: priceRange[0],
+      maxPrice: priceRange[1],
+   });
+
+   const sortedProducts = useMemo(() => {
+      if (!data?.products) return []
+      let sortedArray = [...data.products];
+
+      switch (sortOption) {
+         case 'Newest':
+            sortedArray.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            break;
+         case 'MostPopular':
+            sortedArray.sort((a, b) => b.popularity - a.popularity); // Assuming `popularity` is a field
+            break;
+         case 'Cheapest':
+            sortedArray.sort((a, b) => a.price - b.price);
+            break;
+         case 'MostExpensive':
+            sortedArray.sort((a, b) => b.price - a.price);
+            break;
+      }
+      return sortedArray
+   }, [data?.products, sortOption]);
 
    if (isLoading) {
       return <Loader />
@@ -40,51 +90,46 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
             فروشگاه
          </h2>
 
-         <div className='lg:flex lg:justify-between lg:gap-8'>
+         <div className='lg:flex lg:justify-between lg:gap-8 w-full'>
             {/* Filters */}
-            <div className="filter">
-               <div className='space-y-8 border border-stone-300 rounded-xl py-8 px-10'>
-                  <h4 className='text-xl font-medium'>
-                     فیلترها
-                  </h4>
-                  <div className="flex justify-center">
-                     <i className="lni lni-image text-[1//4rem] text-stone-600"></i>
-                  </div>
-               </div>
+            <div className="lg:w-1/4">
+               <Filter
+                  selectedBrand={selectedBrand}
+                  setSelectedBrand={(brand) => updateFilters({ selectedBrand: brand })}
+                  selectedRating={selectedRating}
+                  setSelectedRating={(rating) => updateFilters({ selectedRating: rating })}
+                  priceRange={priceRange}
+                  setPriceRange={(range) => updateFilters({ priceRange: range })}
+                  clearFilters={() => updateFilters({ selectedBrand: '', selectedRating: 0, priceRange: [0, 10000000] })}
+               />
             </div>
 
-            <div>
-               {/* Products */}
-               <div className="lg:grid lg:grid-cols-4 lg:gap-8">
-                  {data?.products.map((product: Product) => (
-                     <Link href={`/products/${product._id}`} key={product._id}>
-                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pb-4 my-8 lg:my-0'>
-                           <div className="flex justify-center pb-4">
-                              <div className="relative min-w-full h-60">
-                                 <Image
-                                    src={product.image}
-                                    className='rounded-t-xl'
-                                    alt='Product image'
-                                    layout='fill'
-                                    objectFit='cover'
-                                 />
-                              </div>
-                           </div>
-                           <div className="space-y-4 px-4">
-                              <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                                 {product.name}
-                              </h4>
-                              <h5 className='text-lg text-left overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                                 {PersianNumber(product.price.toLocaleString())} تومان
-                              </h5>
-                           </div>
-                        </div>
-                     </Link>
-                  ))}
+            <div className='lg:w-3/4'>
+               {/* Sorting Options */}
+               <div className="flex items-center gap-2 mb-4">
+                  <span>مرتب سازی بر اساس</span>
+                  <select
+                     value={sortOption}
+                     onChange={(e) => updateFilters({ sortOption: e.target.value })}
+                     className="p-2 border rounded-lg"
+                  >
+                     <option value="All">همه</option>
+                     <option value="Newest">جدید ترین</option>
+                     <option value="MostPopular">محبوب ترین</option>
+                     <option value="Cheapest">ارزان ترین</option>
+                     <option value="MostExpensive">گران ترین</option>
+                  </select>
                </div>
+               {/* Products */}
+               <ProductList products={sortedProducts} />
 
                <div className='mt-14'>
-                  <Paginate totalPages={data.pages} currentPage={data.page} />
+                  {data && (
+                     <Paginate
+                        totalPages={data.pages || 0}
+                        currentPage={data.page || 1}
+                     />
+                  )}
                </div>
             </div>
 
