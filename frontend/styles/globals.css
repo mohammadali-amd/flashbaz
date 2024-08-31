@@ -20,3 +20,37 @@ body {
    direction: rtl;
    font-family: var(--font-family);
 }
+
+/* Add this to your global CSS file or component-specific CSS module */
+
+.horizontal-slider {
+   width: 100%;
+   height: 10px;
+   display: flex;
+   align-items: center;
+}
+
+.thumb {
+   height: 24px;
+   width: 24px;
+   background-color: #4a90e2;
+   border-radius: 50%;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: white;
+   font-size: 12px;
+}
+
+.track {
+   background: #ddd;
+   height: 5px;
+   border-radius: 5px;
+}
+
+.track-1 {
+   background: #296cfd;
+   height: 5px;
+   border-radius: 5px;
+}
