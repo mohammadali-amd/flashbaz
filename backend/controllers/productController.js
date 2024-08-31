@@ -20,10 +20,18 @@ export const getProducts = asyncHandler(async (req, res) => {
       }
       : {};
 
+   const brand = req.query.brand ? { brand: req.query.brand } : {};
+   const rating = req.query.rating ? { rating: { $gte: Number(req.query.rating) } } : {};
+   const minPrice = req.query.minPrice ? { price: { $gte: Number(req.query.minPrice) } } : {};
+   const maxPrice = req.query.maxPrice ? { price: { $lte: Number(req.query.maxPrice) } } : {};
+
+   // Combine all filters into a single query object
+   const query = { ...keyword, ...brand, ...rating, ...minPrice, ...maxPrice };
+
    const sortBy = req.query.sortBy || '-createdAt';
 
-   const count = await Product.countDocuments({ ...keyword });
-   const products = await Product.find({ ...keyword })
+   const count = await Product.countDocuments(query);
+   const products = await Product.find(query)
       .sort(sortBy)
       .limit(pageSize)
       .skip(pageSize * (page - 1));
