@@ -45,7 +45,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({ isToggle, dropdownRef, setIsT
                      <i className="lni lni-user text-xl"></i>
                   </button>
                </div>
-               <div className={`${isToggle ? '' : 'hidden'} text-center absolute left-0 w-36 lg:w-auto z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
+               <div className={`${isToggle ? '' : 'hidden'} text-center absolute left-0 w-36 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                   <div className="py-1" role="none">
                      <Link href="/profile" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">پروفایل</Link>
                      {userInfo.isAdmin && (

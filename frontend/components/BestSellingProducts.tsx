@@ -40,7 +40,7 @@ const BestSellingProducts = (): JSX.Element => {
                                     className='rounded-t-xl'
                                     alt={product.name}
                                     layout='fill'
-                                    objectFit='cover'
+                                    objectFit='contain'
                                  />
                               </div>
                            </div>

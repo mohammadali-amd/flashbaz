@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Head from 'next/head';
 
@@ -10,7 +9,6 @@ import ErrorMessage from './ErrorMessage';
 import Loader from './Loader';
 import { useState } from 'react';
 import { Review } from '@/types/types';
-import { userInfo } from 'os';
 import Link from 'next/link';
 import { RootState } from '@/store/store';
 import { toast } from 'react-toastify';
@@ -21,7 +19,7 @@ interface ProductDetailPageProps {
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    const dispatch = useDispatch()
-   const router = useRouter()
+   // const router = useRouter()
 
    const [rating, setRating] = useState(0)
    const [comment, setComment] = useState('')
@@ -62,6 +60,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
          toast.error((error as any)?.data?.message || (error as any)?.message);
       }
    }
+
+   const renderStars = (rating: number) => {
+      return '💚'.repeat(rating) + '🤍'.repeat(5 - rating);
+   };
 
    if (isLoading) {
       return <Loader />
@@ -141,11 +143,11 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                      <h4 className='text-2xl'>نظرات</h4>
                      {reviews.length > 0 ? (
                         reviews.map((review: Review, index: number) => (
-                           <div key={index} className='mt-4'>
-                              <p className='text-sm'>امتیاز: {review.rating}</p>
-                              <p className='text-sm'>کاربر: {review.name}</p>
-                              <p className='text-sm'>{review.comment}</p>
-                              <p className='text-sm'>تاریخ: {review.createdAt.substring(0, 10)}</p>
+                           <div key={index} className='mt-4 pb-4 border-b border-gray-300'>
+                              <p className='text-sm text-gray-600'>کاربر: {review.name}</p>
+                              <p className='text-sm text-gray-600'>{renderStars(review.rating)}</p>
+                              <p className='text-sm text-gray-600'>{review.createdAt.substring(0, 10)}</p>
+                              <p className='text-xl pt-4'>{review.comment}</p>
                            </div>
                         ))
                      ) : (
