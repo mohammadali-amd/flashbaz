@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { BASE_URL } from '@/constants/constants';
 import Image from 'next/image';
+import { useGetCategoriesQuery } from '@/slices/categoriesApiSlice';
 
 const EditProductPage = () => {
    const router = useRouter();
@@ -22,11 +23,14 @@ const EditProductPage = () => {
 
    const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation()
 
+   const { data: categoriesData, isLoading: loadingCategories } = useGetCategoriesQuery(undefined);
+
    const [name, setName] = useState('');
    const [price, setPrice] = useState(0);
    const [image, setImage] = useState('');
    const [brand, setBrand] = useState('');
    const [category, setCategory] = useState('');
+   const [subcategory, setSubcategory] = useState('');
    const [countInStock, setCountInStock] = useState(0);
    const [description, setDescription] = useState('');
 
@@ -39,6 +43,7 @@ const EditProductPage = () => {
          setBrand(product.brand);
          setPrice(product.price);
          setCategory(product.category);
+         setSubcategory(product.subcategory);
          setCountInStock(product.countInStock);
          setDescription(product.description);
          setPreview(product.image)
@@ -88,6 +93,7 @@ const EditProductPage = () => {
             name,
             price,
             category,
+            subcategory,
             countInStock,
             description,
             image: imageUrl,
@@ -109,6 +115,10 @@ const EditProductPage = () => {
    if (error) {
       return <ErrorMessage>Error</ErrorMessage>;
    }
+
+   // Filter subcategories based on the selected category
+   const selectedCategory = categoriesData?.find((cat: any) => cat.name === category);
+   const subcategories = selectedCategory ? selectedCategory.subcategories : [];
 
    return (
       <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 m-10">
@@ -143,12 +153,34 @@ const EditProductPage = () => {
                </div>
                <div>
                   <label className="block text-gray-700">دسته بندی</label>
-                  <input
-                     type="text"
+                  <select
                      value={category}
                      onChange={(e) => setCategory(e.target.value)}
                      className="w-full px-4 py-2 border rounded-lg"
-                  />
+                  >
+                     <option value="">یک دسته بندی انتخاب کنید</option>
+                     {categoriesData?.map((cat: any) => (
+                        <option key={cat._id} value={cat.name}>
+                           {cat.name}
+                        </option>
+                     ))}
+                  </select>
+               </div>
+               <div>
+                  <label className="block text-gray-700">زیر مجموعه</label>
+                  <select
+                     value={subcategory}
+                     onChange={(e) => setSubcategory(e.target.value)}
+                     className="w-full px-4 py-2 border rounded-lg"
+                     disabled={!category}
+                  >
+                     <option value="">یک زیر مجموعه انتخاب کنید</option>
+                     {subcategories.map((sub: any) => (
+                        <option key={sub._id} value={sub.name}>
+                           {sub.name}
+                        </option>
+                     ))}
+                  </select>
                </div>
                <div>
                   <label className="block text-gray-700">برند</label>

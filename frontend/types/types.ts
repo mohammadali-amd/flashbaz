@@ -5,6 +5,7 @@ export interface Product {
    description: string;
    countInStock: number;
    category: string;
+   subcategory: string;
    image: string;
    brand: string;
    tags: string[];

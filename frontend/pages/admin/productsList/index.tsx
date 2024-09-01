@@ -11,7 +11,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 import { useCreateProductMutation, useDeleteProductMutation, useGetAdminProductsQuery } from '@/slices/productsApiSlice';
 import Paginate from '@/components/Paginate';
 
-const OrdersListPage = () => {
+const ProductsListPage = () => {
    const router = useRouter()
 
    const [isLoading, setIsLoading] = useState(true);
@@ -130,4 +130,4 @@ const OrdersListPage = () => {
    )
 }
 
-export default OrdersListPage
+export default ProductsListPage

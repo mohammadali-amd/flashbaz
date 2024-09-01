@@ -51,6 +51,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({ isToggle, dropdownRef, setIsT
                      {userInfo.isAdmin && (
                         <>
                            <Link href="/admin/productsList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">لیست محصولات</Link>
+                           <Link href="/admin/categoryList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">دسته بندی ها</Link>
                            <Link href="/admin/ordersList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">لیست سفارشات</Link>
                            <Link href="/admin/usersList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">لیست کاربران</Link>
                         </>
