@@ -91,6 +91,7 @@ export const createProducts = asyncHandler(async (req, res) => {
       image: '/image/sample.jpg',
       brand: 'Sample brand',
       category: 'Electronics',
+      subcategory: '',
       countInStock: 0,
       numReviews: 0,
       description: 'Sample description',
@@ -104,7 +105,7 @@ export const createProducts = asyncHandler(async (req, res) => {
 // @route PUT /api/products/:id
 // @access Private/Admin
 export const updateProduct = asyncHandler(async (req, res) => {
-   const { name, price, image, brand, category, countInStock, description } = req.body
+   const { name, price, image, brand, category, subcategory, countInStock, description } = req.body
 
    const product = await Product.findById(req.params.id)
 
@@ -114,6 +115,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
       product.image = image
       product.brand = brand
       product.category = category
+      product.subcategory = subcategory
       product.countInStock = countInStock
       product.description = description
 

@@ -5,10 +5,23 @@ import checkObjectId from '../middleWare/checkObjectId.js'
 
 const router = express.Router()
 
-router.route('/').get(getProducts).post(protect, admin, createProducts)
-router.route('/admin').get(getAdminProducts).post(protect, admin, createProducts)
-router.route('/top').get(getTopSellingProducts)
-router.route('/:id').get(getProduct, checkObjectId).put(protect, admin, checkObjectId, updateProduct).delete(protect, admin, checkObjectId, deleteProduct)
-router.route('/:id/reviews').post(protect, checkObjectId, createProductReview)
+router.route('/')
+   .get(getProducts)
+   .post(protect, admin, createProducts)
+
+router.route('/admin')
+   .get(getAdminProducts)
+   .post(protect, admin, createProducts)
+
+router.route('/top')
+   .get(getTopSellingProducts)
+
+router.route('/:id')
+   .get(getProduct, checkObjectId)
+   .put(protect, admin, checkObjectId, updateProduct)
+   .delete(protect, admin, checkObjectId, deleteProduct)
+
+router.route('/:id/reviews')
+   .post(protect, checkObjectId, createProductReview)
 
 export default router
