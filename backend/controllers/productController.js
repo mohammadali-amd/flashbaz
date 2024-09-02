@@ -25,8 +25,11 @@ export const getProducts = asyncHandler(async (req, res) => {
    const minPrice = req.query.minPrice ? { price: { $gte: Number(req.query.minPrice) } } : {};
    const maxPrice = req.query.maxPrice ? { price: { $lte: Number(req.query.maxPrice) } } : {};
 
+   const category = req.query.category ? { category: req.query.category } : {};
+   const subcategory = req.query.subcategory ? { subcategory: req.query.subcategory } : {};
+
    // Combine all filters into a single query object
-   const query = { ...keyword, ...brand, ...rating, ...minPrice, ...maxPrice };
+   const query = { ...keyword, ...brand, ...rating, ...minPrice, ...maxPrice, ...category, ...subcategory };
 
    const sortBy = req.query.sortBy || '-createdAt';
 
