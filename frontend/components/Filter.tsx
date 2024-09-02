@@ -21,7 +21,7 @@ const Filter: React.FC<FilterProps> = ({
    clearFilters
 }) => {
 
-   const brands = ["Apple", "Sony", "Cannon"];
+   const brands = ["Apple", "Samsung", "Xiaomi", "Sony", "Cannon"];
    const [hoveredRating, setHoveredRating] = useState(0);
 
    const renderStars = (rating: number) => {

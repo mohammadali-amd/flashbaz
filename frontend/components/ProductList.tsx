@@ -12,8 +12,8 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
   return (
     <div className="lg:grid lg:grid-cols-4 lg:gap-8">
       {products.map((product: Product) => (
-        <Link href={`/products/${product._id}`} key={product._id}>
-          <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pb-4 my-8 lg:my-0'>
+        <Link href={`/products/${product.category}/${product.subcategory}/${product._id}`} key={product._id}>
+          <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl py-6 px-4 my-8 lg:my-0'>
             <div className="flex justify-center pb-4">
               <div className="relative min-w-full h-60">
                 <Image
@@ -29,9 +29,12 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
               <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
                 {product.name}
               </h4>
-              <h5 className='text-lg text-left overflow-hidden overflow-ellipsis whitespace-nowrap'>
-                {PersianNumber(product.price.toLocaleString())} تومان
-              </h5>
+              <div className="flex justify-between items-center text-lg font-semibold">
+                <span>قیمت:</span>
+                <h5>
+                  {PersianNumber(product.price.toLocaleString())} تومان
+                </h5>
+              </div>
             </div>
           </div>
         </Link>
