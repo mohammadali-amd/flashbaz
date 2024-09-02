@@ -8,11 +8,8 @@ import Filter from '@/components/Filter';
 import Paginate from '@/components/Paginate';
 import ProductList from '@/components/ProductList';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
-
-interface ProductsProps {
-   initialKeyword: string;
-   initialPageNumber: number;
-}
+import Breadcrumb from '@/components/Breadcrumb';
+import { ProductsProps } from '@/types/ProductsProps';
 
 const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }) => {
    const router = useRouter();
@@ -83,8 +80,13 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
 
    return (
       <div className='mx-6 lg:mx-20 my-5'>
-         <div className="breadcrumb">
-            Breadcrumb
+         <div>
+            <Breadcrumb
+               items={[
+                  { name: 'صفحه اصلی', path: '/' },
+                  { name: 'محصولات', path: '/products' },
+               ]}
+            />
          </div>
          <h2 className='text-3xl my-5'>
             فروشگاه
