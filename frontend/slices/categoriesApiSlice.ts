@@ -34,18 +34,18 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
          invalidatesTags: ['Category'],
       }),
       addSubCategory: builder.mutation({
-         query: ({ id, name }) => ({
+         query: ({ id, name, slug }) => ({
             url: `${CATEGORIES_URL}/${id}/subcategories`,
             method: 'POST',
-            body: { name },
+            body: { name, slug },
          }),
          invalidatesTags: ['Category'],
       }),
       updateSubCategory: builder.mutation({
-         query: ({ categoryId, subId, name }) => ({
+         query: ({ categoryId, subId, name, slug }) => ({
             url: `${CATEGORIES_URL}/${categoryId}/subcategories/${subId}`,
             method: 'PUT',
-            body: { name },
+            body: { name, slug },
          }),
          invalidatesTags: ['Category'],
       }),

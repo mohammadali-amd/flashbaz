@@ -117,7 +117,7 @@ const EditProductPage = () => {
    }
 
    // Filter subcategories based on the selected category
-   const selectedCategory = categoriesData?.find((cat: any) => cat.name === category);
+   const selectedCategory = categoriesData?.find((cat: any) => cat.slug === category);
    const subcategories = selectedCategory ? selectedCategory.subcategories : [];
 
    return (
@@ -160,7 +160,7 @@ const EditProductPage = () => {
                   >
                      <option value="">یک دسته بندی انتخاب کنید</option>
                      {categoriesData?.map((cat: any) => (
-                        <option key={cat._id} value={cat.name}>
+                        <option key={cat._id} value={cat.slug}>
                            {cat.name}
                         </option>
                      ))}
@@ -176,7 +176,7 @@ const EditProductPage = () => {
                   >
                      <option value="">یک زیر مجموعه انتخاب کنید</option>
                      {subcategories.map((sub: any) => (
-                        <option key={sub._id} value={sub.name}>
+                        <option key={sub._id} value={sub.slug}>
                            {sub.name}
                         </option>
                      ))}

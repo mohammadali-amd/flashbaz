@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGetCategoriesQuery, useCreateCategoryMutation, useUpdateCategoryMutation, useDeleteCategoryMutation, useAddSubCategoryMutation, useUpdateSubCategoryMutation, useDeleteSubCategoryMutation } from '@/slices/categoriesApiSlice';
 import Loader from '@/components/Loader';
+import Link from 'next/link';
 interface Subcategory {
    _id: string;
    name: string;
+   slug: string;
 }
 
 interface Category {
    _id: string;
    name: string;
+   slug: string;
    subcategories: Subcategory[];
 }
 
@@ -23,10 +26,14 @@ const CategoryManagement = () => {
    const [deleteSubCategory] = useDeleteSubCategoryMutation();
 
    const [newCategoryName, setNewCategoryName] = useState('');
+   const [newCategorySlug, setNewCategorySlug] = useState('');
    const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null);
    const [editingCategoryName, setEditingCategoryName] = useState('');
+   const [editingCategorySlug, setEditingCategorySlug] = useState('');
    const [newSubcategoryNames, setNewSubcategoryNames] = useState<{ [key: string]: string }>({});
-   const [editingSubcategory, setEditingSubcategory] = useState<{ [key: string]: string }>({});
+   const [newSubcategorySlug, setNewSubcategorySlug] = useState<{ [key: string]: string }>({});
+   const [editingSubcategoryName, setEditingSubcategoryName] = useState<{ [key: string]: string }>({});
+   const [editingSubcategorySlug, setEditingSubcategorySlug] = useState<{ [key: string]: string }>({});
    const [loading, setLoading] = useState(false);
 
    const submitHandler = async (e: React.FormEvent) => {
@@ -34,16 +41,18 @@ const CategoryManagement = () => {
       setLoading(true);
       try {
          if (editingCategoryId) {
-            await updateCategory({ id: editingCategoryId, name: editingCategoryName });
+            await updateCategory({ id: editingCategoryId, name: editingCategoryName, slug: editingCategorySlug });
             toast.success('دسته بندی با موفقیت بروزرسانی شد');
          } else {
-            await createCategory({ name: newCategoryName });
+            await createCategory({ name: newCategoryName, slug: newCategorySlug });
             toast.success('دسته بندی با موفقیت ایجاد شد');
          }
          refetch();
          setNewCategoryName('');
+         setNewCategorySlug('');
          setEditingCategoryId(null);
          setEditingCategoryName('');
+         setEditingCategorySlug('');
       } catch (error) {
          toast.error('مشکلی در ایجاد/بروزرسانی دسته بندی رخ داد!');
       } finally {
@@ -69,9 +78,10 @@ const CategoryManagement = () => {
    const addSubcategoryHandler = async (categoryId: string) => {
       setLoading(true);
       try {
-         await addSubCategory({ id: categoryId, name: newSubcategoryNames[categoryId] });
+         await addSubCategory({ id: categoryId, name: newSubcategoryNames[categoryId], slug: newSubcategorySlug[categoryId] });
          toast.success('زیر مجموعه دسته بندی با موفقیت اضافه شد');
          setNewSubcategoryNames((prev) => ({ ...prev, [categoryId]: '' }));
+         setNewSubcategorySlug((prev) => ({ ...prev, [categoryId]: '' }));
          refetch();
       } catch (error) {
          toast.error('در ایجاد زیر مجموعه مشکلی رخ داد');
@@ -83,9 +93,10 @@ const CategoryManagement = () => {
    const editSubcategoryHandler = async (categoryId: string, subcategoryId: string) => {
       setLoading(true);
       try {
-         await updateSubCategory({ categoryId, subId: subcategoryId, name: editingSubcategory[subcategoryId] });
+         await updateSubCategory({ categoryId, subId: subcategoryId, name: editingSubcategoryName[subcategoryId], slug: editingSubcategorySlug[subcategoryId] });
          toast.success('زیر مجموعه دسته بندی با موفقیت ویرایش شد');
-         setEditingSubcategory((prev) => ({ ...prev, [subcategoryId]: '' }));
+         setEditingSubcategoryName((prev) => ({ ...prev, [subcategoryId]: '' }));
+         setEditingSubcategorySlug((prev) => ({ ...prev, [subcategoryId]: '' }));
          refetch();
       } catch (error) {
          toast.error('در ویرایش زیر مجموعه مشکلی رخ داد');
@@ -116,13 +127,21 @@ const CategoryManagement = () => {
          <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">مدیریت دسته بندی ها</h1>
 
          <form onSubmit={submitHandler} className="mb-8">
-            <div className="mb-6">
+            <div className="md:flex gap-2 mb-6">
                <input
                   type="text"
                   value={editingCategoryId ? editingCategoryName : newCategoryName}
                   onChange={(e) => editingCategoryId ? setEditingCategoryName(e.target.value) : setNewCategoryName(e.target.value)}
                   className="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="نام دسته بندی را وارد کنید"
+                  required
+               />
+               <input
+                  type="text"
+                  value={editingCategoryId ? editingCategorySlug : newCategorySlug}
+                  onChange={(e) => editingCategoryId ? setEditingCategorySlug(e.target.value) : setNewCategorySlug(e.target.value)}
+                  className="w-full p-4 mt-2 md:mt-0 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="لینک صفحه دسته بندی را وارد کنید"
                   required
                />
             </div>
@@ -154,7 +173,12 @@ const CategoryManagement = () => {
             {categories?.map((category: Category) => (
                <li key={category._id} className="p-6 border border-gray-200 rounded-lg shadow-md bg-gray-100">
                   <div className="flex items-center justify-between mb-4">
-                     <span className="text-xl font-semibold text-gray-800">{category.name}</span>
+                     <Link href={`/products/${category.slug}`}>
+                        <span className="text-xl font-semibold text-gray-800">{category.name}</span>
+                     </Link>
+                     <Link href={`/products/${category.slug}`}>
+                        <span className="text-lg font-light text-gray-800">لینک صفحه: {category.slug}</span>
+                     </Link>
                      <div className="flex gap-3">
                         <button
                            onClick={() => { setEditingCategoryId(category._id); setEditingCategoryName(category.name); }}
@@ -178,13 +202,21 @@ const CategoryManagement = () => {
                      }}
                      className="mb-6"
                   >
-                     <div className="mb-4">
+                     <div className="md:flex gap-2 mb-4">
                         <input
                            type="text"
                            value={newSubcategoryNames[category._id] || ''}
                            onChange={(e) => setNewSubcategoryNames((prev) => ({ ...prev, [category._id]: e.target.value }))}
                            className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                            placeholder="نام زیر مجموعه را وارد کنید"
+                           required
+                        />
+                        <input
+                           type="text"
+                           value={newSubcategorySlug[category._id] || ''}
+                           onChange={(e) => setNewSubcategorySlug((prev) => ({ ...prev, [category._id]: e.target.value }))}
+                           className="w-full p-3 mt-2 md:mt-0 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="لینک صفحه زیر مجموعه را وارد کنید"
                            required
                         />
                      </div>
@@ -203,9 +235,17 @@ const CategoryManagement = () => {
                         <li key={sub._id} className="p-3 bg-white lg:flex gap-3 justify-between items-center">
                            <input
                               type="text"
-                              value={editingSubcategory[sub._id] || sub.name}
-                              onChange={(e) => setEditingSubcategory((prev) => ({ ...prev, [sub._id]: e.target.value }))}
+                              value={editingSubcategoryName[sub._id] || sub.name}
+                              onChange={(e) => setEditingSubcategoryName((prev) => ({ ...prev, [sub._id]: e.target.value }))}
                               className="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder='نام زیر مجموعه'
+                           />
+                           <input
+                              type="text"
+                              value={editingSubcategorySlug[sub._id] || sub.slug}
+                              onChange={(e) => setEditingSubcategorySlug((prev) => ({ ...prev, [sub._id]: e.target.value }))}
+                              className="w-full p-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder='لینک صفحه زیر مجموعه'
                            />
                            <div className="flex items-center gap-3 pt-3 lg:pt-0">
                               <button

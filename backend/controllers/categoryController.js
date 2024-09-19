@@ -5,16 +5,16 @@ import Category from '../models/categoryModel.js';
 // @route   POST /api/categories
 // @access  Private/Admin
 const createCategory = asyncHandler(async (req, res) => {
-   const { name } = req.body;
+   const { name, slug } = req.body;
 
-   const categoryExists = await Category.findOne({ name });
+   const categoryExists = await Category.findOne({ name, slug });
 
    if (categoryExists) {
       res.status(400);
       throw new Error('Category already exists');
    }
 
-   const category = new Category({ name });
+   const category = new Category({ name, slug });
 
    const createdCategory = await category.save();
    res.status(201).json(createdCategory);
@@ -36,6 +36,7 @@ const updateCategory = asyncHandler(async (req, res) => {
 
    if (category) {
       category.name = req.body.name || category.name;
+      category.slug = req.body.slug || category.slug;
 
       const updatedCategory = await category.save();
       res.json(updatedCategory);
@@ -77,6 +78,7 @@ const addSubcategory = asyncHandler(async (req, res) => {
    if (category) {
       const newSubcategory = {
          name: req.body.name,
+         slug: req.body.slug,
       };
 
       category.subcategories.push(newSubcategory);
@@ -99,6 +101,7 @@ const updateSubcategory = asyncHandler(async (req, res) => {
       const subcategory = category.subcategories.id(req.params.subId);
       if (subcategory) {
          subcategory.name = req.body.name || subcategory.name;
+         subcategory.slug = req.body.slug || subcategory.slug;
          await category.save();
          res.json({ message: 'Subcategory updated successfully', subcategory });
       } else {
