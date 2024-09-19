@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import { RootState } from '@/store/store';
+import { type RootState } from '@/store/store';
 import { useGetOrdersQuery } from '@/slices/ordersApiSlice';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';

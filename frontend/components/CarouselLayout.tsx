@@ -1,8 +1,8 @@
 import { Swiper } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 
 import "swiper/css";
-import "swiper/css/pagination";
+// import "swiper/css/pagination";
 
 type CarouselLayout = {
    children?: React.ReactNode;

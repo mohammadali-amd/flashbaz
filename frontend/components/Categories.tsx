@@ -2,51 +2,62 @@ import Image from 'next/image'
 import { SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
-import 'swiper/css/navigation';
+// import 'swiper/css/navigation';
 
 import CarouselLayout from './CarouselLayout';
 import { speaker, laptop, accesories, watch, phone, ps5, printer, tablet, powerbank, airpod, } from '@/public/images/Categories'
+import Link from 'next/link';
 
 const categories = [
    {
       name: 'گوشی موبایل',
-      image: phone
+      image: phone,
+      category: 'موبایل'
    },
    {
       name: 'لپ تاپ',
-      image: laptop
+      image: laptop,
+      category: ''
    },
    {
       name: 'لوازم جانبی',
-      image: accesories
+      image: accesories,
+      category: ''
    },
    {
       name: 'ساعت هوشمند',
-      image: watch
+      image: watch,
+      category: ''
    },
    {
       name: 'گیمینگ',
-      image: ps5
+      image: ps5,
+      category: ''
    },
    {
       name: 'تبلت',
       image: tablet,
+      category: ''
    },
    {
       name: 'هدفون و هندزفری',
       image: airpod,
+      category: 'هندزفری'
    },
    {
       name: 'پاوربانک',
       image: powerbank,
+      category: ''
    },
    {
       name: 'اسپیکر',
-      image: speaker
+      image: speaker,
+      category: ''
    },
    {
       name: 'پرینتر',
       image: printer,
+      category: ''
    },
 ]
 
@@ -56,10 +67,10 @@ const Categories = () => {
          <CarouselLayout mobileSlidesPerView={3} tabletSlidesPerView={3} laptopSlidesPerView={5} desktopSlidesPerView={7} spaceBetween={30}>
             {categories.map((item) => (
                <SwiperSlide key={item.name}>
-                  <div className="grid justify-center gap-6">
+                  <Link href={`/products/${item.category}`} className="grid justify-center gap-6">
                      <Image src={item.image} alt={item.name} className='border-2 border-red-500 rounded-full bg-slate-200 hover:border-4 w-32' />
                      <p className='text-center'>{item.name}</p>
-                  </div>
+                  </Link>
                </SwiperSlide>
             ))}
          </CarouselLayout>
