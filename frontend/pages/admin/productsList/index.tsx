@@ -100,10 +100,10 @@ const ProductsListPage = () => {
                         <tr key={product._id} className='hover:bg-gray-50 border-b'>
                            <td className='px-4 py-2'>{product._id}</td>
                            <td className='px-4 py-2'>
-                              <Link href={`/products/${product.category}/${product.subcategory}/${product._id}`}>{product.name}</Link>
+                              <Link href={`/products/${product.category.slug}/${product.subcategory?.slug}/${product._id}`}>{product.name}</Link>
                            </td>
                            <td className='px-4 py-2'>{product.price}</td>
-                           <td className='px-4 py-2'>{product.category}</td>
+                           <td className='px-4 py-2'>{product.category.name}</td>
                            <td className='px-4 py-2'>{product.countInStock}</td>
                            <td className='pr-4 py-2'>
                               <Link href={`/admin/productsList/edit/${product._id}`} className='text-teal-600'>

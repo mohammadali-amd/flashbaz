@@ -83,8 +83,8 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
          <div>
             <Breadcrumb
                items={[
-                  { name: 'صفحه اصلی', path: '/' },
-                  { name: 'محصولات', path: '/products' },
+                  { name: 'صفحه اصلی', slug: '/' },
+                  { name: 'محصولات', slug: '/products' },
                ]}
             />
          </div>

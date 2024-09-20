@@ -11,22 +11,25 @@ export const getProducts = asyncHandler(async (req, res) => {
    const pageSize = process.env.PAGINATION_LIMIT;
    const page = Number(req.query.pageNumber) || 1;
 
-   const keyword = req.query.keyword
-      ? {
-         name: {
-            $regex: req.query.keyword,
-            $options: 'i',
-         },
-      }
-      : {};
+   const keyword = req.query.keyword ? {
+      name: {
+         $regex: req.query.keyword,
+         $options: 'i',
+      },
+   } : {};
 
    const brand = req.query.brand ? { brand: req.query.brand } : {};
    const rating = req.query.rating ? { rating: { $gte: Number(req.query.rating) } } : {};
    const minPrice = req.query.minPrice ? { price: { $gte: Number(req.query.minPrice) } } : {};
    const maxPrice = req.query.maxPrice ? { price: { $lte: Number(req.query.maxPrice) } } : {};
 
-   const category = req.query.category ? { category: req.query.category } : {};
-   const subcategory = req.query.subcategory ? { subcategory: req.query.subcategory } : {};
+   const category = req.query.category ? {
+      $or: [{ 'category.slug': req.query.category }]
+   } : {}
+
+   const subcategory = req.query.subcategory ? {
+      $or: [{ 'subcategory.slug': req.query.subcategory }]
+   } : {};
 
    // Combine all filters into a single query object
    const query = { ...keyword, ...brand, ...rating, ...minPrice, ...maxPrice, ...category, ...subcategory };
@@ -93,8 +96,14 @@ export const createProducts = asyncHandler(async (req, res) => {
       user: req.user._id,
       image: '/image/sample.jpg',
       brand: 'Sample brand',
-      category: 'Electronics',
-      subcategory: '',
+      category: {
+         name: 'sample',
+         slug: 'sample'
+      },
+      subcategory: {
+         name: '',
+         slug: ''
+      },
       countInStock: 0,
       numReviews: 0,
       description: 'Sample description',

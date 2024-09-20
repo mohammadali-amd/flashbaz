@@ -8,10 +8,18 @@ import Paginate from '@/components/Paginate';
 import Filter from '@/components/Filter';
 import { useMemo, useState } from 'react';
 import { ProductsProps } from '@/types/ProductsProps';
+import { useGetCategoriesQuery } from '@/slices/categoriesApiSlice';
+import { type Category } from '@/types/types';
 
 const CategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }) => {
    const router = useRouter();
    const { category } = router.query;
+
+   const { data: categories } = useGetCategoriesQuery(undefined);
+
+   const selectedCategory = useMemo(() => {
+      return categories?.find((cat: Category) => cat.slug === category);
+   }, [categories, category])
 
    const pageNumber = useMemo(() => parseInt((router.query.page as string) || `${initialPageNumber}`, 10), [router.query.page, initialPageNumber])
    const keyword = useMemo(() => (router.query.keyword as string) || initialKeyword, [router.query.keyword, initialKeyword])
@@ -39,8 +47,8 @@ const CategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumb
    }, 300);
 
    // Fetch products with applied filters
-   const { data, isLoading, error } = useGetProductsQuery({
-      category: category as string,
+   const { data: productDetails, isLoading, error } = useGetProductsQuery({
+      category,
       keyword,
       pageNumber,
       brand: selectedBrand,
@@ -50,8 +58,8 @@ const CategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumb
    });
 
    const sortedProducts = useMemo(() => {
-      if (!data?.products) return []
-      let sortedArray = [...data.products];
+      if (!productDetails?.products) return []
+      let sortedArray = [...productDetails.products];
 
       switch (sortOption) {
          case 'Newest':
@@ -68,7 +76,7 @@ const CategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumb
             break;
       }
       return sortedArray
-   }, [data?.products, sortOption]);
+   }, [productDetails?.products, sortOption]);
 
    if (isLoading) {
       return <Loader />;
@@ -83,12 +91,12 @@ const CategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumb
       <div className='mx-6 lg:mx-20 my-5'>
          <Breadcrumb
             items={[
-               { name: 'صفحه اصلی', path: '/' },
-               { name: 'محصولات', path: '/products' },
-               { name: category as string, path: `/products/${category}` },
+               { name: 'صفحه اصلی', slug: '/' },
+               { name: 'محصولات', slug: '/products' },
+               { name: selectedCategory?.name || category as string, slug: `/products/${selectedCategory?.slug}` },
             ]}
          />
-         <h2 className='text-3xl my-5'>{category}</h2>
+         <h2 className='text-3xl my-5'>{selectedCategory?.name}</h2>
 
          <div className='lg:flex lg:justify-between lg:gap-8 w-full'>
             {/* Filters */}
@@ -124,10 +132,10 @@ const CategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumb
                <ProductList products={sortedProducts} />
 
                <div className='mt-14'>
-                  {data && (
+                  {productDetails && (
                      <Paginate
-                        totalPages={data.pages || 0}
-                        currentPage={data.page || 1}
+                        totalPages={productDetails.pages || 0}
+                        currentPage={productDetails.page || 1}
                      />
                   )}
                </div>

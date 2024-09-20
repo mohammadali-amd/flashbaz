@@ -8,24 +8,24 @@ import { useAddReviewMutation, useGetProductDetailsQuery } from '@/slices/produc
 import ErrorMessage from './ErrorMessage';
 import Loader from './Loader';
 import { useState } from 'react';
-import { Review } from '@/types/types';
+import { Product, Review } from '@/types/types';
 import Link from 'next/link';
 import { RootState } from '@/store/store';
 import { toast } from 'react-toastify';
 
 interface ProductDetailPageProps {
    productId: string;
+   productDetails: Product;
+   refetch: () => void;
 }
 
-const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
+const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, productDetails, refetch }) => {
    const dispatch = useDispatch()
    // const router = useRouter()
 
    const [rating, setRating] = useState(0)
    const [comment, setComment] = useState('')
    const [reviewError, setReviewError] = useState('')
-
-   const { data: productDetails, isLoading, error, refetch } = useGetProductDetailsQuery(productId)
 
    const [addReview, { isLoading: loadingAddReview }] = useAddReviewMutation()
 
@@ -44,8 +44,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    const handleReviewSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (rating === 0 || comment.trim() === '') {
-         setReviewError('Please provide a rating and comment.')
-         return
+         return setReviewError('Please provide a rating and comment.')
       }
 
       try {
@@ -64,15 +63,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
    const renderStars = (rating: number) => {
       return '💚'.repeat(rating) + '🤍'.repeat(5 - rating);
    };
-
-   if (isLoading) {
-      return <Loader />
-   }
-
-   if (error) {
-      const errMsg = 'error' in error ? error.error : JSON.stringify(error)
-      return <ErrorMessage>{errMsg}</ErrorMessage>
-   }
 
    return (
       <>
@@ -165,11 +155,9 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId }) => {
                                  به این پست امتیاز بدید:
                                  <select value={rating} onChange={(e) => setRating(Number(e.target.value))} className='block w-full mt-1 border'>
                                     <option value={0}>انتخاب کنید...</option>
-                                    <option value={1}>1</option>
-                                    <option value={2}>2</option>
-                                    <option value={3}>3</option>
-                                    <option value={4}>4</option>
-                                    <option value={5}>5</option>
+                                    {[1, 2, 3, 4, 5].map(star => (
+                                       <option key={star} value={star}>{star}</option>
+                                    ))}
                                  </select>
                               </label>
                            </div>

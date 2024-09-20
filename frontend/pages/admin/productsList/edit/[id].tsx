@@ -29,8 +29,8 @@ const EditProductPage = () => {
    const [price, setPrice] = useState(0);
    const [image, setImage] = useState('');
    const [brand, setBrand] = useState('');
-   const [category, setCategory] = useState('');
-   const [subcategory, setSubcategory] = useState('');
+   const [category, setCategory] = useState<{ name: string; slug: string }>({ name: '', slug: '' });
+   const [subcategory, setSubcategory] = useState<{ name: string | undefined; slug: string | undefined }>({ name: '', slug: '' });
    const [countInStock, setCountInStock] = useState(0);
    const [description, setDescription] = useState('');
 
@@ -42,8 +42,8 @@ const EditProductPage = () => {
          setImage(product.image);
          setBrand(product.brand);
          setPrice(product.price);
-         setCategory(product.category);
-         setSubcategory(product.subcategory);
+         setCategory({ name: product.category.name, slug: product.category.slug });
+         setSubcategory({ name: product.subcategory?.name, slug: product.subcategory?.slug });
          setCountInStock(product.countInStock);
          setDescription(product.description);
          setPreview(product.image)
@@ -117,7 +117,7 @@ const EditProductPage = () => {
    }
 
    // Filter subcategories based on the selected category
-   const selectedCategory = categoriesData?.find((cat: any) => cat.slug === category);
+   const selectedCategory = categoriesData?.find((cat: any) => cat.slug === category.slug);
    const subcategories = selectedCategory ? selectedCategory.subcategories : [];
 
    return (
@@ -154,8 +154,14 @@ const EditProductPage = () => {
                <div>
                   <label className="block text-gray-700">دسته بندی</label>
                   <select
-                     value={category}
-                     onChange={(e) => setCategory(e.target.value)}
+                     value={category.slug}
+                     // onChange={(e: any) => setCategory(e.target.value)}
+                     onChange={(e) => {
+                        const selectedCategory = categoriesData?.find((cat: any) => cat.slug === e.target.value);
+                        if (selectedCategory) {
+                           setCategory({ name: selectedCategory.name, slug: selectedCategory.slug });
+                        }
+                     }}
                      className="w-full px-4 py-2 border rounded-lg"
                   >
                      <option value="">یک دسته بندی انتخاب کنید</option>
@@ -169,10 +175,16 @@ const EditProductPage = () => {
                <div>
                   <label className="block text-gray-700">زیر مجموعه</label>
                   <select
-                     value={subcategory}
-                     onChange={(e) => setSubcategory(e.target.value)}
+                     value={subcategory.slug}
+                     // onChange={(e: any) => setSubcategory(e.target.value)}
+                     onChange={(e) => {
+                        const selectedSubcategory = subcategories.find((sub: any) => sub.slug === e.target.value);
+                        if (selectedSubcategory) {
+                           setSubcategory({ name: selectedSubcategory.name, slug: selectedSubcategory.slug });
+                        }
+                     }}
                      className="w-full px-4 py-2 border rounded-lg"
-                     disabled={!category}
+                     disabled={!category.slug}
                   >
                      <option value="">یک زیر مجموعه انتخاب کنید</option>
                      {subcategories.map((sub: any) => (

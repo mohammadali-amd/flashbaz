@@ -8,11 +8,22 @@ import Paginate from '@/components/Paginate';
 import Filter from '@/components/Filter';
 import { ProductsProps } from '@/types/ProductsProps';
 import { useMemo, useState } from 'react';
+import { type Category } from '@/types/types';
+import { useGetCategoriesQuery } from '@/slices/categoriesApiSlice';
 
 const SubcategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }) => {
    const router = useRouter();
    const { category, subcategory } = router.query;
 
+   const { data: categories } = useGetCategoriesQuery(undefined);
+
+   const selectedCategory = useMemo(() => {
+      return categories?.find((cat: Category) => cat.slug === category);
+   }, [categories, category])
+
+   const selectedSubcategory = useMemo(() => {
+      return selectedCategory?.subcategories.find((sub: Category) => sub.slug === subcategory);
+   }, [selectedCategory, subcategory]);
 
    const pageNumber = useMemo(() => parseInt((router.query.page as string) || `${initialPageNumber}`, 10), [router.query.page, initialPageNumber])
    const keyword = useMemo(() => (router.query.keyword as string) || initialKeyword, [router.query.keyword, initialKeyword])
@@ -73,6 +84,13 @@ const SubcategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageN
       return sortedArray
    }, [data?.products, sortOption]);
 
+   const breadcrumbItems: Category[] = [
+      { name: 'صفحه اصلی', slug: '/' },
+      { name: 'محصولات', slug: '/products' },
+      { name: selectedCategory?.name || category as string, slug: `/products/${category}` },
+      ...(subcategory ? [{ name: selectedSubcategory?.name || subcategory as string, slug: `/products/${category}/${subcategory}` }] : []),
+   ]
+
    if (isLoading) {
       return <Loader />;
    }
@@ -84,15 +102,8 @@ const SubcategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageN
 
    return (
       <div className='mx-6 lg:mx-20 my-5'>
-         <Breadcrumb
-            items={[
-               { name: 'صفحه اصلی', path: '/' },
-               { name: 'محصولات', path: '/products' },
-               { name: category as string, path: `/products/${category}` },
-               { name: subcategory as string, path: `/products/${category}/${subcategory}` },
-            ]}
-         />
-         <h2 className='text-3xl my-5'>{subcategory}</h2>
+         <Breadcrumb items={breadcrumbItems} />
+         <h2 className='text-3xl my-5'>{selectedSubcategory?.name}</h2>
 
          <div className='lg:flex lg:justify-between lg:gap-8 w-full'>
             {/* Filters */}

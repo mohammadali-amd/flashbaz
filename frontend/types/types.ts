@@ -1,11 +1,16 @@
+export type Category = {
+   name: string;
+   slug: string;
+};
+
 export interface Product {
    _id: number;
    name: string;
    price: number;
    description: string;
    countInStock: number;
-   category: string;
-   subcategory: string;
+   category: Category;
+   subcategory?: Category;
    image: string;
    brand: string;
    tags: string[];
