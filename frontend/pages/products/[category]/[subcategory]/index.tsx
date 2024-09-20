@@ -52,9 +52,9 @@ const SubcategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageN
 
 
    // Fetch products with applied filters
-   const { data, isLoading, error } = useGetProductsQuery({
-      category: category as string,
-      subcategory: subcategory as string,
+   const { data: productDetails, isLoading, error } = useGetProductsQuery({
+      category,
+      subcategory,
       keyword,
       pageNumber,
       brand: selectedBrand,
@@ -64,8 +64,8 @@ const SubcategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageN
    });
 
    const sortedProducts = useMemo(() => {
-      if (!data?.products) return []
-      let sortedArray = [...data.products];
+      if (!productDetails?.products) return []
+      let sortedArray = [...productDetails.products];
 
       switch (sortOption) {
          case 'Newest':
@@ -82,7 +82,7 @@ const SubcategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageN
             break;
       }
       return sortedArray
-   }, [data?.products, sortOption]);
+   }, [productDetails?.products, sortOption]);
 
    const breadcrumbItems: Category[] = [
       { name: 'صفحه اصلی', slug: '/' },
@@ -139,10 +139,10 @@ const SubcategoryPage: React.FC<ProductsProps> = ({ initialKeyword, initialPageN
                <ProductList products={sortedProducts} />
 
                <div className='mt-14'>
-                  {data && (
+                  {productDetails && (
                      <Paginate
-                        totalPages={data.pages || 0}
-                        currentPage={data.page || 1}
+                        totalPages={productDetails.pages || 0}
+                        currentPage={productDetails.page || 1}
                      />
                   )}
                </div>
