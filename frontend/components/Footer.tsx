@@ -5,22 +5,23 @@ import Link from 'next/link';
 import { Product } from '@/types/types';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
+import Image from 'next/image';
 
 const Footer = () => {
    const { data: products, isLoading, error } = useGetTopProductsQuery('bestSelling_products')
 
    return (
-      <footer className="bg-gray-900 text-white px-8 pt-10 rounded-t-xl mt-6 mx-4">
-         <div className="flex flex-col xl:flex-row gap-10 xl:gap-40 ">
+      <footer className="bg-gray-900 text-white px-8 pt-10 rounded-t-xl mt-6 mx-4 md:mx-auto md:w-fit">
+         <div className="flex flex-col xl:flex-row gap-10 md:gap-40 mx-10 justify-between">
             <div>
                {/* Logo and Description */}
                <div className="mb-6 xl:mb-0 mt-10 xl:mt-0 text-center xl:text-left">
                   <div className="flex justify-center xl:justify-start">
                      <Logo />
                   </div>
-                  <p className="mt-4 text-gray-400">
+                  {/* <p className="mt-4 text-gray-400">
                      اینجا می‌توانید یک توضیحات کوچک در مورد شرکت یا وبسایت خود قرار دهید.
-                  </p>
+                  </p> */}
                </div>
 
                {/* Contact Information */}
@@ -50,40 +51,34 @@ const Footer = () => {
 
 
             {/* Important Links */}
-            <div className="text-center xl:text-right">
-               <div className="xl:flex xl:justify-center space-y-8 xl:space-y-0 gap-20">
-                  <ul className="space-y-2">
-                     <li className="text-lg font-semibold mb-4 underline underline-offset-8">دسترسی سریع</li>
-                     <li><a href="#">لینک 1</a></li>
-                     <li><a href="#">لینک 2</a></li>
-                     <li><a href="#">لینک 3</a></li>
-                     <li><a href="#">لینک 4</a></li>
-                  </ul>
-                  <ul className="space-y-2">
-                     <li className="text-lg font-semibold mb-4 underline underline-offset-8">پرفروش ترین محصولات</li>
-                     {isLoading ? <Loader /> : error ? (
-                        <ErrorMessage>Error</ErrorMessage>
-                     ) : (
-                        <>
-                           {products?.map((product: Product) => (
-                              <li key={product._id}><Link href={`/products/${product._id}`}>{product.name}</Link></li>
-                           ))}
-                        </>
-                     )}
-                  </ul>
-                  <ul className="space-y-2">
-                     <li className="text-lg font-semibold mb-4 underline underline-offset-8">درباره ما</li>
-                     <li><a href="#">تماس با ما</a></li>
-                     <li><a href="#">سیاست حفظ حریم خصوصی</a></li>
-                     <li><a href="#">شرایط و ضوابط</a></li>
-                     <li><a href="#">سوالات متداول</a></li>
-                  </ul>
-               </div>
+            <ul className="space-y-2 font-light text-center md:text-right">
+               <li className="text-lg font-semibold mb-4">دسترسی سریع</li>
+               <li><a href="/">صفحه اصلی</a></li>
+               <li><a href="#">حساب کاربری</a></li>
+               <li><a href="#">تماس با ما</a></li>
+               <li><a href="#">سوالات متداول</a></li>
+            </ul>
+            <ul className="space-y-2 font-light text-center md:text-right">
+               <li className="text-lg font-semibold mb-4">پرفروش ترین محصولات</li>
+               {isLoading ? <Loader /> : error ? (
+                  <ErrorMessage>Error</ErrorMessage>
+               ) : (
+                  <>
+                     {products?.map((product: Product) => (
+                        <li key={product._id}><Link href={`/products/${product._id}`}>{product.name}</Link></li>
+                     ))}
+                  </>
+               )}
+            </ul>
+
+            <div className='flex justify-center gap-4 h-fit cursor-pointer'>
+               <Image src="/images/enamad.png" alt="enamad" width={80} height={80} />
+               <Image src="/images/zarinpall.png" alt="enamad" width={80} height={80} />
             </div>
          </div>
 
          <div className="mt-8 pb-2 text-center text-gray-500">
-            <p>&copy; 2024 Your Company. تمامی حقوق محفوظ است.</p>
+            <p>&copy; تمامی حقوق متعلق به این وبسایت محفوظ است.</p>
          </div>
       </footer>
    );

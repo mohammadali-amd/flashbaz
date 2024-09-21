@@ -1,6 +1,7 @@
-import Slider from "@/components/Slider";
-import Categories from "@/components/Categories";
-import BestSellingProducts from "@/components/BestSellingProducts";
+import Slider from "@/components/HomeComponents/Slider";
+import Categories from "@/components/HomeComponents/Categories";
+import BestSellingProducts from "@/components/HomeComponents/BestSellingProducts";
+import ProductCategorySection from "@/components/HomeComponents/ProductCategorySection";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Slider />
       <Categories />
       <BestSellingProducts />
+      <ProductCategorySection />
     </main>
   );
 }

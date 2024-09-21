@@ -10,8 +10,10 @@ const Breadcrumb = ({ items }: BreadcrumbProps) => {
       <nav className="text-sm mb-4">
          <ul className="flex space-x-2">
             {items.map((item, index) => (
-               <li key={index} className="flex items-center">
-                  <Link href={item.slug ? `${item.slug}` : ''} className="text-blue-600 hover:underline">
+               <li key={index} className="flex items-center text-stone-400">
+                  <Link href={item.slug ? `${item.slug}` : ''} className={
+                     index === items.length - 1 ? 'text-stone-950' : ''
+                  }>
                      {item.name}
                   </Link>
                   {index < items.length - 1 && (

@@ -14,7 +14,6 @@ type CarouselLayout = {
    navigation?: boolean;
    className?: string;
    color?: string;
-
 }
 
 const CarouselLayout: React.FC<CarouselLayout> = ({ children, mobileSlidesPerView = 1, tabletSlidesPerView = 3, laptopSlidesPerView = 5, desktopSlidesPerView = 7, navigation = true, spaceBetween, className, color = "#000" }) => {

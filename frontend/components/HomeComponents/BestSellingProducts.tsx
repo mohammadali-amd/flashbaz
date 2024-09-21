@@ -1,14 +1,14 @@
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { SwiperSlide } from 'swiper/react';
 
-import CarouselLayout from './CarouselLayout';
-import Link from 'next/link';
+import CarouselLayout from '../CarouselLayout';
 import { PersianNumber } from '@/utils/PersianNumber';
 import { useGetTopProductsQuery } from '@/slices/productsApiSlice';
-import Loader from './Loader';
-import ErrorMessage from './ErrorMessage';
-import Image from 'next/image';
-import { Product } from '@/types/types';
+import Loader from '../Loader';
+import ErrorMessage from '../ErrorMessage';
+import { type Product } from '@/types/types';
 
 const BestSellingProducts = (): JSX.Element => {
    const { data: products, isLoading, error } = useGetTopProductsQuery('bestSelling_products')
@@ -24,17 +24,21 @@ const BestSellingProducts = (): JSX.Element => {
 
    return (
       <div className='my-20 md:mx-20'>
-         <h3 className='text-4xl'>
-            پرفروش ترین محصولات
-         </h3>
+         <div className="md:flex justify-between mx-8 space-y-4 text-xl md:text-3xl">
+            <h3 className='font-bold md:font-normal'>پرفروش ترین محصولات</h3>
+            <Link href={'/products'} className='flex items-center gap-3 w-fit'>
+               مشاهده همه
+               <i className="lni lni-arrow-left"></i>
+            </Link>
+         </div>
          <div>
             <CarouselLayout mobileSlidesPerView={1} tabletSlidesPerView={2} laptopSlidesPerView={3} desktopSlidesPerView={5} spaceBetween={50}>
                {products?.map((product: Product) => (
                   <SwiperSlide key={product._id}>
                      <Link href={`/products/${product.category}/${product.subcategory}/${product._id}`}>
-                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl my-10 pb-4'>
+                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl my-10 pt-2 pb-6'>
                            <div className="flex justify-center pb-4">
-                              <div className="relative w-full h-52">
+                              <div className="relative w-full h-52 m-8">
                                  <Image
                                     src={product.image}
                                     className='rounded-t-xl'
@@ -44,11 +48,14 @@ const BestSellingProducts = (): JSX.Element => {
                                  />
                               </div>
                            </div>
-                           <div className="px-4 space-y-4">
-                              <h4 className='text-2xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
+                           <div className="px-4 space-y-3">
+                              <h4 className='text-xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
                                  {product.name}
                               </h4>
-                              <h5 className='text-lg text-left'>
+                              <h5 className='text-center'>
+                                 {product.category.name} ، {product.brand} {product.subcategory && `، ${product.subcategory.name}`}
+                              </h5>
+                              <h5 className='text-xl text-center font-semibold'>
                                  {PersianNumber(product.price.toLocaleString())} تومان
                               </h5>
                            </div>

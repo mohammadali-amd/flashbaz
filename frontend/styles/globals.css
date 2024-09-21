@@ -54,3 +54,18 @@ body {
    height: 5px;
    border-radius: 5px;
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+   @apply bg-white rounded-full p-[22px] shadow-md hover:bg-teal-700 hover:text-white duration-300 cursor-pointer
+}
+
+.swiper-rtl .swiper-button-next::after, .swiper-rtl .swiper-button-prev::after {
+   @apply text-[16px] font-bold
+}
+
+/* 
+.swiperCustom {
+   --swiper-navigation-color: teal;
+   --swiper-navigation-size: 33px;
+} */

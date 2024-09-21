@@ -31,8 +31,8 @@ const Carousel = () => {
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
             style={{
-               "--swiper-navigation-color": "#fff",
-               "--swiper-pagination-color": "#fff",
+               "--swiper-navigation-color": "#000",
+               "--swiper-pagination-color": "#000",
             } as React.CSSProperties}
          >
             <SwiperSlide>
