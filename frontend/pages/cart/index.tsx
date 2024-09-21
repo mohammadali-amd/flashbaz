@@ -7,19 +7,16 @@ import { addItem, clearCart, removeItem } from '@/slices/cartSlice';
 import { RootState } from '@/store/store'
 import { Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
+import { useIsClient } from '@/utils/useIsClient';
 import Image from 'next/image';
 
 const Cart = () => {
+   const isClient = useIsClient();
+
    const dispatch = useDispatch();
-   const [isClient, setIsClient] = useState(false)
    const cartItems = useSelector((state: RootState) => state.cart.items);
 
    const router = useRouter()
-   // Hydration error: Initial UI does not match server render.
-   // To prevent Hydration error, ensure consistency between server-side and client-side rendering. 👇
-   useEffect(() => {
-      setIsClient(true)
-   }, []);
 
    const handleAddItem = (product: Product) => {
       dispatch(addItem(product));
