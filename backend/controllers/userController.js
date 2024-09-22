@@ -123,8 +123,27 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 // @route GET /api/users
 // @access Private/Admin
 export const getUsers = asyncHandler(async (req, res) => {
-   const users = await User.find({})
-   res.status(200).json(users)
+   const pageSize = process.env.PAGINATION_LIMIT_ADMIN;
+   const page = Number(req.query.pageNumber) || 1;
+
+   const keyword = req.query.keyword
+      ? {
+         name: {
+            $regex: req.query.keyword,
+            $options: 'i',
+         },
+      }
+      : {};
+
+   const sortBy = req.query.sortBy || '-createdAt';
+
+   const count = await User.countDocuments({ ...keyword });
+   const users = await User.find({ ...keyword })
+      .sort(sortBy)
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+   res.status(200).json({ users, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @desc Get user by ID

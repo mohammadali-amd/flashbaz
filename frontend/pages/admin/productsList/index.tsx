@@ -82,45 +82,47 @@ const ProductsListPage = () => {
          ) : error ? (
             <ErrorMessage>Error Load Products</ErrorMessage>
          ) : (
-            <div className="border border-gray-200 rounded-lg overflow-auto">
-               <table className='min-w-full text-center border-collapse'>
-                  <thead className='bg-gray-100 border-b'>
-                     <tr>
-                        <th className='px-4 py-2'>شناسه سفارش</th>
-                        <th className='px-4 py-2'>نام محصول</th>
-                        <th className='px-4 py-2'>قیمت</th>
-                        <th className='px-4 py-2'>دسته بندی</th>
-                        <th className='px-4 py-2'>تعداد</th>
-                        <th></th>
-                        <th></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {data?.products.map((product: Product) => (
-                        <tr key={product._id} className='hover:bg-gray-50 border-b'>
-                           <td className='px-4 py-2'>{product._id}</td>
-                           <td className='px-4 py-2'>
-                              <Link href={`/products/${product.category.slug}/${product.subcategory?.slug}/${product._id}`}>{product.name}</Link>
-                           </td>
-                           <td className='px-4 py-2'>{product.price}</td>
-                           <td className='px-4 py-2'>{product.category.name}</td>
-                           <td className='px-4 py-2'>{product.countInStock}</td>
-                           <td className='pr-4 py-2'>
-                              <Link href={`/admin/productsList/edit/${product._id}`} className='text-teal-600'>
-                                 <i className="text-xl lni lni-pencil"></i>
-                              </Link>
-                           </td>
-                           <td className='px-4 mx:pl-4 mx:pr-0 py-2'>
-                              <button onClick={() => { deleteHandler(product._id) }
-                              } className='text-red-600'>
-                                 <i className="text-xl lni lni-trash-can"></i>
-                              </button>
-                           </td>
+            <div>
+               <div className="border border-gray-200 rounded-lg overflow-auto">
+                  <table className='min-w-full text-center border-collapse'>
+                     <thead className='bg-gray-100 border-b'>
+                        <tr>
+                           <th className='px-4 py-2'>شناسه سفارش</th>
+                           <th className='px-4 py-2'>نام محصول</th>
+                           <th className='px-4 py-2'>قیمت</th>
+                           <th className='px-4 py-2'>دسته بندی</th>
+                           <th className='px-4 py-2'>تعداد</th>
+                           <th></th>
+                           <th></th>
                         </tr>
-                     ))}
-                  </tbody>
-               </table>
+                     </thead>
+                     <tbody>
+                        {data.products.map((product: Product) => (
+                           <tr key={product._id} className='hover:bg-gray-50 border-b'>
+                              <td className='px-4 py-2'>{product._id}</td>
+                              <td className='px-4 py-2'>
+                                 <Link href={`/products/${product.category.slug}/${product.subcategory?.slug}/${product._id}`}>{product.name}</Link>
+                              </td>
+                              <td className='px-4 py-2'>{product.price}</td>
+                              <td className='px-4 py-2'>{product.category.name}</td>
+                              <td className='px-4 py-2'>{product.countInStock}</td>
+                              <td className='pr-4 py-2'>
+                                 <Link href={`/admin/productsList/edit/${product._id}`} className='text-teal-600'>
+                                    <i className="text-xl lni lni-pencil"></i>
+                                 </Link>
+                              </td>
+                              <td className='px-4 mx:pl-4 mx:pr-0 py-2'>
+                                 <button onClick={() => { deleteHandler(product._id) }
+                                 } className='text-red-600'>
+                                    <i className="text-xl lni lni-trash-can"></i>
+                                 </button>
+                              </td>
+                           </tr>
+                        ))}
+                     </tbody>
+                  </table>
 
+               </div>
                <div className='mt-6'>
                   <Paginate totalPages={data.pages} currentPage={data.page} />
                </div>

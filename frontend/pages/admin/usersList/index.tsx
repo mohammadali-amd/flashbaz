@@ -9,6 +9,7 @@ import { RootState } from '@/store/store';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
 import { useDeleteUserMutation, useGetUsersQuery } from '@/slices/usersApiSlice';
+import Paginate from '@/components/Paginate';
 
 const UsersListPage = () => {
    const router = useRouter()
@@ -16,7 +17,10 @@ const UsersListPage = () => {
 
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
-   const { data: users, isLoading: loadingUsers, error, refetch } = useGetUsersQuery('admin_users')
+   const pageNumber = parseInt((router.query.page as string) || '1', 10);
+   const keyword = (router.query.keyword as string)
+
+   const { data, isLoading: loadingUsers, error, refetch } = useGetUsersQuery({ keyword, pageNumber })
 
    const [deleteUser, { isLoading: loadingDeleteUser }] = useDeleteUserMutation()
 
@@ -56,42 +60,48 @@ const UsersListPage = () => {
          ) : error ? (
             <ErrorMessage>Error Load Users</ErrorMessage>
          ) : (
-            <div className="border border-gray-200 rounded-lg overflow-auto">
-               <table className='min-w-full text-center border-collapse'>
-                  <thead className='bg-gray-100 border-b'>
-                     <tr>
-                        <th className='px-4 py-2'>شناسه کاربر</th>
-                        <th className='px-4 py-2'>نام کاربری</th>
-                        <th className='px-4 py-2'>ایمیل</th>
-                        <th className='px-4 py-2'>تاریخ ثبت نام</th>
-                        <th className='px-4 py-2'>سطح</th>
-                        <th></th>
-                        <th></th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {users?.slice().reverse().map((user: UserInfo) => (
-                        <tr key={user._id} className='hover:bg-gray-50 border-b'>
-                           <td className='px-4 py-2'>{user._id}</td>
-                           <td className='px-4 py-2'>{user.name}</td>
-                           <td className='px-4 py-2'>{user.email}</td>
-                           <td className='px-4 py-2'>{user.createdAt.substring(0, 10)}</td>
-                           <td className='px-4 py-2'>{user.isAdmin ? <span className='text-red-600 font-bold'>مدیر</span> : 'کاربر'}</td>
-                           <td className='pr-4 py-2'>
-                              <Link href={`/admin/usersList/edit/${user._id}`} className='text-teal-600'>
-                                 <i className="text-xl lni lni-pencil"></i>
-                              </Link>
-                           </td>
-                           <td className='px-4 mx:pl-4 mx:pr-0 py-2'>
-                              <button onClick={() => { deleteUserHandler(user._id) }
-                              } className='text-red-600'>
-                                 <i className="text-xl lni lni-trash-can"></i>
-                              </button>
-                           </td>
+            <div>
+               <div className="border border-gray-200 rounded-lg overflow-auto">
+                  <table className='min-w-full text-center border-collapse'>
+                     <thead className='bg-gray-100 border-b'>
+                        <tr>
+                           <th className='px-4 py-2'>شناسه کاربر</th>
+                           <th className='px-4 py-2'>نام کاربری</th>
+                           <th className='px-4 py-2'>ایمیل</th>
+                           <th className='px-4 py-2'>تاریخ ثبت نام</th>
+                           <th className='px-4 py-2'>سطح</th>
+                           <th></th>
+                           <th></th>
                         </tr>
-                     ))}
-                  </tbody>
-               </table>
+                     </thead>
+                     <tbody>
+                        {data.users.map((user: UserInfo) => (
+                           <tr key={user._id} className='hover:bg-gray-50 border-b'>
+                              <td className='px-4 py-2'>{user._id}</td>
+                              <td className='px-4 py-2'>{user.name}</td>
+                              <td className='px-4 py-2'>{user.email}</td>
+                              <td className='px-4 py-2'>{user.createdAt.substring(0, 10)}</td>
+                              <td className='px-4 py-2'>{user.isAdmin ? <span className='text-red-600 font-bold'>مدیر</span> : 'کاربر'}</td>
+                              <td className='pr-4 py-2'>
+                                 <Link href={`/admin/usersList/edit/${user._id}`} className='text-teal-600'>
+                                    <i className="text-xl lni lni-pencil"></i>
+                                 </Link>
+                              </td>
+                              <td className='px-4 mx:pl-4 mx:pr-0 py-2'>
+                                 <button onClick={() => { deleteUserHandler(user._id) }
+                                 } className='text-red-600'>
+                                    <i className="text-xl lni lni-trash-can"></i>
+                                 </button>
+                              </td>
+                           </tr>
+                        ))}
+                     </tbody>
+                  </table>
+
+               </div>
+               <div className='mt-6'>
+                  <Paginate totalPages={data.pages} currentPage={data.page} />
+               </div>
             </div>
          )}
       </div>

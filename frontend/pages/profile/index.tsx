@@ -11,6 +11,7 @@ import { setCredentials } from '@/slices/authSlice'
 import { useGetMyOrdersQuery } from '@/slices/ordersApiSlice'
 import ErrorMessage from '@/components/ErrorMessage'
 import Link from 'next/link'
+import Paginate from '@/components/Paginate'
 // import { GetServerSideProps } from 'next'
 
 interface Orders {
@@ -41,7 +42,10 @@ const ProfilePage = () => {
 
    const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation()
 
-   const { data: orders, isLoading: loadingMyOrders, error } = useGetMyOrdersQuery({})
+   const pageNumber = parseInt((router.query.page as string) || '1', 10);
+   const keyword = (router.query.keyword as string)
+
+   const { data, isLoading: loadingMyOrders, error } = useGetMyOrdersQuery({ keyword, pageNumber })
 
    useEffect(() => {
       if (!userInfo) {
@@ -80,8 +84,8 @@ const ProfilePage = () => {
    return (
       <div className='my-10 mx-6 lg:mx-20'>
          <h1 className='text-3xl mb-8 font-semibold'>پروفایل</h1>
-         <div className='lg:flex lg:gap-10 space-y-10'>
-            <div className='lg:w-1/3'>
+         <div className='xl:flex xl:gap-10 space-y-10 xl:space-y-0'>
+            <div className='xl:w-1/3'>
                <form onSubmit={submitHandler}>
                   <div className='space-y-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10'>
                      <div className="flex justify-between items-center gap-10">
@@ -119,53 +123,59 @@ const ProfilePage = () => {
                   </div>
                </form>
             </div>
-            <div className="lg:w-2/3 space-y-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-5">
+            <div className="xl:w-2/3 space-y-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-5">
                {loadingMyOrders ? (
                   <Loader />
                ) : error ? (
                   <ErrorMessage>Error</ErrorMessage>
                ) : (
-                  <div className="border border-gray-200 rounded-lg overflow-auto">
-                     <table className='min-w-full text-center border-collapse'>
-                        <thead className='bg-gray-100'>
-                           <tr>
-                              <th className='px-4 py-2 border-b'>سفارش</th>
-                              <th className='px-4 py-2 border-b'>تاریخ</th>
-                              <th className='px-4 py-2 border-b'>مبلغ</th>
-                              <th className='px-4 py-2 border-b'>پرداخت شده</th>
-                              <th className='px-4 py-2 border-b'>ارسال</th>
-                              <th className='px-4 py-2 border-b'></th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           {orders.slice().reverse().map((order: Orders) => (
-                              <tr key={order._id} className='hover:bg-gray-50'>
-                                 <td className='px-4 py-2 border-b'>{order._id}</td>
-                                 <td className='px-4 py-2 border-b'>{order.createdAt.substring(0, 10)}</td>
-                                 <td className='px-4 py-2 border-b'>{order.totalPrice}</td>
-                                 <td className='px-4 py-2 border-b'>
-                                    {order.isPaid ? (
-                                       order.paidAt.substring(0, 10)
-                                    ) : (
-                                       <span className='text-red-600'>✖</span>
-                                    )}
-                                 </td>
-                                 <td className='px-4 py-2 border-b'>
-                                    {order.isDelivered ? (
-                                       order.deliveredAt.substring(0, 10)
-                                    ) : (
-                                       <span className='text-red-600'>✖</span>
-                                    )}
-                                 </td>
-                                 <td className='px-4 py-2 border-b'>
-                                    <Link href={`/order/${order._id}`} className='text-teal-600'>
-                                       جزئیات
-                                    </Link>
-                                 </td>
+                  <div>
+                     <div className="border border-gray-200 rounded-lg overflow-auto">
+                        <table className='min-w-full text-center border-collapse'>
+                           <thead className='bg-gray-100'>
+                              <tr>
+                                 <th className='px-4 py-2 border-b'>سفارش</th>
+                                 <th className='px-4 py-2 border-b'>تاریخ</th>
+                                 <th className='px-4 py-2 border-b'>مبلغ</th>
+                                 <th className='px-4 py-2 border-b'>پرداخت شده</th>
+                                 <th className='px-4 py-2 border-b'>ارسال</th>
+                                 <th className='px-4 py-2 border-b'></th>
                               </tr>
-                           ))}
-                        </tbody>
-                     </table>
+                           </thead>
+                           <tbody>
+                              {data.orders.map((order: Orders) => (
+                                 <tr key={order._id} className='hover:bg-gray-50'>
+                                    <td className='px-4 py-2 border-b'>{order._id}</td>
+                                    <td className='px-4 py-2 border-b'>{order.createdAt.substring(0, 10)}</td>
+                                    <td className='px-4 py-2 border-b'>{order.totalPrice}</td>
+                                    <td className='px-4 py-2 border-b'>
+                                       {order.isPaid ? (
+                                          order.paidAt.substring(0, 10)
+                                       ) : (
+                                          <span className='text-red-600'>✖</span>
+                                       )}
+                                    </td>
+                                    <td className='px-4 py-2 border-b'>
+                                       {order.isDelivered ? (
+                                          order.deliveredAt.substring(0, 10)
+                                       ) : (
+                                          <span className='text-red-600'>✖</span>
+                                       )}
+                                    </td>
+                                    <td className='px-4 py-2 border-b'>
+                                       <Link href={`/order/${order._id}`} className='text-teal-600'>
+                                          جزئیات
+                                       </Link>
+                                    </td>
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </table>
+
+                     </div>
+                     <div className='mt-6'>
+                        <Paginate totalPages={data.pages} currentPage={data.page} />
+                     </div>
                   </div>
                )}
             </div>
