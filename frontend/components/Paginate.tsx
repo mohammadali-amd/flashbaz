@@ -58,9 +58,9 @@ const Paginate: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
                </Link>
             )}
 
-            {getPages().map((page, index) =>
+            {getPages().map((page) =>
                typeof page === 'string' ? (
-                  <span key={index} className="px-3 py-1 rounded-md">...</span>
+                  <span key={page} className="px-3 py-1 rounded-md">...</span>
                ) : (
                   <Link key={page} href={constructHref(page)} scroll={false}>
                      <span

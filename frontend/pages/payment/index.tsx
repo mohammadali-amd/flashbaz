@@ -120,8 +120,8 @@ const PaymentPage = () => {
                               </tr>
                            </thead>
                            <tbody>
-                              {cart.items.map((item, index) => (
-                                 <tr key={index} className='hover:bg-gray-50 border-b text-sm md:text-base'>
+                              {cart.items.map((item) => (
+                                 <tr key={item.product._id} className='hover:bg-gray-50 border-b text-sm md:text-base'>
                                     <td className='flex items-center gap-2 px-4 py-2 text-right'>
                                        <Image
                                           src={item.product.image}

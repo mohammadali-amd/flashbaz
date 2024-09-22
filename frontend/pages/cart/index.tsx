@@ -54,8 +54,8 @@ const Cart = () => {
             <div className='lg:flex justify-between gap-14'>
                {/* Cart */}
                <div className='lg:w-3/4 space-y-8'>
-                  {isClient && cartItems.map((item, index) => (
-                     <div key={index} className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
+                  {isClient && cartItems.map((item) => (
+                     <div key={item.product._id} className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
                         <div>
                            <Link href={`/products/${item.product._id}`} className='text-lg lg:text-2xl'>
                               {item.product.name}

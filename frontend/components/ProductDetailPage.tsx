@@ -133,7 +133,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                      <h4 className='text-2xl'>نظرات</h4>
                      {reviews.length > 0 ? (
                         reviews.map((review: Review, index: number) => (
-                           <div key={index} className='mt-4 pb-4 border-b border-gray-300'>
+                           <div key={review.name + review.createdAt} className='mt-4 pb-4 border-b border-gray-300'>
                               <p className='text-sm text-gray-600'>کاربر: {review.name}</p>
                               <p className='text-sm text-gray-600'>{renderStars(review.rating)}</p>
                               <p className='text-sm text-gray-600'>{review.createdAt.substring(0, 10)}</p>

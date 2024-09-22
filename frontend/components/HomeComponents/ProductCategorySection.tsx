@@ -43,14 +43,14 @@ const ProductCategorySection = () => {
             />
          </div>
          {categories.map((cat, index) => (
-            <ul key={Math.random()} className={`
+            <ul key={cat.category.title + cat.category.slug} className={`
             ${index < categories.length - 1 && 'lg:border-l border-slate-400 md:pl-4'}
              px-10 md:px-auto space-y-3`}>
                <li className='font-semibold text-lg text-blue-600 pb-2'>
                   <Link href={cat.category.slug}>{cat.category.title}</Link>
                </li>
                {cat.subCategory.map((sub) => (
-                  <li key={Math.random()}>
+                  <li key={sub.slug + sub.title}>
                      <Link href={sub.slug}>
                         {sub.title}
                      </Link>
