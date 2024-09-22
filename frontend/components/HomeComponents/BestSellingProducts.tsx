@@ -24,7 +24,7 @@ const BestSellingProducts = (): JSX.Element => {
 
    return (
       <div className='my-20 md:mx-20'>
-         <div className="md:flex justify-between mx-8 space-y-4 text-xl md:text-3xl">
+         <div className="md:flex justify-between mx-8 space-y-4 md:space-y-0 text-xl md:text-3xl">
             <h3 className='font-bold md:font-normal'>پرفروش ترین محصولات</h3>
             <Link href={'/products'} className='flex items-center gap-3 w-fit'>
                مشاهده همه
@@ -32,11 +32,11 @@ const BestSellingProducts = (): JSX.Element => {
             </Link>
          </div>
          <div>
-            <CarouselLayout mobileSlidesPerView={1} tabletSlidesPerView={2} laptopSlidesPerView={3} desktopSlidesPerView={5} spaceBetween={50}>
+            <CarouselLayout mobileSlidesPerView={1} tabletSlidesPerView={2} laptopSlidesPerView={3} desktopSlidesPerView={4} spaceBetween={50}>
                {products?.map((product: Product) => (
                   <SwiperSlide key={product._id}>
                      <Link href={`/products/${product.category}/${product.subcategory}/${product._id}`}>
-                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl my-10 pt-2 pb-6'>
+                        <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pt-2 pb-6'>
                            <div className="flex justify-center pb-4">
                               <div className="relative w-full h-52 m-8">
                                  <Image
