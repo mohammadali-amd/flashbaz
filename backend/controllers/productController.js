@@ -31,8 +31,10 @@ export const getProducts = asyncHandler(async (req, res) => {
       $or: [{ 'subcategory.slug': req.query.subcategory }]
    } : {};
 
+   const isAmazingOffer = req.query.isAmazingOffer === 'true' ? { isAmazingOffer: true } : {};
+
    // Combine all filters into a single query object
-   const query = { ...keyword, ...brand, ...rating, ...minPrice, ...maxPrice, ...category, ...subcategory };
+   const query = { ...keyword, ...brand, ...rating, ...minPrice, ...maxPrice, ...category, ...subcategory, ...isAmazingOffer };
 
    const sortBy = req.query.sortBy || '-createdAt';
 
@@ -93,6 +95,9 @@ export const createProducts = asyncHandler(async (req, res) => {
    const product = new Product({
       name: 'Sample name',
       price: 0,
+      priceWithOff: 0,
+      discount: 0,
+      isAmazingOffer: false,
       user: req.user._id,
       image: '/image/sample.jpg',
       brand: 'Sample brand',
@@ -117,13 +122,16 @@ export const createProducts = asyncHandler(async (req, res) => {
 // @route PUT /api/products/:id
 // @access Private/Admin
 export const updateProduct = asyncHandler(async (req, res) => {
-   const { name, price, image, brand, category, subcategory, countInStock, description } = req.body
+   const { name, price, priceWithOff, isAmazingOffer, discount, image, brand, category, subcategory, countInStock, description } = req.body
 
    const product = await Product.findById(req.params.id)
 
    if (product) {
       product.name = name
       product.price = price
+      product.priceWithOff = priceWithOff
+      product.discount = discount
+      product.isAmazingOffer = isAmazingOffer
       product.image = image
       product.brand = brand
       product.category = category
