@@ -7,6 +7,9 @@ export interface Product {
    _id: number;
    name: string;
    price: number;
+   priceWithOff: number;
+   discount: number;
+   isAmazingOffer: boolean;
    description: string;
    countInStock: number;
    category: Category;

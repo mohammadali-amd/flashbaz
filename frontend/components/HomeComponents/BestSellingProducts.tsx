@@ -37,7 +37,7 @@ const BestSellingProducts = (): JSX.Element => {
                   <SwiperSlide key={product._id}>
                      <Link href={`/products/${product.category}/${product.subcategory}/${product._id}`}>
                         <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pt-2 pb-6'>
-                           <div className="flex justify-center pb-4">
+                           <div className="relative flex justify-center pb-4">
                               <div className="relative w-full h-52 m-8">
                                  <Image
                                     src={product.image}
@@ -47,6 +47,11 @@ const BestSellingProducts = (): JSX.Element => {
                                     objectFit='contain'
                                  />
                               </div>
+                              {product.priceWithOff > 0 && (
+                                 <div className='absolute top-2 right-5 text-sm bg-orange-600/90 rounded-full px-3 py-1 text-white'>
+                                    %{PersianNumber(product.discount.toLocaleString())} تخفیف
+                                 </div>
+                              )}
                            </div>
                            <div className="px-4 space-y-3">
                               <h4 className='text-xl font-medium overflow-hidden overflow-ellipsis whitespace-nowrap'>
@@ -55,9 +60,25 @@ const BestSellingProducts = (): JSX.Element => {
                               <h5 className='text-center'>
                                  {product.category.name} ، {product.brand} {product.subcategory && `، ${product.subcategory.name}`}
                               </h5>
-                              <h5 className='text-xl text-center font-semibold'>
-                                 {PersianNumber(product.price.toLocaleString())} تومان
-                              </h5>
+                              <div className="flex justify-between items-center text-xl font-semibold">
+                                 <h5>قیمت:</h5>
+                                 <div className="flex justify-end items-center gap-2">
+                                    {product.priceWithOff > 0 ? (
+                                       <>
+                                          <h5 className='text-base font-light line-through'>
+                                             {PersianNumber(product.price.toLocaleString())}
+                                          </h5>
+                                          <h5 className='text-xl font-semibold'>
+                                             {PersianNumber(product.priceWithOff.toLocaleString())} تومان
+                                          </h5>
+                                       </>
+                                    ) : (
+                                       <h5 className='text-xl font-semibold'>
+                                          {PersianNumber(product.price.toLocaleString())} تومان
+                                       </h5>
+                                    )}
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      </Link>
