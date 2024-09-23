@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
 import { RootState } from '@/store/store'
-import { saveShippingAddress } from '@/slices/cartSlice'
+// import { saveShippingAddress } from '@/slices/cartSlice'
 import Loader from '@/components/Loader'
 import { useProfileMutation } from '@/slices/usersApiSlice'
 import { setCredentials } from '@/slices/authSlice'
@@ -30,6 +30,7 @@ const ProfilePage = () => {
 
    const [name, setName] = useState('')
    const [email, setEmail] = useState('')
+   const [phone, setPhoneNumber] = useState<string | number>('')
    const [password, setPassword] = useState('')
    const [confirmPassword, setConfirmPassword] = useState('')
    const [address, setAddress] = useState('')
@@ -37,7 +38,7 @@ const ProfilePage = () => {
    const [postalCode, setPostalCode] = useState('')
    const [isLoading, setIsLoading] = useState(true);
 
-   const { shippingAddress } = useSelector((state: RootState) => state.cart)
+   // const { shippingAddress } = useSelector((state: RootState) => state.cart)
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
    const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation()
@@ -54,11 +55,12 @@ const ProfilePage = () => {
          setIsLoading(false);
          setName(userInfo.name)
          setEmail(userInfo.email)
-         setAddress(shippingAddress.address)
-         setCity(shippingAddress.city)
-         setPostalCode(shippingAddress.postalCode)
+         setPhoneNumber(userInfo.phone || '')
+         setAddress(userInfo.address || '')
+         setCity(userInfo.city || '')
+         setPostalCode(userInfo.postalCode || '')
       }
-   }, [userInfo, shippingAddress, router]);
+   }, [userInfo, router]);
 
    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
@@ -67,12 +69,17 @@ const ProfilePage = () => {
          toast.error("Password do not match")
       } else {
          try {
-            const res = await updateProfile({ name, email, password }).unwrap()
+            const res = await updateProfile({
+               name, email, phone, address, city, postalCode, password
+            }).unwrap()
+            console.log(res);
+
             dispatch(setCredentials({ ...res }))
-            dispatch(saveShippingAddress({ address, city, postalCode }))
             toast.success('Profile Updated Successfully')
          } catch (error) {
             toast.error((error as any)?.data?.message || (error as any)?.message);
+            console.log(error);
+
          }
       }
    }
@@ -91,6 +98,10 @@ const ProfilePage = () => {
                      <div className="flex justify-between items-center gap-10">
                         <h4 className='text-xl w-1/5'>نام</h4>
                         <input className='w-4/5 border border-stone-300 rounded-md p-2' type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+                     </div>
+                     <div className="flex justify-between items-center gap-10">
+                        <h4 className='text-xl w-1/5'>شماره تماس</h4>
+                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="number" name="phone" value={phone !== 0 ? phone : ''} onChange={(e) => setPhoneNumber(e.target.value)} />
                      </div>
                      <div className="flex justify-between items-center gap-10">
                         <h4 className='text-xl w-1/5'>ایمیل</h4>

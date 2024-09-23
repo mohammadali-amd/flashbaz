@@ -7,6 +7,11 @@ const userSchema = mongoose.Schema(
          type: String,
          required: true,
       },
+      phone: {
+         type: Number,
+         required: false,
+         default: null
+      },
       email: {
          type: String,
          required: true,
@@ -15,6 +20,21 @@ const userSchema = mongoose.Schema(
       password: {
          type: String,
          required: true,
+      },
+      address: {
+         type: String,
+         required: false,
+         default: null
+      },
+      city: {
+         type: String,
+         required: false,
+         default: null
+      },
+      postalCode: {
+         type: String,
+         required: false,
+         default: null
       },
       isAdmin: {
          type: Boolean,

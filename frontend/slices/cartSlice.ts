@@ -6,25 +6,13 @@ interface CartItem {
    quantity: number;
 }
 
-interface ShippingAddress {
-   address: string,
-   city: string,
-   postalCode: string,
-}
-
 interface CartState {
    items: CartItem[];
-   shippingAddress: ShippingAddress,
    paymentMethod: string,
 }
 
 const initialState: CartState = {
    items: [],
-   shippingAddress: {
-      address: '',
-      city: '',
-      postalCode: '',
-   },
    paymentMethod: 'PayPal',
 };
 
@@ -36,7 +24,6 @@ const getInitialCartState = (): CartState => {
       return storedCartData
          ? {
             items: JSON.parse(storedCartData),
-            shippingAddress: storedShippingAddress ? JSON.parse(storedShippingAddress) : initialState.shippingAddress,
             paymentMethod: 'PayPal'
          }
          : initialState;
@@ -79,10 +66,6 @@ export const cartSlice = createSlice({
          // localStorage.removeItem('cart');
          localStorage.setItem('cart', JSON.stringify(state.items))
       },
-      saveShippingAddress: (state, action: PayloadAction<ShippingAddress>) => {
-         state.shippingAddress = action.payload
-         localStorage.setItem('shippingAddress', JSON.stringify(state.shippingAddress));
-      },
       savePaymentMethod: (state, action) => {
          state.paymentMethod = action.payload
          localStorage.setItem('paymentMethod', JSON.stringify(state.paymentMethod));
@@ -91,4 +74,4 @@ export const cartSlice = createSlice({
    },
 });
 
-export const { addItem, removeItem, clearCart, saveShippingAddress, savePaymentMethod, resetCart } = cartSlice.actions;
+export const { addItem, removeItem, clearCart, savePaymentMethod, resetCart } = cartSlice.actions;

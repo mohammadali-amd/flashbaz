@@ -35,8 +35,12 @@ export interface CartItem {
 export interface UserInfo {
    _id: number;
    name: string;
+   phone: number;
    email: string;
    password: string;
+   city?: string;
+   postalCode?: string;
+   address?: string;
    isAdmin: boolean;
    createdAt: string
 }

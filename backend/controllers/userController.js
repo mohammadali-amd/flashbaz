@@ -65,7 +65,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 export const logoutUser = asyncHandler(async (req, res) => {
    res.cookie('jwt', '', {
       httpOnly: true,
-      expiresIn: new Date(0)
+      expires: new Date(0)
    })
 
    res.status(200).json({ message: 'Logged out successfully' })
@@ -75,14 +75,18 @@ export const logoutUser = asyncHandler(async (req, res) => {
 // @route GET /api/users/profile
 // @access Private
 export const getUserProfile = asyncHandler(async (req, res) => {
-   const user = await User.findOne(req.user._id)
+   const user = await User.findById(req.user._id)
 
    if (user) {
       res.status(200).json({
          _id: user._id,
          name: user.name,
+         phone: user.phone,
          email: user.email,
          isAdmin: user.isAdmin,
+         address: user.address,
+         city: user.city,
+         postalCode: user.postalCode,
       })
    } else {
       res.status(404)
@@ -99,6 +103,10 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
    if (user) {
       user.name = req.body.name || user.name
       user.email = req.body.email || user.email
+      user.phone = req.body.phone || user.phone
+      user.address = req.body.address || user.address.address,
+         user.city = req.body.city || user.address.city,
+         user.postalCode = req.body.postalCode || user.address.postalCode
 
       if (req.body.password) {
          user.password = req.body.password
@@ -110,14 +118,16 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
          _id: updatedUser._id,
          name: updatedUser.name,
          email: updatedUser.email,
+         phone: updatedUser.phone,
          isAdmin: updatedUser.isAdmin,
+         city: updatedUser.city,
+         address: updatedUser.address,
+         postalCode: updatedUser.postalCode,
       })
    } else {
       throw new Error('User not found')
    }
 })
-
-
 
 // @desc Get users
 // @route GET /api/users
@@ -187,7 +197,12 @@ export const updateUser = asyncHandler(async (req, res) => {
 
    if (user) {
       user.name = req.body.name || user.name
+      user.phone = req.body.phone || user.phone
       user.email = req.body.email || user.email
+      user.address = req.body.address || user.address.address,
+         user.city = req.body.city || user.address.city,
+         user.postalCode = req.body.postalCode || user.address.postalCode
+
       user.isAdmin = Boolean(req.body.isAdmin)
 
       const updatedUser = await user.save()
@@ -195,7 +210,11 @@ export const updateUser = asyncHandler(async (req, res) => {
       res.status(200).json({
          _id: updatedUser._id,
          name: updatedUser.name,
+         phone: updatedUser.phone,
          email: updatedUser.email,
+         address: updatedUser.address,
+         city: updatedUser.city,
+         postalCode: updatedUser.postalCode,
          isAdmin: updatedUser.isAdmin,
       })
    } else {

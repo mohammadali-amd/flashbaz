@@ -29,9 +29,9 @@ const PaymentPage = () => {
       } else {
          setIsLoadingPage(false);
       }
-   }, [userInfo, cart.shippingAddress, router]);
+   }, [userInfo, userInfo?.city, userInfo?.address, userInfo?.postalCode, router]);
 
-   if (!cart.shippingAddress) {
+   if (!userInfo?.address && !userInfo?.city && !userInfo?.postalCode) {
       router.push('/profile');
    }
 
@@ -58,13 +58,17 @@ const PaymentPage = () => {
             };
          });
 
-         if (!cart.shippingAddress) {
+         if (!userInfo?.address && !userInfo?.city && !userInfo?.postalCode) {
             throw new Error('Shipping address is missing');
          }
 
          const res = await createOrder({
             orderItems: validOrderItems,
-            shippingAddress: cart.shippingAddress,
+            shippingAddress: {
+               address: userInfo.address,
+               city: userInfo.city,
+               postalCode: userInfo.postalCode
+            },
             paymentMethod: paymentMethod,
             // itemsPrice: cart.itemsPrice,
             // shippingPrice: cart.shippingPrice,
@@ -82,6 +86,15 @@ const PaymentPage = () => {
       return <Loader />
    }
 
+   if (error) {
+      <ErrorMessage>
+         {error instanceof Error ? error.message : JSON.stringify(error)}
+      </ErrorMessage>
+   }
+
+   console.log(error);
+
+
    return (
       <div className='mx-6 lg:mx-auto lg:w-1/2 justify-center my-20'>
          <form onSubmit={submitHandler}>
@@ -91,15 +104,15 @@ const PaymentPage = () => {
                   <h4 className='text-xl font-semibold'>نشانی ارسال کالا</h4>
                   <p>
                      <strong>شهر: </strong>
-                     {cart.shippingAddress.city}
+                     {userInfo?.city}
                   </p>
                   <p>
                      <strong>آدرس: </strong>
-                     {cart.shippingAddress.address}
+                     {userInfo?.address}
                   </p>
                   <p>
                      <strong>کد پستی: </strong>
-                     {cart.shippingAddress.postalCode}
+                     {userInfo?.postalCode}
                   </p>
                </div>
 
@@ -157,7 +170,7 @@ const PaymentPage = () => {
                      </label>
                   </div>
 
-                  {error && <ErrorMessage>{error instanceof Error ? error.message : JSON.stringify(error)}</ErrorMessage>}
+                  {/* {error && <ErrorMessage>{error instanceof Error ? error.message : JSON.stringify(error)}</ErrorMessage>} */}
                   <button type='submit' className='flex gap-3 justify-center items-center bg-emerald-600 lg:w-1/3 text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
                      ادامه و پرداخت
                      {isLoading && <Loader />}
