@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { BASE_URL } from '@/constants/constants';
 import Image from 'next/image';
 import { useGetCategoriesQuery } from '@/slices/categoriesApiSlice';
+import { Editor } from '@/components/Editor';
 
 const EditProductPage = () => {
    const router = useRouter();
@@ -38,6 +39,10 @@ const EditProductPage = () => {
       countInStock: 0,
       description: ''
    });
+
+   const handleDescriptionChange = (value: string) => {
+      setFormData({ ...formData, description: value });
+   };
 
    const [preview, setPreview] = useState<string | null>(null);
 
@@ -258,7 +263,7 @@ const EditProductPage = () => {
                      />
                   </div>
                </div>
-               <div>
+               {/* <div>
                   <label className="block text-gray-700">توضیحات</label>
                   <input
                      type="text"
@@ -266,9 +271,14 @@ const EditProductPage = () => {
                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                      className="w-full px-4 py-2 border rounded-lg"
                   />
-               </div>
+               </div> */}
                <div>
-                  <label className="block text-gray-700">عکس</label>
+                  <label className="block text-gray-700">توضیحات</label>
+                  <Editor value={formData.description} onChange={handleDescriptionChange} />
+               </div>
+
+               <div>
+                  <label className="block text-gray-700 mt-20">عکس</label>
                   {/* <input
                      type="text"
                      value={image}

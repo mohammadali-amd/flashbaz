@@ -86,9 +86,13 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         <h3 className='text-2xl'>
                            {productDetails?.name}
                         </h3>
-                        <p className='py-2 lg:text-xl'>
+                        {/* <p className='py-2 lg:text-xl'>
                            {productDetails?.description}
-                        </p>
+                        </p> */}
+                        <div
+                           className='py-2 lg:text-xl'
+                           dangerouslySetInnerHTML={{ __html: productDetails?.description || '' }}
+                        />
                         <div className='text-stone-600 space-y-4 mt-10'>
                            <h4 className='flex items-center gap-2'>
                               <i className="lni lni-drop"></i>

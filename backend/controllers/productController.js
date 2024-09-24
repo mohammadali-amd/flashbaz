@@ -1,6 +1,7 @@
 import asyncHandler from "../middleWare/asyncHandler.js"
 import Product from "../models/productModel.js"
 import Order from "../models/orderModel.js"
+import sanitizeHtml from 'sanitize-html';
 
 // @desc Fetch all products
 // @route GET /api/products
@@ -124,6 +125,7 @@ export const createProducts = asyncHandler(async (req, res) => {
 export const updateProduct = asyncHandler(async (req, res) => {
    const { name, price, priceWithOff, isAmazingOffer, discount, image, brand, category, subcategory, countInStock, description } = req.body
 
+   const cleanDescription = sanitizeHtml(description);
    const product = await Product.findById(req.params.id)
 
    if (product) {
@@ -137,7 +139,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
       product.category = category
       product.subcategory = subcategory
       product.countInStock = countInStock
-      product.description = description
+      product.description = cleanDescription
 
       const updatedProduct = await product.save()
       res.json(updatedProduct)
