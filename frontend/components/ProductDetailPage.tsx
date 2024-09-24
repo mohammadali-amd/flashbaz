@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 import { addItem } from '@/slices/cartSlice';
 import { PersianNumber } from '@/utils/PersianNumber';
-import { useAddReviewMutation, useGetProductDetailsQuery } from '@/slices/productsApiSlice';
+import { useAddReviewMutation } from '@/slices/productsApiSlice';
 import ErrorMessage from './ErrorMessage';
 import Loader from './Loader';
 import { useState } from 'react';
@@ -61,7 +61,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
    }
 
    const renderStars = (rating: number) => {
-      return '💚'.repeat(rating) + '🤍'.repeat(5 - rating);
+      return '🧡'.repeat(rating) + '🤍'.repeat(5 - rating);
    };
 
    return (
@@ -119,7 +119,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                      <div>
                         {/* Product Photo */}
                         <div className='text-left mb-6'>
-                           <div className="relative w-96 h-96">
+                           <div className="relative w-52 h-52 md:w-96 md:h-96">
                               <Image
                                  src={`${productDetails?.image}`}
                                  className='rounded-xl'
@@ -180,7 +180,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                            <button
                               disabled={loadingAddReview}
                               type='submit'
-                              className='mt-4 bg-emerald-600 w-full text-xl p-4 rounded-md text-white hover:bg-emerald-700 hover:shadow-xl duration-200'
+                              className='mt-4 bg-theme-color w-full text-xl p-4 rounded-md text-white hover:bg-theme-color/90 hover:shadow-xl duration-200'
                            >
                               ثبت نظر
                            </button>
@@ -211,7 +211,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                            فقط 1 عدد از این کالا در انبار موجود است.
                         </p>
                      )}
-                     <button onClick={handleAddToCart} className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white hover:shadow-xl hover:shadow-emerald-500/30 hover:bg-emerald-700 duration-200'>
+                     <button onClick={handleAddToCart} className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white hover:shadow-xl hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
                         افزودن به سبد خرید
                      </button>
                   </div>

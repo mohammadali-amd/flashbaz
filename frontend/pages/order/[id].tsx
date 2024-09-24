@@ -151,7 +151,7 @@ const OrderPage = () => {
                   </div>
 
                   {!order.isPaid && (
-                     <button onClick={onApproveTest} className='flex justify-center items-center gap-3 bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
+                     <button onClick={onApproveTest} className='flex justify-center items-center gap-3 bg-theme-color w-full text-xl p-4 rounded-md text-white'>
                         پرداخت
                         {loadingPay && <Loader size={20} />}
                      </button>

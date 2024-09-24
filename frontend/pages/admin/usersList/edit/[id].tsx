@@ -120,7 +120,7 @@ const EditUserPage = () => {
                </div>
                <button
                   type="submit"
-                  className="w-full py-2 px-4 bg-teal-500 text-white rounded-lg hover:shadow-md hover:bg-teal-600 duration-200"
+                  className="w-full py-2 px-4 bg-theme-color text-white rounded-lg hover:shadow-md hover:bg-theme-color/90 duration-200"
                >
                   اعمال تغییرات
                </button>

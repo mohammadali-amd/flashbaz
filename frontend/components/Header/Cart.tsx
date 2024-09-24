@@ -13,7 +13,7 @@ const Cart = () => {
       <div className='relative'>
          <Link href={'/cart'}>
             <i className="lni lni-cart lg:border lg:border-black lg:rounded-lg py-1 px-2 text-xl lg:text-2xl"></i>
-            <span className='absolute bottom-1 right-1 bg-red-600 rounded-full text-white px-1 text-xs'>
+            <span className='absolute bottom-1 right-1 bg-theme-color rounded-full text-white px-1 text-xs'>
                {PersianNumber(totalQuantity.toString())}
             </span>
          </Link>

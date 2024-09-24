@@ -24,8 +24,8 @@ const AmazingOffer = () => {
    }
 
    return (
-      <div className='my-20 md:mx-20 bg-rose-600 rounded-2xl pt-10'>
-         <div className="md:flex justify-between mx-8 space-y-4 md:space-y-0 text-xl md:text-3xl text-white">
+      <div className='my-10 mx-4 md:mx-20 bg-white border-4 border-theme-color rounded-2xl pt-2'>
+         <div className="md:flex justify-between bg-theme-color px-4 py-10 rounded-2xl space-y-4 md:space-y-0 text-xl md:text-3xl text-white mx-2">
             <h3 className='font-bold md:font-normal'>پیشنهاد شگفت انگیز</h3>
             <Link href={'/products'} className='flex items-center gap-3 w-fit'>
                مشاهده همه

@@ -72,7 +72,7 @@ const LoginPage = () => {
                   <input className='text-center border border-stone-300 rounded-md py-2' type="text" name="code" id="code" />
                </div>
 
-               <button type='submit' className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white disabled:bg-gray-400' disabled={isLoading}>
+               <button type='submit' className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white disabled:bg-gray-400' disabled={isLoading}>
                   ورود
                </button>
 

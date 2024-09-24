@@ -75,7 +75,7 @@ const ProfilePage = () => {
             console.log(res);
 
             dispatch(setCredentials({ ...res }))
-            toast.success('Profile Updated Successfully')
+            toast.success('مشخصات با موفقیت ذخیره شد')
          } catch (error) {
             toast.error((error as any)?.data?.message || (error as any)?.message);
             console.log(error);
@@ -128,7 +128,7 @@ const ProfilePage = () => {
                         <input className='w-4/5 border border-stone-300 rounded-md p-2' type="text" name="postalCard" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
                      </div>
 
-                     <button type='submit' className='flex justify-center bg-emerald-600 w-full lg:w-1/3 mx-auto text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
+                     <button type='submit' className='flex justify-center bg-theme-color hover:bg-theme-color/90 duration-200 w-full text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
                         {loadingUpdateProfile ? <Loader size={20} /> : <>ثبت</>}
                      </button>
                   </div>
@@ -174,7 +174,7 @@ const ProfilePage = () => {
                                        )}
                                     </td>
                                     <td className='px-4 py-2 border-b'>
-                                       <Link href={`/order/${order._id}`} className='text-teal-600'>
+                                       <Link href={`/order/${order._id}`} className='text-theme-color'>
                                           جزئیات
                                        </Link>
                                     </td>

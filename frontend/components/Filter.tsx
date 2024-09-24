@@ -37,7 +37,7 @@ const Filter: React.FC<FilterProps> = ({
                onClick={() => setSelectedRating(starRating)}
                className='cursor-pointer'
             >
-               {isFilled ? '💚' : '🤍'}
+               {isFilled ? '🧡' : '🤍'}
             </span>
          );
       });
@@ -134,7 +134,7 @@ const Filter: React.FC<FilterProps> = ({
          </div>
 
          <button
-            className="w-full bg-slate-500 text-white p-3 rounded-lg hover:bg-blue-600"
+            className="w-full bg-theme-color text-white p-3 rounded-lg hover:bg-theme-color/95 duration-200"
             onClick={clearFilters} // Call the applyFilters function
          >
             پاک کردن فیلترها

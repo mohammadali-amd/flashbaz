@@ -32,7 +32,7 @@ const Header: React.FC = () => {
    const isScrolledUp = useScrollDirection(50);
 
    return (
-      <header className={`px-5 sm:px-10 md:px-20 pt-2 lg:pt-5 pb-3 shadow-md border-b border-stone-300 sticky top-0 z-30 transition-all duration-200 bg-white ${isScrolledUp ? '-translate-y-12 md:-translate-y-0 lg:h-[6rem]' : 'lg:h-[8.5rem]'}`}>
+      <header className={`px-5 sm:px-10 md:px-20 pt-2 lg:pt-5 pb-3 shadow-md border-b border-stone-300 sticky top-0 z-30 transition-all duration-200 bg-white ${isScrolledUp ? '-translate-y-16 md:-translate-y-0 lg:h-[6rem]' : 'lg:h-[8.5rem]'}`}>
          <div className={`flex items-center justify-between md:hidden`}>
             {/* Mobile Menu Button */}
             <button onClick={() => setMobileMenu(!mobileMenu)}>
@@ -70,10 +70,10 @@ const Header: React.FC = () => {
          </div>
 
          {/* Pages link */}
-         <div className={`hidden md:flex pt-5 ${isScrolledUp ? 'hidden opacity-0 duration-0' : 'duration-200'}`}>
+         <div className={`hidden md:flex pt-5 ${isScrolledUp ? 'hidden lg:opacity-0 duration-0' : 'duration-200'}`}>
             <ul className="flex gap-8 md:gap-16">
                {links.map((link) => (
-                  <li key={link.slug}>
+                  <li key={link.slug} className='hover:text-theme-color duration-100'>
                      <Link href={link.slug}>{link.name}</Link>
                   </li>
                ))}
@@ -87,7 +87,7 @@ const Header: React.FC = () => {
                <ul className="flex flex-col items-center content-start mt-16">
                   {links.map((link) => (
                      <li key={link.slug} className="py-5 text-xl">
-                        <Link href={link.slug} onClick={() => setMobileMenu(false)} className='hover:text-emerald-600'>{link.name}</Link>
+                        <Link href={link.slug} onClick={() => setMobileMenu(false)} className='hover:text-theme-color'>{link.name}</Link>
                      </li>
                   ))}
                </ul>

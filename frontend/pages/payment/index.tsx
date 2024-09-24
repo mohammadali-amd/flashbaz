@@ -29,11 +29,7 @@ const PaymentPage = () => {
       } else {
          setIsLoadingPage(false);
       }
-   }, [userInfo, userInfo?.city, userInfo?.address, userInfo?.postalCode, router]);
-
-   if (!userInfo?.address && !userInfo?.city && !userInfo?.postalCode) {
-      router.push('/profile');
-   }
+   }, [userInfo, router]);
 
    const totalPrice = cart.items.reduce((total, { product, quantity }) => {
       const itemPrice = product.price || 0;
@@ -58,8 +54,9 @@ const PaymentPage = () => {
             };
          });
 
-         if (!userInfo?.address && !userInfo?.city && !userInfo?.postalCode) {
-            throw new Error('Shipping address is missing');
+         if (!userInfo?.address || !userInfo?.city || !userInfo?.postalCode) {
+            router.push('/profile');
+            throw new Error('لطفا نشانی ارسال کالا را وارد کنید');
          }
 
          const res = await createOrder({
@@ -166,12 +163,12 @@ const PaymentPage = () => {
                      <h4 className='text-xl font-semibold'>روش پرداخت</h4>
                      <label className='flex gap-3 items-center text-xl'>
                         <span>PayPal</span>
-                        <input type="radio" value={paymentMethod} className='accent-teal-600' checked onChange={(e: any) => setPaymentMethod(e.target.value)} />
+                        <input type="radio" value={paymentMethod} className='accent-theme-color' checked onChange={(e: any) => setPaymentMethod(e.target.value)} />
                      </label>
                   </div>
 
                   {/* {error && <ErrorMessage>{error instanceof Error ? error.message : JSON.stringify(error)}</ErrorMessage>} */}
-                  <button type='submit' className='flex gap-3 justify-center items-center bg-emerald-600 lg:w-1/3 text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
+                  <button type='submit' className='flex gap-3 justify-center items-center bg-theme-color lg:w-1/3 text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
                      ادامه و پرداخت
                      {isLoading && <Loader />}
                   </button>

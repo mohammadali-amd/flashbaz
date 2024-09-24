@@ -78,7 +78,7 @@ const Categories = () => {
             {categories.map((item) => (
                <SwiperSlide key={item.name}>
                   <Link href={`/products/${item.slug}`} className="grid justify-center gap-6">
-                     <Image src={item.image} alt={item.name} className='border-2 border-red-500 rounded-full bg-slate-200 hover:border-4 w-32' />
+                     <Image src={item.image} alt={item.name} className='border-2 border-theme-color rounded-full bg-slate-200 hover:border-4 w-32' />
                      <p className='text-center'>{item.name}</p>
                   </Link>
                </SwiperSlide>

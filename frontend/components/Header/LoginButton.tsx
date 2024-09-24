@@ -47,16 +47,16 @@ const LoginButton: React.FC<LoginButtonProps> = ({ isToggle, dropdownRef, setIsT
                </div>
                <div className={`${isToggle ? '' : 'hidden'} text-center absolute left-0 w-36 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                   <div className="py-1" role="none">
-                     <Link href="/profile" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">پروفایل</Link>
+                     <Link href="/profile" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-theme-color" role="menuitem" tabIndex={-1} id="menu-item-0">پروفایل</Link>
                      {userInfo.isAdmin && (
                         <>
-                           <Link href="/admin/productsList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">لیست محصولات</Link>
-                           <Link href="/admin/categoryList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">دسته بندی ها</Link>
-                           <Link href="/admin/ordersList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">لیست سفارشات</Link>
-                           <Link href="/admin/usersList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-emerald-700" role="menuitem" tabIndex={-1} id="menu-item-0">لیست کاربران</Link>
+                           <Link href="/admin/productsList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-theme-color" role="menuitem" tabIndex={-1} id="menu-item-0">لیست محصولات</Link>
+                           <Link href="/admin/categoryList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-theme-color" role="menuitem" tabIndex={-1} id="menu-item-0">دسته بندی ها</Link>
+                           <Link href="/admin/ordersList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-theme-color" role="menuitem" tabIndex={-1} id="menu-item-0">لیست سفارشات</Link>
+                           <Link href="/admin/usersList" className="text-gray-700 block px-4 py-2 text-sm border-b hover:text-theme-color" role="menuitem" tabIndex={-1} id="menu-item-0">لیست کاربران</Link>
                         </>
                      )}
-                     <button onClick={logoutHandler} className="text-gray-700 block w-full px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-3">خروج</button>
+                     <button onClick={logoutHandler} className="text-gray-700 block w-full px-4 py-2 text-sm hover:text-theme-color" role="menuitem" tabIndex={-1} id="menu-item-3">خروج</button>
                   </div>
                </div>
             </div>

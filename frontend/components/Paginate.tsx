@@ -64,7 +64,7 @@ const Paginate: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
                ) : (
                   <Link key={page} href={constructHref(page)} scroll={false}>
                      <span
-                        className={`px-3 py-1 rounded-md cursor-pointer ${page === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                        className={`px-3 py-1 rounded-md cursor-pointer ${page === currentPage ? 'bg-theme-color text-white' : 'bg-gray-200 hover:bg-gray-300'
                            }`}
                      >
                         {page}

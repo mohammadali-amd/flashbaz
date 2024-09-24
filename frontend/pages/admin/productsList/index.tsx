@@ -68,7 +68,7 @@ const ProductsListPage = () => {
             <h1 className='text-3xl'>
                لیست محصولات
             </h1>
-            <button onClick={createProductHandler} className='flex w-full lg:w-fit justify-center items-center gap-2 text-xl bg-teal-500 text-white rounded-lg p-3 hover:shadow-lg hover:bg-teal-600 duration-200'>
+            <button onClick={createProductHandler} className='flex w-full lg:w-fit justify-center items-center gap-2 text-xl bg-theme-color text-white rounded-lg p-3 hover:shadow-lg hover:bg-theme-color/90 duration-200'>
                افزودن محصول
                <i className="lni lni-pencil-alt"></i>
             </button>

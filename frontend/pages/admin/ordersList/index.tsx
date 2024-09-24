@@ -97,7 +97,7 @@ const OrdersListPage = () => {
                                  )}
                               </td>
                               <td className='px-4 py-2 border-b'>
-                                 <Link href={`/order/${order._id}`} className='text-teal-600'>
+                                 <Link href={`/order/${order._id}`} className='text-theme-color'>
                                     جزئیات
                                  </Link>
                               </td>

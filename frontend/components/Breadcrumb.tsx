@@ -12,7 +12,7 @@ const Breadcrumb = ({ items }: BreadcrumbProps) => {
             {items.map((item, index) => (
                <li key={item.name + item.slug} className="flex items-center text-stone-400">
                   <Link href={item.slug ? `${item.slug}` : ''} className={
-                     index === items.length - 1 ? 'text-stone-950' : ''
+                     index === items.length - 1 ? 'text-theme-color' : ''
                   }>
                      {item.name}
                   </Link>

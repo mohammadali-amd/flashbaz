@@ -23,9 +23,9 @@ const BestSellingProducts = (): JSX.Element => {
    }
 
    return (
-      <div className='my-20 md:mx-20'>
+      <div className='my-28 md:mx-20'>
          <div className="md:flex justify-between mx-8 space-y-4 md:space-y-0 text-xl md:text-3xl">
-            <h3 className='font-bold md:font-normal'>پرفروش ترین محصولات</h3>
+            <h3 className='font-bold md:font-semibold'>پرفروش ترین محصولات</h3>
             <Link href={'/products'} className='flex items-center gap-3 w-fit'>
                مشاهده همه
                <i className="lni lni-arrow-left"></i>

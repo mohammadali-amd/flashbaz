@@ -33,11 +33,11 @@ const UsersListPage = () => {
    }, [userInfo, router]);
 
    const deleteUserHandler = async (id: number) => {
-      if (window.confirm('Are you sure to remove this user?')) {
+      if (window.confirm('آیا از حذف این کاربر اطمینان دارید؟')) {
          try {
             await deleteUser(id)
             refetch()
-            toast.success('Product Deleted')
+            toast.success('کاربر مورد نظر با موفقیت حذف شد')
          } catch (error) {
             toast.error((error as any)?.data?.message || (error as any)?.message);
          }

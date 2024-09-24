@@ -21,7 +21,7 @@ const Banner = () => {
    const SecBannerStyles = BannerStyles + 'gap-14 bg-gradient-to-r from-emerald-600 from-5% via-emerald-800 via-55% to-emerald-950 to-95%';
 
    return (
-      <div className='md:flex gap-10 lg:gap-20 justify-center my-20 mx-8 md:mx-20 xl:mx-60 space-y-10 md:space-y-0'>
+      <div className='md:flex gap-10 lg:gap-20 justify-center my-28 mx-8 md:mx-20 xl:mx-60 space-y-10 md:space-y-0'>
          {banners.map((item, index) => (
             <div key={item.title + item.subTitle} className={index > 0 ? SecBannerStyles : FirstBannerStyles}>
                <div className="flex justify-center">

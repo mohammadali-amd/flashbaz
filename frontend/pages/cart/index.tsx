@@ -129,7 +129,7 @@ const Cart = () => {
                         <h5>{isClient && PersianNumber(totalPrice.toLocaleString())} تومان</h5>
                      </div>
 
-                     <button onClick={() => { router.push('payment') }} className='flex justify-center bg-emerald-600 w-full text-xl p-4 rounded-md text-white'>
+                     <button onClick={() => { router.push('payment') }} className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white'>
                         تایید و تکمیل سفارش
                      </button>
                   </div>
