@@ -121,7 +121,7 @@ const Filter: React.FC<FilterProps> = ({
                   thumbClassName="thumb"
                   trackClassName="track"
                   min={0}
-                  max={1000}
+                  max={100000000}
                   value={priceRange}
                   onChange={handleSliderChange}
                // renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}

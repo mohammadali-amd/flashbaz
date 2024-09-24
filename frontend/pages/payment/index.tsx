@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -7,9 +9,8 @@ import Loader from '@/components/Loader'
 import { clearCart, savePaymentMethod } from '@/slices/cartSlice'
 import ErrorMessage from '@/components/ErrorMessage'
 import { useCreateOrderMutation } from '@/slices/ordersApiSlice'
+import { PersianNumber } from '@/utils/PersianNumber'
 import { toast } from 'react-toastify'
-import Image from 'next/image'
-import Link from 'next/link'
 
 const PaymentPage = () => {
    const { userInfo } = useSelector((state: RootState) => state.auth)
@@ -32,7 +33,7 @@ const PaymentPage = () => {
    }, [userInfo, router]);
 
    const totalPrice = cart.items.reduce((total, { product, quantity }) => {
-      const itemPrice = product.price || 0;
+      const itemPrice = product.priceWithOff || 0;
       return total + (itemPrice * quantity);
    }, 0);
 
@@ -89,9 +90,6 @@ const PaymentPage = () => {
       </ErrorMessage>
    }
 
-   console.log(error);
-
-
    return (
       <div className='mx-6 lg:mx-auto lg:w-1/2 justify-center my-20'>
          <form onSubmit={submitHandler}>
@@ -114,7 +112,7 @@ const PaymentPage = () => {
                </div>
 
                <div className="space-y-3">
-                  <h4 className='text-xl font-semibold'>محصولات</h4>
+                  <h4 className='text-xl font-semibold'>محصولات:</h4>
                   {cart.items.length === 0 ? (
                      <ErrorMessage>
                         سبد خرید شما خالی است.
@@ -125,7 +123,8 @@ const PaymentPage = () => {
                            <thead className='bg-gray-100 border-b'>
                               <tr>
                                  <th className='px-4 py-2 text-right'>نام محصول</th>
-                                 <th className='px-4 py-2 text-center'>فی ($)</th>
+                                 <th className='px-4 py-2 text-center'>قیمت (تومان)</th>
+                                 <th className='px-4 py-2 text-center'>تخفیف</th>
                                  <th className='px-4 py-2 text-center'>تعداد</th>
                               </tr>
                            </thead>
@@ -142,7 +141,12 @@ const PaymentPage = () => {
                                        />
                                        <span>{item.product.name}</span>
                                     </td>
-                                    <td className='px-4 py-2 text-center'>{item.product.price}</td>
+                                    <td className='px-4 py-2 text-center'>
+                                       {PersianNumber(item.product.price.toLocaleString())}
+                                    </td>
+                                    <td className='px-4 py-2 text-center'>
+                                       {PersianNumber((item.product.price - item.product.priceWithOff).toLocaleString())}
+                                    </td>
                                     <td className='px-4 py-2 text-center'>{item.quantity}</td>
                                  </tr>
                               ))}
@@ -162,7 +166,7 @@ const PaymentPage = () => {
                   <div className='space-y-3'>
                      <h4 className='text-xl font-semibold'>روش پرداخت</h4>
                      <label className='flex gap-3 items-center text-xl'>
-                        <span>PayPal</span>
+                        <span>زرین پال</span>
                         <input type="radio" value={paymentMethod} className='accent-theme-color' checked onChange={(e: any) => setPaymentMethod(e.target.value)} />
                      </label>
                   </div>

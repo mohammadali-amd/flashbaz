@@ -203,8 +203,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         </h5>}
                      </div>
                      <div className="flex justify-between gap-20 text-red-600">
-                        <h4>تخفیف</h4>
-                        <h5>0 تومان</h5>
+                        <h4>قیمت با تخفیف</h4>
+                        {productDetails && <h5>
+                           {PersianNumber(productDetails?.priceWithOff.toLocaleString())} تومان
+                        </h5>}
                      </div>
                      {productDetails && productDetails?.countInStock === 1 && (
                         <p className='text-red-500 font-semibold text-sm'>

@@ -35,6 +35,13 @@ const Cart = () => {
       return total + (itemPrice * quantity);
    }, 0);
 
+   const totalPriceWithOff = cartItems.reduce((total, { product, quantity }) => {
+      const itemPrice = product.priceWithOff || 0;
+      return total + (itemPrice * quantity);
+   }, 0);
+
+   const discount = totalPrice - totalPriceWithOff
+
    return (
       <div className='mx-6 lg:mx-20 my-5'>
          <h2 className='text-4xl my-8 font-medium'>
@@ -89,9 +96,13 @@ const Cart = () => {
                               />
                            </div>
                            <div className='flex justify-end'>
-                              <div className='lg:border lg:border-stone-300 lg:rounded-lg lg:p-4 w-44 lg:w-52'>
+                              <div className='lg:border lg:border-stone-300 lg:rounded-lg lg:p-4 wfit'>
                                  <h4 className='text-xl text-left pb-2'>
-                                    {PersianNumber(item.product.price.toLocaleString())} تومان
+                                    {PersianNumber(item.product.priceWithOff.toLocaleString())}
+                                    <span className='line-through px-2 text-base'>
+                                       {PersianNumber(item.product.price.toLocaleString())}
+                                    </span>
+                                    <span className='pr-2'>تومان</span>
                                  </h4>
                                  <div className="flex justify-between items-center gap-3">
                                     <button onClick={() => handleAddItem(item.product)} className="lni lni-plus text-xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>
@@ -122,11 +133,11 @@ const Cart = () => {
                      </div>
                      <div className="flex justify-between gap-20 text-red-600">
                         <h4>تخفیف محصولات</h4>
-                        <h5>0 تومان</h5>
+                        <h5>{isClient && PersianNumber(discount.toLocaleString())} تومان</h5>
                      </div>
                      <div className="flex justify-between gap-20 font-medium">
                         <h4>جمع کل</h4>
-                        <h5>{isClient && PersianNumber(totalPrice.toLocaleString())} تومان</h5>
+                        <h5>{isClient && PersianNumber(totalPriceWithOff.toLocaleString())} تومان</h5>
                      </div>
 
                      <button onClick={() => { router.push('payment') }} className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white'>

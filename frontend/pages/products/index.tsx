@@ -19,7 +19,7 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
    const [filters, setFilters] = useState({
       selectedBrand: '',
       selectedRating: 0,
-      priceRange: [0, 10000000] as [number, number],
+      priceRange: [0, 100000000] as [number, number],
       sortOption: 'All',
    });
 
@@ -47,6 +47,9 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
       minPrice: priceRange[0],
       maxPrice: priceRange[1],
    });
+
+   console.log(data);
+
 
    const sortedProducts = useMemo(() => {
       if (!data?.products) return []
@@ -102,7 +105,7 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
                   setSelectedRating={(rating) => updateFilters({ selectedRating: rating })}
                   priceRange={priceRange}
                   setPriceRange={(range) => updateFilters({ priceRange: range })}
-                  clearFilters={() => updateFilters({ selectedBrand: '', selectedRating: 0, priceRange: [0, 10000000] })}
+                  clearFilters={() => updateFilters({ selectedBrand: '', selectedRating: 0, priceRange: [0, 100000000] })}
                />
             </div>
 

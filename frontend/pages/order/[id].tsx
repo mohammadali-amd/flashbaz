@@ -105,7 +105,7 @@ const OrderPage = () => {
                      <thead className='bg-gray-100 border-b'>
                         <tr>
                            <th className='px-4 py-2 text-right'>نام محصول</th>
-                           <th className='px-4 py-2 text-center'>فی ($)</th>
+                           <th className='px-4 py-2 text-center'>قیمت (تومان)</th>
                            <th className='px-4 py-2 text-center'>تعداد</th>
                         </tr>
                      </thead>
@@ -122,8 +122,8 @@ const OrderPage = () => {
                                  />
                                  <Link href={`/products/${item.product}`}>{item.name}</Link>
                               </td>
-                              <td className='px-4 py-2 text-center'>{item.price}</td>
-                              <td className='px-4 py-2 text-center'>{item.qty}</td>
+                              <td className='px-4 py-2 text-center'>{PersianNumber(item.price.toLocaleString())}</td>
+                              <td className='px-4 py-2 text-center'>{PersianNumber(item.qty.toLocaleString())}</td>
                            </tr>
                         ))}
                      </tbody>
@@ -139,7 +139,11 @@ const OrderPage = () => {
                   </div>
                   <div className="flex justify-between gap-20">
                      <h4>هزینه ارسال</h4>
-                     <h5>تومان {PersianNumber(parseFloat(order.shippingPrice).toLocaleString())}</h5>
+                     <h5>
+                        {order.shippingPrice > 0 ? (
+                           <>تومان {PersianNumber(parseFloat(order.shippingPrice).toLocaleString())}</>
+                        ) : (<>رایگان</>)}
+                     </h5>
                   </div>
                   <div className="flex justify-between gap-20">
                      <h4>مالیات</h4>
