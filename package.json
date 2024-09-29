@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "powershell -Command \"Start-Process -FilePath 'npm' -ArgumentList 'run', 'start:backend' -NoNewWindow; Start-Process -FilePath 'npm' -ArgumentList 'run', 'start:frontend' -NoNewWindow\"",
-    "start:backend": "cd backend && npm start",
+    "start:backend": "cd backend && npm run start:dev",
     "start:frontend": "cd frontend && npm run dev"
   }
 }
