@@ -54,18 +54,18 @@ const Footer = () => {
 
                      {/* Social Media Links */}
                      <div className="flex justify-center xl:justify-start gap-10 text-2xl pt-8">
-                        <a href="#" aria-label="Whatsapp">
+                        <Link href="#" aria-label="Whatsapp">
                            <i className="lni lni-whatsapp hover:text-theme-color duration-100"></i>
-                        </a>
-                        <a href="#" aria-label="Telegram">
+                        </Link>
+                        <Link href="#" aria-label="Telegram">
                            <i className="lni lni-telegram-original hover:text-theme-color duration-100"></i>
-                        </a>
-                        <a href="#" aria-label="Instagram">
+                        </Link>
+                        <Link href="#" aria-label="Instagram">
                            <i className="lni lni-instagram hover:text-theme-color duration-100"></i>
-                        </a>
-                        <a href="#" aria-label="LinkedIn">
+                        </Link>
+                        <Link href="#" aria-label="LinkedIn">
                            <i className="lni lni-youtube hover:text-theme-color duration-100"></i>
-                        </a>
+                        </Link>
                      </div>
                   </div>
                   <hr className='block xl:hidden mt-10' />
@@ -75,10 +75,10 @@ const Footer = () => {
                {/* Important Links */}
                <ul className="space-y-2 font-light text-center md:text-right">
                   <li className="text-lg font-semibold mb-4 text-theme-color">دسترسی سریع</li>
-                  <li><a href="/">صفحه اصلی</a></li>
-                  <li><a href="#">حساب کاربری</a></li>
-                  <li><a href="#">تماس با ما</a></li>
-                  <li><a href="#">سوالات متداول</a></li>
+                  <li><Link href="/">صفحه اصلی</Link></li>
+                  <li><Link href="#">حساب کاربری</Link></li>
+                  <li><Link href="#">تماس با ما</Link></li>
+                  <li><Link href="#">سوالات متداول</Link></li>
                </ul>
                <ul className="space-y-2 font-light text-center md:text-right">
                   <li className="text-lg font-semibold mb-4 text-theme-color">پرفروش ترین محصولات</li>
