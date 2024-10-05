@@ -3,12 +3,19 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '5000',
-        pathname: '/uploads/**',
-      },
+      process.env.NODE_ENV === "development" ?
+        {
+          protocol: 'http',
+          hostname: 'localhost',
+          port: '5000',
+          pathname: '/uploads/**',
+        }
+        :
+        {
+          protocol: 'https',
+          hostname: 'flashbaz-upload.storage.c2.liara.space',
+          pathname: '/**',
+        }
     ],
   },
 };

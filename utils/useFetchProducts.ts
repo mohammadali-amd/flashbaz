@@ -10,7 +10,7 @@ interface Product {
 export const useFetchProducts = (): Product[] | null => {
    const [products, setProducts] = useState<Product[] | null>(null);
 
-   const url = process.env.API_URL || 'http://localhost:5000/api/products';
+   const url = process.env.NODE_ENV === "development" ? 'http://localhost:5000/api/products' : `${process.env.API_URL}`;
 
    useEffect(() => {
       const fetchProducts = async () => {
