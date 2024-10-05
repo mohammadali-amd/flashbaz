@@ -1,32 +1,36 @@
-# Ignore Next.js build directory
-/frontend/.next/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Ignore Node.js modules
-/backend/node_modules/
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
 
-# Ignore environment configuration files
-/frontend/.env
-/backend/.env
+# testing
+/coverage
 
-# Ignore IDE files
-/frontend/.idea/
-/backend/.idea/
-/frontend/.vscode/
-/backend/.vscode/
+# next.js
+/.next/
+/out/
 
-# Ignore build output directories
-/frontend/out/
-/frontend/.next/
-/backend/dist/
-/backend/build/
+# production
+/build
 
-# Ignore any local files or configurations
-/frontend/.env.local
-/backend/.env.local
-
-# Ignore macOS system files
+# misc
 .DS_Store
+*.pem
 
-# Ignore npm lock files
-/package-lock.json
-/backend/uploads
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
