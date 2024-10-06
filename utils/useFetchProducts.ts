@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { PRODUCTS_URL } from '@/constants/constants';
 
 interface Product {
    _id: number;
@@ -10,7 +11,7 @@ interface Product {
 export const useFetchProducts = (): Product[] | null => {
    const [products, setProducts] = useState<Product[] | null>(null);
 
-   const url = process.env.NODE_ENV === "development" ? 'http://localhost:5000/api/products' : `${process.env.API_URL}`;
+   const url = process.env.NODE_ENV === "development" ? 'http://localhost:5000/api/products' : `${process.env.API_URL}${PRODUCTS_URL}`;
 
    useEffect(() => {
       const fetchProducts = async () => {

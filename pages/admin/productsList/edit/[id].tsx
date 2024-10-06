@@ -7,7 +7,6 @@ import ErrorMessage from '@/components/ErrorMessage';
 import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from '@/slices/productsApiSlice';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
-import { BASE_URL } from '@/constants/constants';
 import Image from 'next/image';
 import { useGetCategoriesQuery } from '@/slices/categoriesApiSlice';
 import { Editor } from '@/components/Editor';
@@ -109,7 +108,12 @@ const EditProductPage = () => {
 
          try {
             const res = await uploadProductImage(formData).unwrap();
-            imageUrl = BASE_URL + res.image;  // Update image URL after successful upload
+
+            if (res.imageUrl) {
+               imageUrl = res.imageUrl;  // Use the full URL from the response
+            } else {
+               throw new Error('Invalid image URL from server.');
+            }
          } catch (error) {
             toast.error((error as any)?.data?.message || (error as any)?.message);
             return;  // Exit the function if image upload fails
