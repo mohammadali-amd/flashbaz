@@ -1,4 +1,4 @@
-import React from 'react'
+import Image from "next/image"
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { slider_banner_1, slider_banner_2, slider_banner_3 } from "@/public/images";
@@ -10,9 +10,6 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import Image from "next/image"
-
-
 
 const Carousel = () => {
    return (

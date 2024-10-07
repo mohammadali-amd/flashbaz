@@ -20,7 +20,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             },
          }),
          providesTags: ['Product'],
-         keepUnusedDataFor: 5
+         keepUnusedDataFor: 600
       }),
       getAdminProducts: builder.query({
          query: ({ keyword, pageNumber }) => ({
@@ -31,13 +31,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             }
          }),
          providesTags: ['Product'],
-         keepUnusedDataFor: 5
+         keepUnusedDataFor: 60
       }),
       getProductDetails: builder.query<Product, string>({
          query: (productId) => ({
             url: `${PRODUCTS_URL}/${productId}`
          }),
-         keepUnusedDataFor: 5
+         keepUnusedDataFor: 600
       }),
       createProduct: builder.mutation({
          query: () => ({
@@ -79,7 +79,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
          query: () => ({
             url: `${PRODUCTS_URL}/top`,
          }),
-         keepUnusedDataFor: 5
+         keepUnusedDataFor: 600,
       }),
    }),
 })

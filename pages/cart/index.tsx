@@ -9,6 +9,7 @@ import { Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
 import { useIsClient } from '@/utils/useIsClient';
 import Image from 'next/image';
+import Breadcrumb from '@/components/Breadcrumb';
 
 const Cart = () => {
    const isClient = useIsClient();
@@ -44,6 +45,12 @@ const Cart = () => {
 
    return (
       <div className='mx-6 lg:mx-20 my-5'>
+         <Breadcrumb
+            items={[
+               { name: 'صفحه اصلی', slug: '/' },
+               { name: 'سبد خرید', slug: '/cart' },
+            ]}
+         />
          <h2 className='text-4xl my-8 font-medium'>
             سبد خرید
          </h2>
@@ -62,7 +69,7 @@ const Cart = () => {
                {/* Cart */}
                <div className='lg:w-3/4 space-y-8'>
                   {isClient && cartItems.map((item) => (
-                     <div key={item.product._id} className="flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
+                     <div key={item.product._id} className="md:flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10 space-y-6 md:space-y-0">
                         <div>
                            <Link href={`/products/${item.product._id}`} className='text-lg lg:text-2xl'>
                               {item.product.name}
@@ -95,7 +102,7 @@ const Cart = () => {
                                  height={300}
                               />
                            </div>
-                           <div className='flex justify-end'>
+                           <div className='flex justify-center'>
                               <div className='lg:border lg:border-stone-300 lg:rounded-lg lg:p-4 wfit'>
                                  <h4 className='text-xl text-left pb-2'>
                                     {PersianNumber(item.product.priceWithOff.toLocaleString())}
@@ -126,16 +133,16 @@ const Cart = () => {
                </div>
                {/* Submit */}
                <div className='lg:w-1/4 min-w-fit mt-10 lg:mt-0'>
-                  <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
-                     <div className="flex justify-between gap-20">
+                  <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-6 md:px-10'>
+                     <div className="flex justify-between">
                         <h4>قیمت محصولات</h4>
                         <h5>{isClient && PersianNumber(totalPrice.toLocaleString())} تومان</h5>
                      </div>
-                     <div className="flex justify-between gap-20 text-red-600">
+                     <div className="flex justify-between text-red-600">
                         <h4>تخفیف محصولات</h4>
                         <h5>{isClient && PersianNumber(discount.toLocaleString())} تومان</h5>
                      </div>
-                     <div className="flex justify-between gap-20 font-medium">
+                     <div className="flex justify-between font-medium">
                         <h4>جمع کل</h4>
                         <h5>{isClient && PersianNumber(totalPriceWithOff.toLocaleString())} تومان</h5>
                      </div>

@@ -8,9 +8,9 @@ interface BreadcrumbProps {
 const Breadcrumb = ({ items }: BreadcrumbProps) => {
    return (
       <nav className="text-sm mb-4">
-         <ul className="flex space-x-2">
+         <ul className="flex overflow-y-hidden">
             {items.map((item, index) => (
-               <li key={item.name + item.slug} className="flex items-center text-stone-400">
+               <li key={item.name + item.slug} className="flex items-center text-stone-400 whitespace-nowrap">
                   <Link href={item.slug ? `${item.slug}` : ''} className={
                      index === items.length - 1 ? 'text-theme-color' : ''
                   }>

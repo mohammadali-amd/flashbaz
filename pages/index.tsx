@@ -1,10 +1,12 @@
-import Slider from "@/components/HomeComponents/Slider";
-import Categories from "@/components/HomeComponents/Categories";
-import AmazingOffer from "@/components/HomeComponents/AmazingOffer";
-import ProductCategorySection from "@/components/HomeComponents/ProductCategorySection";
-import BestSellingProducts from "@/components/HomeComponents/BestSellingProducts";
-import Banner from "@/components/HomeComponents/Banner";
-import BlogPosts from "@/components/HomeComponents/BlogPosts";
+import dynamic from 'next/dynamic';
+
+const Slider = dynamic(() => import('@/components/HomeComponents/Slider'), { ssr: false });
+const Categories = dynamic(() => import('@/components/HomeComponents/Categories'), { ssr: false });
+const AmazingOffer = dynamic(() => import('@/components/HomeComponents/AmazingOffer'), { ssr: false });
+const ProductCategorySection = dynamic(() => import('@/components/HomeComponents/ProductCategorySection'), { ssr: false });
+const BestSellingProducts = dynamic(() => import('@/components/HomeComponents/BestSellingProducts'), { ssr: false });
+const Banner = dynamic(() => import('@/components/HomeComponents/Banner'), { ssr: false });
+const BlogPosts = dynamic(() => import('@/components/HomeComponents/BlogPosts'), { ssr: false });
 
 export default function Home() {
   return (

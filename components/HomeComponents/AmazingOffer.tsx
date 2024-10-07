@@ -5,7 +5,7 @@ import { SwiperSlide } from 'swiper/react';
 import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
-import { Product } from '@/types/types';
+import { type Product } from '@/types/types';
 import CarouselLayout from '../CarouselLayout';
 import { PersianNumber } from '@/utils/PersianNumber';
 

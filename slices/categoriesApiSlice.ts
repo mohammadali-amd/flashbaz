@@ -8,6 +8,7 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
             url: CATEGORIES_URL,
             method: 'GET',
          }),
+         keepUnusedDataFor: 600,
          providesTags: ['Category'],
       }),
       createCategory: builder.mutation({
