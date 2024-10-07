@@ -46,6 +46,7 @@ const AmazingOffer = () => {
                                     alt={product.name}
                                     layout='fill'
                                     objectFit='contain'
+                                    quality={60}
                                  />
                               </div>
                               <div className='absolute top-2 right-5 text-sm bg-orange-600/90 rounded-full px-3 py-1 text-white'>

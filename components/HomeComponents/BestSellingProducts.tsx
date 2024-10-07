@@ -45,6 +45,7 @@ const BestSellingProducts = (): JSX.Element => {
                                     alt={product.name}
                                     layout='fill'
                                     objectFit='contain'
+                                    quality={60}
                                  />
                               </div>
                               {product.priceWithOff > 0 && (

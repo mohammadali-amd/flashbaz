@@ -219,15 +219,14 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
 
             <div className='fixed md:hidden bottom-0 right-0 w-full bg-white '>
                <div className='space-y-3 border-t border-stone-300 shadow-lg shadow-gray-300 py-4 px-8'>
-                  <div className="flex justify-between">
-                     <h4 className='font-semibold text-xl'>قیمت</h4>
-                     {productDetails && <div className='flex'>
+                  {productDetails &&
+                     <div className='flex justify-center gap-1'>
                         <span className='px-2 max-h-fit rounded-md bg-red-600 text-white'>% {PersianNumber(productDetails?.discount.toLocaleString())}</span>
                         <span className='px-4 line-through text-red-600'>{PersianNumber(productDetails?.price.toLocaleString())}</span>
                         <span className="font-semibold">{PersianNumber(productDetails?.priceWithOff.toLocaleString())}</span>
                         <span>&nbsp; تومان</span>
-                     </div>}
-                  </div>
+                     </div>
+                  }
                   {productDetails && productDetails?.countInStock === 1 && (
                      <p className='text-red-500 font-semibold text-sm'>
                         فقط 1 عدد از این کالا در انبار موجود است.

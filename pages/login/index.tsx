@@ -48,8 +48,6 @@ const LoginPage = () => {
          dispatch(setCredentials({ ...res }))
          router.push(redirect)
          toast.success('خوش آمدید')
-
-         console.log("Cookies:", document.cookie);
       } catch (error) {
          toast.error((error as any)?.data?.message || (error as any)?.message);
       }
@@ -67,21 +65,21 @@ const LoginPage = () => {
                   <h4 className='text-xl'>رمز عبور</h4>
                   <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                </div>
-               <div className="flex justify-between items-center gap-10">
+               {/* <div className="flex justify-between items-center gap-10">
                   <h4 className='text-xl'>کد امنیتی</h4>
                   <input className='text-center border border-stone-300 rounded-md py-2' type="text" name="code" id="code" />
-               </div>
+               </div> */}
 
-               <button type='submit' className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white disabled:bg-gray-400' disabled={isLoading}>
+               <button type='submit' className='flex justify-center bg-theme-color w-full text-xl py-3 rounded-md text-white disabled:bg-gray-400' disabled={isLoading}>
                   ورود
                </button>
 
                {isLoading && <Loader />}
-               <h5>
+               <div className='text-center text-xl'>
                   <Link href={'/register'}>
                      ثبت نام
                   </Link>
-               </h5>
+               </div>
             </div>
          </form>
       </div>

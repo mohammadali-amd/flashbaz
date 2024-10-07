@@ -79,7 +79,7 @@ const BlogPosts = () => {
                                     ))}
                                  </div>
                               </div>
-                              <Image src={post.image.src} alt={post.image.alt} width={300} height={300} />
+                              <Image src={post.image.src} alt={post.image.alt} width={300} height={300} priority quality={60} />
                            </div>
                            <div className='space-y-4 md:space-y-8 px-10 py-4 md:py-8'>
                               <h4 className='text-3xl font-semibold'>

@@ -75,16 +75,16 @@ const RegisterPage = () => {
                   <input className='text-center border border-stone-300 rounded-md py-2' type="text" name="code" id="code" />
                </div>
 
-               <button type='submit' className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white disabled:bg-gray-400' disabled={isLoading}>
+               <button type='submit' className='flex justify-center bg-theme-color w-full text-xl py-3 rounded-md text-white disabled:bg-gray-400' disabled={isLoading}>
                   ثبت نام
                </button>
 
                {isLoading && <Loader />}
-               <h5>
+               <div className='text-center text-xl'>
                   <Link href={'/login'}>
                      ورود
                   </Link>
-               </h5>
+               </div>
             </div>
          </form>
       </div>

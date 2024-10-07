@@ -25,7 +25,7 @@ const Banner = () => {
          {banners.map((item, index) => (
             <div key={item.title + item.subTitle} className={index > 0 ? SecBannerStyles : FirstBannerStyles}>
                <div className="flex justify-center">
-                  <Image src={item.image.src} alt={item.image.alt} width={200} height={200} />
+                  <Image src={item.image.src} alt={item.image.alt} width={200} height={200} priority quality={60} />
                </div>
                <div className='space-y-6'>
                   <h3 className='text-3xl font-medium text-white pb-10'>

@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
+import Slider from '@/components/HomeComponents/Slider';
+import Categories from '@/components/HomeComponents/Categories';
 
-const Slider = dynamic(() => import('@/components/HomeComponents/Slider'), { ssr: false });
-const Categories = dynamic(() => import('@/components/HomeComponents/Categories'), { ssr: false });
 const AmazingOffer = dynamic(() => import('@/components/HomeComponents/AmazingOffer'), { ssr: false });
 const ProductCategorySection = dynamic(() => import('@/components/HomeComponents/ProductCategorySection'), { ssr: false });
 const BestSellingProducts = dynamic(() => import('@/components/HomeComponents/BestSellingProducts'), { ssr: false });

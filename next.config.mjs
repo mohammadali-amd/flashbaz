@@ -15,8 +15,8 @@ const nextConfig = {
       //   protocol: 'https',
       //   hostname: 'storage.c2.liara.space',
       //   pathname: '/flashbaz-upload/**',
-      //   loader: 'default',
-      //   minimumCacheTTL: 60 * 60 * 24 * 365, // Cache for 1 year
+      //   // loader: 'default',
+      //   // minimumCacheTTL: 60 * 60 * 24 * 365, // Cache for 1 year
       // }
     ],
   },
