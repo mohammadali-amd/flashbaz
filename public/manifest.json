@@ -1,0 +1,20 @@
+{
+   "name": "Flashbaz",
+   "short_name": "Flashbaz",
+   "start_url": "/",
+   "display": "standalone",
+   "background_color": "#ffffff",
+   "theme_color": "#FF510C",
+   "icons": [
+      {
+         "src": "/icons/icon-48x48.png",
+         "type": "image/png",
+         "sizes": "48x48"
+      },
+      {
+         "src": "/icons/icon-192x192.png",
+         "type": "image/png",
+         "sizes": "192x192"
+      }
+   ]
+}
