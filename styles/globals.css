@@ -130,3 +130,34 @@ body {
    display: none;
    /* Disable spinner, only show the bar */
 }
+
+
+
+/* Customize react-image-gallery */
+
+.image-gallery-thumbnail.active,
+.image-gallery-thumbnail:hover,
+.image-gallery-thumbnail:focus {
+   @apply !border-4 !border-theme-color duration-200 rounded-xl;
+}
+
+.image-gallery-thumbnail {
+   @apply !transition-all ease-out;
+}
+
+.image-gallery-thumbnails-container {
+   @apply space-x-3
+}
+
+.image-gallery-thumbnail-inner,
+.image-gallery-thumbnail-image {
+   @apply rounded-lg;
+}
+
+.image-gallery-icon:hover {
+   @apply !text-theme-color;
+}
+
+.image-gallery-slides {
+   @apply rounded-xl border shadow-lg shadow-black/25 mb-6;
+}

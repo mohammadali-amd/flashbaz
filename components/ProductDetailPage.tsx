@@ -12,12 +12,14 @@ import { Product, Review } from '@/types/types';
 import Link from 'next/link';
 import { RootState } from '@/store/store';
 import { toast } from 'react-toastify';
+import ImageGallery from './ImageGallery';
 
 interface ProductDetailPageProps {
    productId: string;
    productDetails: Product;
    refetch: () => void;
 }
+
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, productDetails, refetch }) => {
    const dispatch = useDispatch()
@@ -26,6 +28,15 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
    const [rating, setRating] = useState(0)
    const [comment, setComment] = useState('')
    const [reviewError, setReviewError] = useState('')
+
+   const sampleImages = [
+      { url: `${productDetails?.image}` },
+      { url: 'https://picsum.photos/200' },
+      { url: 'https://picsum.photos/250' },
+      { url: 'https://picsum.photos/240' },
+      { url: 'https://picsum.photos/260' },
+      { url: 'https://picsum.photos/280' },
+   ];
 
    const [addReview, { isLoading: loadingAddReview }] = useAddReviewMutation()
 
@@ -79,7 +90,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
 
          <div className='lg:flex lg:justify-between lg:gap-20'>
             <div className='w-full space-y-8'>
-               <div className="lg:flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10">
+               <div className="lg:flex justify-between gap-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10">
                   <div>
                      <h3 className='text-2xl'>
                         {productDetails?.name}
@@ -114,19 +125,9 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         ))} */}
                      </div>
                   </div>
-                  <div>
-                     {/* Product Photo */}
-                     <div className='text-left mb-6'>
-                        <div className="relative w-52 h-52 md:w-96 md:h-96">
-                           <Image
-                              src={`${productDetails?.image}`}
-                              className='rounded-xl'
-                              alt='Product image'
-                              layout='fill'
-                              objectFit='cover'
-                           />
-                        </div>
-                     </div>
+                  {/* Product Photo */}
+                  <div className='md:w-2/5' dir='ltr'>
+                     <ImageGallery images={sampleImages} />
                   </div>
                </div>
 
