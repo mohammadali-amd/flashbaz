@@ -15,6 +15,7 @@ export interface Product {
    category: Category;
    subcategory?: Category;
    image: string;
+   additionalImages?: string[];
    brand: string;
    tags: string[];
    reviews: Review[];

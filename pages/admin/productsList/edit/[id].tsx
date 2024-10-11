@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '@/store/store';
 import Loader from '@/components/Loader';
 import ErrorMessage from '@/components/ErrorMessage';
-import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from '@/slices/productsApiSlice';
+import { useGetProductDetailsQuery, useUpdateProductMutation } from '@/slices/productsApiSlice';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -15,15 +13,9 @@ const EditProductPage = () => {
    const router = useRouter();
    const productId = router.query.id;
 
-   // const { userInfo } = useSelector((state: RootState) => state.auth);
-
    const { data: product, isLoading, error, refetch } = useGetProductDetailsQuery(productId as string);
-
    const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
-
-   const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
-
-   const { data: categoriesData, isLoading: loadingCategories } = useGetCategoriesQuery(undefined);
+   const { data: categoriesData } = useGetCategoriesQuery(undefined);
 
    const [formData, setFormData] = useState({
       name: '',
@@ -32,6 +24,7 @@ const EditProductPage = () => {
       discount: 0,
       isAmazingOffer: false,
       image: '',
+      additionalImages: [''],
       brand: '',
       category: { name: '', slug: '' },
       subcategory: { name: '', slug: '' },
@@ -43,11 +36,9 @@ const EditProductPage = () => {
       setFormData({ ...formData, description: value });
    };
 
-   const [preview, setPreview] = useState<string | null>(null);
-
    useEffect(() => {
       if (product) {
-         const { name, price, priceWithOff, isAmazingOffer, image, brand, category, subcategory, countInStock, description } = product;
+         const { name, price, priceWithOff, isAmazingOffer, image, additionalImages, brand, category, subcategory, countInStock, description } = product;
          setFormData({
             name,
             price,
@@ -55,15 +46,20 @@ const EditProductPage = () => {
             discount: calculateDiscount(price, priceWithOff),
             isAmazingOffer,
             image,
+            additionalImages: additionalImages || [''],
             brand,
             category: { name: category.name, slug: category.slug },
             subcategory: { name: subcategory?.name || '', slug: subcategory?.slug || '' },
             countInStock,
             description
          });
-         setPreview(image);
       }
    }, [product]);
+
+   useEffect(() => {
+      // setDiscount(calculateDiscount(price, priceWithOff));
+      setFormData((prev) => ({ ...prev, discount: calculateDiscount(prev.price, prev.priceWithOff) }));
+   }, [formData.price, formData.priceWithOff]);
 
    const calculateDiscount = (price: number, priceWithOff: number) => {
       if (price && priceWithOff) {
@@ -73,57 +69,22 @@ const EditProductPage = () => {
       return 0;
    };
 
-   useEffect(() => {
-      // setDiscount(calculateDiscount(price, priceWithOff));
-      setFormData((prev) => ({ ...prev, discount: calculateDiscount(prev.price, prev.priceWithOff) }));
-   }, [formData.price, formData.priceWithOff]);
+   const addAdditionalImageField = () => {
+      setFormData(prev => ({ ...prev, additionalImages: [...prev.additionalImages, ''] }));
+   };
 
-   const [file, setFile] = useState<File | null>(null);
-
-   const uploadFileHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const selectedFile = e.target.files?.[0] || null;
-      if (selectedFile) {
-         setFile(selectedFile);
-         const previewUrl = URL.createObjectURL(selectedFile);
-         setPreview(previewUrl);
-
-         // Clean up the previous preview URL
-         return () => {
-            if (preview) {
-               URL.revokeObjectURL(preview);
-            }
-         };
-      }
+   const handleAdditionalImageChange = (index: number, value: string) => {
+      const newAdditionalImages = [...formData.additionalImages];
+      newAdditionalImages[index] = value;
+      setFormData({ ...formData, additionalImages: newAdditionalImages });
    };
 
    const submitHandler = async (e: React.FormEvent) => {
       e.preventDefault();
 
-      // Prepare the image upload
-      let imageUrl = formData.image;  // Default to existing image URL if not changing
-
-      if (file) {
-         const formData = new FormData();
-         formData.append('image', file);
-
-         try {
-            const res = await uploadProductImage(formData).unwrap();
-
-            if (res.imageUrl) {
-               imageUrl = res.imageUrl;  // Use the full URL from the response
-            } else {
-               throw new Error('Invalid image URL from server.');
-            }
-         } catch (error) {
-            toast.error((error as any)?.data?.message || (error as any)?.message);
-            return;  // Exit the function if image upload fails
-         }
-      }
-
       try {
          await updateProduct({
             productId, ...formData,
-            image: imageUrl,
          }).unwrap()
 
          toast.success('Product updated successfully');
@@ -278,31 +239,56 @@ const EditProductPage = () => {
                </div> */}
                <div>
                   <label className="block text-gray-700">توضیحات</label>
-                  <Editor value={formData.description} onChange={handleDescriptionChange} />
+                  <div className="mb-52 md:mb-20">
+                     <Editor value={formData.description} onChange={handleDescriptionChange} />
+                  </div>
                </div>
 
                <div>
-                  <label className="block text-gray-700 mt-20">عکس</label>
-                  {/* <input
+                  <label className="block text-gray-700">تصویر اصلی</label>
+                  <input
                      type="text"
-                     value={image}
-                     onChange={(e) => setImage(e.target.value)}
+                     value={formData.image}
+                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                      className="w-full px-4 py-2 border rounded-lg"
-                  /> */}
-                  <input type="file" onChange={uploadFileHandler} />
-                  {loadingUpload && <Loader />}
-                  {preview && (
-                     <div className="mt-4">
-                        <Image
-                           src={preview}
-                           className='rounded-xl object-cover'
-                           alt='Product image'
-                           width={300}
-                           height={300}
-                        />
-                     </div>
+                     placeholder='لینک تصویر را وارد کنید'
+                  />
+                  {formData?.image && (
+                     <Image
+                        src={`${formData.image}`}
+                        alt={formData.image}
+                        width={200}
+                        height={200}
+                     />
                   )}
                </div>
+
+               <div>
+                  <label className="block text-gray-700">تصاویر اضافی</label>
+                  {formData.additionalImages.map((image, index) => (
+                     <div key={index} className="mb-4">
+                        <input
+                           type="text"
+                           value={image}
+                           onChange={(e) => handleAdditionalImageChange(index, e.target.value)}
+                           className="w-full px-4 py-2 border rounded-lg"
+                           placeholder='لینک تصویر را وارد کنید'
+                        />
+                        {image && (
+                           <Image
+                              src={`${image}`}
+                              alt={`additional image ${index + 1}`}
+                              width={200}
+                              height={200}
+                           />
+                        )}
+                     </div>
+                  ))}
+                  <button type="button" onClick={addAdditionalImageField} className="text-blue-600">
+                     بیشتر
+                  </button>
+               </div>
+
                <button
                   type="submit"
                   className="w-full py-2 px-4 bg-theme-color text-white rounded-lg hover:shadow-md hover:bg-theme-color/90 duration-200"

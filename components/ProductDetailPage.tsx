@@ -1,17 +1,16 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Image from 'next/image';
 import Head from 'next/head';
+import Link from 'next/link';
+import { toast } from 'react-toastify';
 
+import { Product, Review } from '@/types/types';
+import { RootState } from '@/store/store';
 import { addItem } from '@/slices/cartSlice';
-import { PersianNumber } from '@/utils/PersianNumber';
 import { useAddReviewMutation } from '@/slices/productsApiSlice';
 import ErrorMessage from './ErrorMessage';
 import Loader from './Loader';
-import { useState } from 'react';
-import { Product, Review } from '@/types/types';
-import Link from 'next/link';
-import { RootState } from '@/store/store';
-import { toast } from 'react-toastify';
+import { PersianNumber } from '@/utils/PersianNumber';
 import ImageGallery from './ImageGallery';
 
 interface ProductDetailPageProps {
@@ -19,7 +18,6 @@ interface ProductDetailPageProps {
    productDetails: Product;
    refetch: () => void;
 }
-
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, productDetails, refetch }) => {
    const dispatch = useDispatch()
@@ -29,14 +27,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
    const [comment, setComment] = useState('')
    const [reviewError, setReviewError] = useState('')
 
-   const sampleImages = [
-      { url: `${productDetails?.image}` },
-      { url: 'https://picsum.photos/200' },
-      { url: 'https://picsum.photos/250' },
-      { url: 'https://picsum.photos/240' },
-      { url: 'https://picsum.photos/260' },
-      { url: 'https://picsum.photos/280' },
-   ];
+   const mainImage = { url: productDetails?.image };
+   const additionalImages = productDetails?.additionalImages?.map(url => ({ url })) || [];
 
    const [addReview, { isLoading: loadingAddReview }] = useAddReviewMutation()
 
@@ -127,7 +119,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                   </div>
                   {/* Product Photo */}
                   <div className='md:w-2/5' dir='ltr'>
-                     <ImageGallery images={sampleImages} />
+                     <ImageGallery images={[mainImage, ...additionalImages]} />
                   </div>
                </div>
 
