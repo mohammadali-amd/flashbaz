@@ -56,11 +56,11 @@ const Cart = () => {
          </h2>
 
          {isClient && cartItems.length === 0 ? (
-            <div className='lg:flex justify-between items-center lg:w-1/4 text-lg bg-cyan-300 text-cyan-800 border border-cyan-800 rounded-md p-4 my-4'>
-               <p>
+            <div className='lg:flex gap-4 items-center text-lg mt-4 mb-20'>
+               <p className='mb-8 lg:mb-0'>
                   سبد خرید شما خالی می باشد.
                </p>
-               <Link href={'/products'} className='hover:text-white bg-cyan-500 hover:bg-cyan-600 rounded-md p-3 duration-200'>
+               <Link href={'/products'} className='text-white bg-theme-color hover:bg-theme-color/90 rounded-md py-2 px-3 duration-200'>
                   ادامه خرید
                </Link>
             </div>

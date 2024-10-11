@@ -68,6 +68,16 @@ const MediaPage = () => {
       }
    };
 
+   const handleCopyUrl = (url: string) => {
+      navigator.clipboard.writeText(url)
+         .then(() => {
+            toast.success('URL copied to clipboard');
+         })
+         .catch((error) => {
+            toast.error('Failed to copy URL');
+         });
+   };
+
    if (isLoadingMedia) return <div className="flex justify-center items-center h-screen"><FaSpinner className="animate-spin text-4xl" /></div>;
 
    return (
@@ -140,9 +150,10 @@ const MediaPage = () => {
                         <Image
                            src={image.url}
                            alt={image.key}
-                           className="min-w-fit h-72 md:h-full"
+                           className="min-w-fit h-72 md:h-full cursor-pointer"
                            width={200}
                            height={200}
+                           onClick={() => handleCopyUrl(image.url)}
                         />
                      </div>
                      <button
