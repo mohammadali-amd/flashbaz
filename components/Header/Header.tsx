@@ -4,12 +4,12 @@ import Search from './Search';
 import Logo from '../Logo';
 import Cart from './Cart';
 import LoginButton from './LoginButton';
+import MegaMenu from './MegaMenu/MegaMenu';
 import { useScrollDirection } from '@/utils/ScrollDirection';
 import { useClickOutside } from '@/utils/ClickOutside';
 import { useIsClient } from '@/utils/useIsClient';
 
 const links = [
-   { name: 'صفحه اصلی', slug: '/' },
    { name: 'فروشگاه', slug: '/products' },
    { name: 'مقالات', slug: '/#pricing' },
    { name: 'درباره ما', slug: '/#about' },
@@ -71,7 +71,8 @@ const Header: React.FC = () => {
          </div>
 
          {/* Pages link */}
-         <div className={`hidden md:flex pt-5 ${isScrolledUp ? 'hidden lg:opacity-0 duration-0' : 'duration-200'}`}>
+         <div className={`hidden md:flex items-center pt-5 ${isScrolledUp ? 'hidden lg:opacity-0 duration-0' : 'duration-200'}`}>
+            {isClient && (<MegaMenu />)}
             <ul className="flex gap-8 md:gap-16">
                {links.map((link) => (
                   <li key={link.slug} className='hover:text-theme-color duration-100'>
