@@ -1,3 +1,7 @@
+export const config = {
+   runtime: 'experimental-edge',
+};
+
 import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head'
 import dynamic from 'next/dynamic';

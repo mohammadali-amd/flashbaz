@@ -1,3 +1,7 @@
+export const config = {
+  runtime: 'experimental-edge',
+};
+
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { Provider } from "react-redux";

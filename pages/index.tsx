@@ -1,3 +1,7 @@
+export const config = {
+  runtime: 'experimental-edge',
+};
+
 import dynamic from 'next/dynamic';
 import Slider from '@/components/HomeComponents/Slider';
 import Categories from '@/components/HomeComponents/Categories';

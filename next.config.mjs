@@ -9,7 +9,11 @@ const nextConfig = {
         hostname: 'localhost',
         port: '5000',
         pathname: '/uploads/**',
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
       // :
       // {
       //   protocol: 'https',
@@ -19,6 +23,9 @@ const nextConfig = {
       //   // minimumCacheTTL: 60 * 60 * 24 * 365, // Cache for 1 year
       // }
     ],
+  },
+  experimental: {
+    runtime: 'experimental-edge',
   },
 };
 

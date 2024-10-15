@@ -1,3 +1,7 @@
+export const config = {
+   runtime: 'experimental-edge',
+};
+
 import { useRouter } from 'next/router';
 
 import ProductDetailPage from '@/components/ProductDetailPage';

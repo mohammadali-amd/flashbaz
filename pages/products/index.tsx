@@ -1,3 +1,7 @@
+export const config = {
+   runtime: 'experimental-edge',
+};
+
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
