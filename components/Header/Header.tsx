@@ -53,7 +53,7 @@ const Header: React.FC = () => {
                <Search />
             </div>
             {isClient && (
-               <div className="flex items-start gap-8">
+               <div className="flex items-center gap-8">
                   <LoginButton isToggle={isToggleDesktop} dropdownRef={dropdownRefDesktop} setIsToggle={setIsToggleDesktop} />
                   <Cart />
                </div>

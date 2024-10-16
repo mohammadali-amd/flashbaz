@@ -60,8 +60,8 @@ const LoginButton: React.FC<LoginButtonProps> = ({ isToggle, dropdownRef, setIsT
    return (
       <div>
          {userInfo ? (
-            <div ref={dropdownRef} className="relative inline-block text-right">
-               <div>
+            <div ref={dropdownRef} className="relative text-right">
+               <div className='flex items-center'>
                   <button type="button" id="menu-button" aria-expanded="true" aria-haspopup="true"
                      onClick={() => setIsToggle((prev) => !prev)}
                   >
@@ -105,9 +105,17 @@ const LoginButton: React.FC<LoginButtonProps> = ({ isToggle, dropdownRef, setIsT
                </div>
             </div>
          ) : (
-            <Link href={'/login'} className="border border-black rounded-lg py-2 px-4">
-               ورود | ثبت نام
-            </Link>
+            <>
+               <Link href={'/login'} className="hidden md:block border border-black rounded-lg py-2 px-4">
+                  ورود | ثبت نام
+               </Link>
+               <Link href={'/login'} className='md:hidden'>
+                  <span className='flex justify-center'>
+                     <GoPerson size={24} />
+                  </span>
+                  حساب کاربری
+               </Link>
+            </>
          )}
       </div>
    )

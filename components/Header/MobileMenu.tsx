@@ -16,8 +16,6 @@ type MobileMenuProps = {
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
    const router = useRouter()
-   console.log(router.pathname);
-
    const isClient = useIsClient()
 
    const [isToggleMobile, setIsToggleMobile] = useState(false);
