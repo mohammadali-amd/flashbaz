@@ -7,6 +7,7 @@ import { RootState } from '@/store/store';
 import { useLogoutMutation } from '@/slices/usersApiSlice';
 import { logout } from '@/slices/authSlice'
 import { resetCart } from '@/slices/cartSlice';
+import { GoPerson, GoPersonFill } from 'react-icons/go';
 
 interface LoginButtonProps {
    isToggle: boolean;
@@ -61,14 +62,20 @@ const LoginButton: React.FC<LoginButtonProps> = ({ isToggle, dropdownRef, setIsT
          {userInfo ? (
             <div ref={dropdownRef} className="relative inline-block text-right">
                <div>
-                  <button type="button" className="inline-flex items-end w-full justify-center gap-x-2 rounded-lg bg-white px-2 py-1 lg:px-3 lg:py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-black hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true"
+                  <button type="button" id="menu-button" aria-expanded="true" aria-haspopup="true"
                      onClick={() => setIsToggle((prev) => !prev)}
                   >
-                     <span className='hidden lg:block'>{userInfo?.name}</span>
-                     <i className="lni lni-user text-xl"></i>
+                     <span className='flex justify-center'>
+                        {isToggle ? (
+                           <GoPersonFill size={24} />
+                        ) : (
+                           <GoPerson size={24} />
+                        )}
+                     </span>
+                     <span className='md:hidden'>حساب کاربری</span>
                   </button>
                </div>
-               <div className={`${isToggle ? '' : 'hidden'} text-center absolute left-0 w-36 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
+               <div className={`${isToggle ? '' : 'hidden'} text-center absolute -top-72 md:top-full left-0 w-36 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                   <div className="py-1" role="none">
                      <Link href="/profile" onClick={() => setIsToggle(false)} className={`${router.pathname === '/profile' ? 'text-theme-color' : 'text-gray-700'} block px-4 py-2 text-sm border-b hover:text-theme-color active:text-theme-color`} role="menuitem" tabIndex={-1} id="menu-item-0">
                         پروفایل

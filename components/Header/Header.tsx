@@ -8,6 +8,7 @@ import MegaMenu from './MegaMenu/MegaMenu';
 import { useScrollDirection } from '@/utils/ScrollDirection';
 import { useClickOutside } from '@/utils/ClickOutside';
 import { useIsClient } from '@/utils/useIsClient';
+import MobileMenu from './MobileMenu';
 
 const links = [
    { name: 'فروشگاه', slug: '/products' },
@@ -20,40 +21,29 @@ const Header: React.FC = () => {
    const isClient = useIsClient()
 
    const [isToggleDesktop, setIsToggleDesktop] = useState(false);
-   const [isToggleMobile, setIsToggleMobile] = useState(false);
    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
    const dropdownRefDesktop = useRef<HTMLDivElement | null>(null);
-   const dropdownRefMobile = useRef<HTMLDivElement | null>(null);
    const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
    useClickOutside(dropdownRefDesktop, () => setIsToggleDesktop(false));
-   useClickOutside(dropdownRefMobile, () => setIsToggleMobile(false));
    useClickOutside(mobileMenuRef, () => setMobileMenuOpen(false));
 
    // Detect scroll direction
    const isScrolledUp = useScrollDirection(50);
 
    return (
-      <header className={`px-5 sm:px-10 md:px-20 pt-2 lg:pt-5 pb-3 shadow-md border-b border-stone-300 sticky top-0 z-30 transition-all duration-200 bg-white ${isScrolledUp ? '-translate-y-16 md:-translate-y-0 lg:h-[6rem]' : 'lg:h-[8.5rem]'}`}>
-         <div className={`flex items-center justify-between md:hidden`}>
+      <header className={`px-4 sm:px-10 md:px-20 pt-1 lg:pt-5 pb-2 shadow-md border-b border-stone-300 sticky top-0 right-0 z-30 transition-all duration-200 bg-white ${isScrolledUp ? 'lg:h-[6rem]' : 'lg:h-[8.5rem]'}`}>
+         <div className={`md:hidden`}>
             {/* Mobile Menu Button */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-               <i className="lni lni-menu text-2xl"></i>
-            </button>
-            {/* Logo */}
-            <Logo />
-            {/* Login Button */}
-            {isClient && (
-               <LoginButton isToggle={isToggleMobile} dropdownRef={dropdownRefMobile} setIsToggle={setIsToggleMobile} />
-            )}
+            {isClient && <MobileMenu mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />}
          </div>
 
          <div className="flex items-center justify-between gap-4 mt-3 lg:mt-4 md:hidden">
+            {/* Logo */}
+            <Logo />
             {/* Search */}
             <Search />
-            {/* Cart */}
-            {isClient && (<Cart />)}
          </div>
 
          {/* Desktop Header */}
@@ -63,7 +53,7 @@ const Header: React.FC = () => {
                <Search />
             </div>
             {isClient && (
-               <div className="flex items-center gap-8">
+               <div className="flex items-start gap-8">
                   <LoginButton isToggle={isToggleDesktop} dropdownRef={dropdownRefDesktop} setIsToggle={setIsToggleDesktop} />
                   <Cart />
                </div>
