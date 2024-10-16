@@ -32,7 +32,7 @@ const ImageGalleryComponent: React.FC<ImageGalleryProps> = ({ images }) => {
    ) => (
       <button
          type="button"
-         className="absolute top-1/2 left-0 text-3xl md:text-5xl text-theme-color hover:bg-theme-color/80 hover:text-white z-30 flex items-center rounded-lg duration-300 p-1 mx-1"
+         className="absolute top-1/2 left-0 text-3xl md:text-5xl text-theme-color hover:bg-theme-color/80 hover:text-white z-10 flex items-center rounded-lg duration-300 p-1 mx-1"
          onClick={onClick}
       >
          <i className="lni lni-chevron-left"></i>
@@ -44,7 +44,7 @@ const ImageGalleryComponent: React.FC<ImageGalleryProps> = ({ images }) => {
    ) => (
       <button
          type="button"
-         className="absolute top-1/2 right-0 text-3xl md:text-5xl text-theme-color hover:bg-theme-color/80 hover:text-white z-30 flex items-center rounded-lg duration-300 p-1 mx-1"
+         className="absolute top-1/2 right-0 text-3xl md:text-5xl text-theme-color hover:bg-theme-color/80 hover:text-white z-10 flex items-center rounded-lg duration-300 p-1 mx-1"
          onClick={onClick}
       >
          <i className="lni lni-chevron-right"></i>

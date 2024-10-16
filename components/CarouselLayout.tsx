@@ -15,15 +15,16 @@ type CarouselLayout = {
    pagination?: boolean;
    className?: string;
    color?: string;
+   padding?: string;
 }
 
-const CarouselLayout: React.FC<CarouselLayout> = ({ children, mobileSlidesPerView = 1, tabletSlidesPerView = 3, laptopSlidesPerView = 5, desktopSlidesPerView = 7, navigation = true, pagination = false, spaceBetween, className, color = "#000" }) => {
+const CarouselLayout: React.FC<CarouselLayout> = ({ children, mobileSlidesPerView = 1, tabletSlidesPerView = 3, laptopSlidesPerView = 5, desktopSlidesPerView = 7, navigation = true, pagination = false, spaceBetween, className, color = "#000", padding = "40px" }) => {
    return (
       <Swiper
          style={{
             '--swiper-navigation-color': color,
             '--swiper-pagination-color': color,
-            'padding': '40px'
+            'padding': padding
          } as React.CSSProperties}
          slidesPerView={mobileSlidesPerView}
          spaceBetween={spaceBetween}

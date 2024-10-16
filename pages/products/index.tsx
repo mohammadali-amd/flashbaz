@@ -52,9 +52,6 @@ const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }
       maxPrice: priceRange[1],
    });
 
-   console.log(data);
-
-
    const sortedProducts = useMemo(() => {
       if (!data?.products) return []
       let sortedArray = [...data.products];

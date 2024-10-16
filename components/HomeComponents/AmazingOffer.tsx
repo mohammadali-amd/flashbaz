@@ -60,20 +60,20 @@ const AmazingOffer = () => {
                               <h5 className='text-center'>
                                  {product.category.name} ، {product.brand} {product.subcategory && `، ${product.subcategory.name}`}
                               </h5>
-                              <div className="flex justify-between items-center text-xl font-semibold">
-                                 <h5>قیمت:</h5>
-                                 <div className="flex justify-end items-center gap-2">
+                              <div className="flex justify-between items-center font-semibold md:text-xl">
+                                 <h5 className='hidden md:block'>قیمت:</h5>
+                                 <div className="flex justify-center md:justify-end w-full items-center gap-2">
                                     {product.priceWithOff > 0 ? (
                                        <>
-                                          <h5 className='text-base font-light line-through'>
+                                          <h5 className='text-sm md:text-base font-light line-through text-red-600'>
                                              {PersianNumber(product.price.toLocaleString())}
                                           </h5>
-                                          <h5 className='text-xl font-semibold'>
+                                          <h5 className='font-semibold'>
                                              {PersianNumber(product.priceWithOff.toLocaleString())} تومان
                                           </h5>
                                        </>
                                     ) : (
-                                       <h5 className='text-xl font-semibold'>
+                                       <h5 className='font-semibold'>
                                           {PersianNumber(product.price.toLocaleString())} تومان
                                        </h5>
                                     )}

@@ -74,7 +74,7 @@ const categories = [
 const Categories = () => {
    return (
       <div className='flex justify-center my-8 md:mx-20'>
-         <CarouselLayout mobileSlidesPerView={3} tabletSlidesPerView={3} laptopSlidesPerView={5} desktopSlidesPerView={7} spaceBetween={30}>
+         <CarouselLayout mobileSlidesPerView={3} tabletSlidesPerView={3} laptopSlidesPerView={5} desktopSlidesPerView={7} spaceBetween={30} padding='0px 40px'>
             {categories.map((item) => (
                <SwiperSlide key={item.name}>
                   <Link href={`/products/${item.slug}`} className="grid justify-center gap-6">

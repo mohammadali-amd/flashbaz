@@ -50,7 +50,7 @@ const Layout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
                   clearInterval(interval);
                   return 0;
                }
-               return prevProgress - 1.25; // Decrease progress by 1.25% every 100ms (~8 seconds total)
+               return prevProgress - 0.75; // Decrease progress by 1.25% every 100ms (~8 seconds total)
             });
          }, 100);
 

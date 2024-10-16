@@ -210,12 +210,12 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                </div>
             </div>
 
-            <div className='fixed md:hidden bottom-0 right-0 w-full bg-white '>
-               <div className='space-y-3 border-t border-stone-300 shadow-lg shadow-gray-300 py-4 px-8'>
+            <div className='fixed md:hidden bottom-14 right-0 w-full bg-white z-20'>
+               <div className='flex w-full gap-2 justify-between items-center border-t border-stone-300 shadow-lg shadow-gray-300 pt-2 pb-3 px-4 text-sm'>
                   {productDetails &&
                      <div className='flex justify-center gap-1'>
                         <span className='px-2 max-h-fit rounded-md bg-red-600 text-white'>% {PersianNumber(productDetails?.discount.toLocaleString())}</span>
-                        <span className='px-4 line-through text-red-600'>{PersianNumber(productDetails?.price.toLocaleString())}</span>
+                        <span className='px-4 line-through text-red-600 text-xs'>{PersianNumber(productDetails?.price.toLocaleString())}</span>
                         <span className="font-semibold">{PersianNumber(productDetails?.priceWithOff.toLocaleString())}</span>
                         <span>&nbsp; تومان</span>
                      </div>
@@ -225,8 +225,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         فقط 1 عدد از این کالا در انبار موجود است.
                      </p>
                   )}
-                  <button onClick={handleAddToCart} className='bg-theme-color w-full text-lg p-2 rounded-md text-white hover:shadow-lg hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
-                     افزودن به سبد خرید
+                  <button onClick={handleAddToCart} className='bg-theme-color w-fit px-3 py-2 rounded-md text-white hover:shadow-lg hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
+                     افزودن
                   </button>
                </div>
             </div>

@@ -6,8 +6,8 @@ interface InstallPromptModalProps {
 
 const InstallPromptModal: React.FC<InstallPromptModalProps> = ({ onInstall, onLater, progress }) => {
    return (
-      <div className="fixed bottom-0 right-0 w-full md:w-fit shadow-xl md:bottom-5 md:right-10 flex z-30 items-end">
-         <div className="flex relative md:grid items-center justify-between w-full bg-white py-3 md:py-6 px-6 md:rounded-lg shadow-xl border">
+      <div className="fixed bottom-14 right-0 w-full md:w-fit md:shadow-xl md:bottom-5 md:right-10 flex z-30 items-end">
+         <div className="flex relative md:grid items-center justify-between w-full bg-white py-3 md:py-6 px-6 md:rounded-lg md:shadow-xl border">
             <div className="absolute top-0 right-0 w-full h-1 bg-gray-200 rounded-t-lg">
                <div
                   className="h-full bg-theme-color transition-all duration-500"
