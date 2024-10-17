@@ -101,14 +101,13 @@ const MediaPage = () => {
             <input type="file" multiple accept="image/*" onChange={handleFileChange} className="mt-3" />
 
             {selectedFiles.length > 0 && (
-               <div className="grid grid-cols-4 gap-4 mt-4">
+               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-4">
                   {selectedFiles.map((file, index) => (
                      <div key={index} className="relative flex justify-center items-center group border rounded-xl shadow-md">
-                        <div className='m-4'>
+                        <div className='m-4 h-56 min-w-fit md:max-h-full flex items-center'>
                            <Image
                               src={URL.createObjectURL(file)}
                               alt={file.name}
-                              className="max-w-fit h-72 md:h-full"
                               width={200}
                               height={200}
                            />
@@ -126,7 +125,7 @@ const MediaPage = () => {
 
             <button
                onClick={handleUpload}
-               className={`bg-theme-color text-white px-4 py-2 mt-4 rounded-md shadow-md flex gap-2 items-center ${isUploading ? 'opacity-50 cursor-not-allowed' : ''
+               className={`bg-theme-color text-white px-4 py-2 mt-8 rounded-md shadow-md flex gap-2 items-center ${isUploading ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                disabled={isUploading}
             >
@@ -143,14 +142,14 @@ const MediaPage = () => {
 
          {/* Image Listing Section */}
          {images && images.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
                {images.map((image: any) => (
                   <div key={image.key} className="relative flex justify-center items-center group border rounded-xl shadow-md">
-                     <div className='m-4'>
+                     <div className='m-4 h-56 min-w-fit md:max-h-full flex items-center'>
                         <Image
                            src={image.url}
                            alt={image.key}
-                           className="min-w-fit h-72 md:h-full cursor-pointer"
+                           className="cursor-pointer"
                            width={200}
                            height={200}
                            onClick={() => handleCopyUrl(image.url)}

@@ -4,19 +4,17 @@ export const config = {
 
 import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head'
-import dynamic from 'next/dynamic';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Header from './Header/Header'
+import Header from './Header/Header';
+import Footer from './Footer';
 import InstallPromptModal from './InstallPromptModal';
 import { Vazirmatn } from "next/font/google";
 import { useRouter } from 'next/router';
 // NProgress.configure({ showSpinner: false, speed: 400 });
-
-const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 const vazir = Vazirmatn({ subsets: ["arabic"] });
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -25,7 +25,6 @@ interface Orders {
 }
 
 const OrdersListPage = () => {
-   const dispatch = useDispatch()
    const router = useRouter()
 
    const [isLoading, setIsLoading] = useState(true);
