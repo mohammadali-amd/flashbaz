@@ -24,7 +24,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ mobileMenuOpen, setMobileMenuOp
    useClickOutside(dropdownRefMobile, () => setIsToggleMobile(false));
 
    return (
-      <div className='fixed bottom-0 right-0 w-full bg-white shadow-md border-t px-6 py-3 flex items-center justify-between z-30 text-xs text-center'>
+      <div className='fixed bottom-0 right-0 w-full bg-white shadow-md border-t px-6 py-2 flex items-center justify-between z-30 text-xs text-center'>
          <Link href={'/'}>
             <span className='flex justify-center'>
                {router.pathname === '/' ? (
