@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react'
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 import LoginButton from './LoginButton'
+import Cart from './Cart';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useIsClient } from '@/hooks/useIsClient';
-import Cart from './Cart';
-import Link from 'next/link';
+
 import { HiHome, HiOutlineHome } from 'react-icons/hi';
 import { BiCategoryAlt, BiSolidCategoryAlt } from 'react-icons/bi';
-import { MdOutlinePersonOutline, MdPerson } from 'react-icons/md';
-import { useRouter } from 'next/router';
 
 type MobileMenuProps = {
    mobileMenuOpen: boolean
@@ -24,7 +25,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ mobileMenuOpen, setMobileMenuOp
    useClickOutside(dropdownRefMobile, () => setIsToggleMobile(false));
 
    return (
-      <div className='fixed bottom-0 right-0 w-full bg-white shadow-md border-t px-6 py-1 flex items-center justify-between z-30 text-xs text-center'>
+      <div className='fixed bottom-0 right-0 w-full bg-white shadow-md border-t px-6 pt-1 pb-2 flex items-center justify-between z-30 text-xs text-center'>
          <Link href={'/'}>
             <span className='flex justify-center'>
                {router.pathname === '/' ? (

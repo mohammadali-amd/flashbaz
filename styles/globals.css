@@ -162,5 +162,5 @@ body {
 }
 
 .image-gallery-slides {
-   @apply rounded-xl border shadow-lg shadow-black/25 mb-6;
+   @apply rounded-xl border shadow-lg shadow-black/25 mb-6 lg:mb-14;
 }

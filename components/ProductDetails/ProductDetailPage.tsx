@@ -82,49 +82,48 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
 
          <div className='lg:flex lg:justify-between lg:gap-20'>
             <div className='w-full space-y-8'>
-               <div className="lg:flex justify-between gap-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10">
-                  <div>
-                     <h3 className='text-2xl'>
+               <div className="lg:flex lg:flex-row-reverse justify-between gap-6 lg:border lg:border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 px-2 lg:px-10 w-full">
+                  {/* Product Photo */}
+                  <div className='mb-10' dir='ltr'>
+                     <ImageGallery images={[mainImage, ...additionalImages]} />
+                  </div>
+                  {/* Product Details */}
+                  <div className='lg:w-3/5'>
+                     <h3 className='text-xl lg:text-2xl'>
                         {productDetails?.name}
                      </h3>
-                     {/* <p className='py-2 lg:text-xl'>
-                           {productDetails?.description}
-                        </p> */}
-                     <div
-                        className='py-2 lg:text-xl'
-                        dangerouslySetInnerHTML={{ __html: productDetails?.description || '' }}
-                     />
-                     <div className='text-stone-600 space-y-4 mt-10'>
-                        <h4 className='flex items-center gap-2'>
-                           <i className="lni lni-drop"></i>
-                           آبی
-                        </h4>
-                        <h4 className='flex items-center gap-2'>
-                           <i className="lni lni-checkmark-circle"></i>
-                           18 ماه گارانتی
-                        </h4>
-                        <h4 className='flex items-center gap-2'>
-                           <i className="lni lni-checkmark-circle"></i>
-                           موجود در انبار
-                        </h4>
+                     <div className='text-stone-600 mt-10'>
+                        <h3 className='text-stone-800 py-2 mb-2 lg:text-xl'>
+                           ویژگی‌های اصلی:
+                        </h3>
+                        <div className='border lg:border-0 border-theme-color/70 rounded-lg py-2 px-4'>
+                           <h4 className='flex items-center gap-2 border-b lg:border-0 py-2'>
+                              <i className="lni lni-drop"></i>
+                              آبی
+                           </h4>
+                           <h4 className='flex items-center gap-2 border-b lg:border-0 py-2'>
+                              <i className="lni lni-checkmark-circle"></i>
+                              18 ماه گارانتی
+                           </h4>
+                           <h4 className='flex items-center gap-2 py-2'>
+                              <i className="lni lni-checkmark-circle"></i>
+                              موجود در انبار
+                           </h4>
+                        </div>
                      </div>
-                     <div className='flex gap-2  text-sm pt-10'>
-                        #tags
-                        {/* {productDetails?.tags.map(index => (
-                           <h6 key={index}>
-                              #{index}
-                           </h6>
-                        ))} */}
-                     </div>
-                  </div>
-                  {/* Product Photo */}
-                  <div className='md:w-2/5' dir='ltr'>
-                     <ImageGallery images={[mainImage, ...additionalImages]} />
                   </div>
                </div>
 
+               <div className='border-y lg:border border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 px-2 lg:px-10 mt-10'>
+                  <h3 className='text-2xl mb-4 underline underline-offset-8'>نقد و بررسی</h3>
+                  <div
+                     className='py-2 lg:text-lg '
+                     dangerouslySetInnerHTML={{ __html: productDetails?.description || '' }}
+                  />
+               </div>
+
                {/* Reviews and Ratings */}
-               <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10 mt-10">
+               <div className="lg:border lg:border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 px-2 lg:px-10 mt-10">
                   <h4 className='text-2xl'>نظرات</h4>
                   {reviews.length > 0 ? (
                      reviews.map((review: Review, index: number) => (
@@ -226,7 +225,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                      </p>
                   )}
                   <button onClick={handleAddToCart} className='bg-theme-color w-fit px-3 py-2 rounded-md text-white hover:shadow-lg hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
-                     افزودن
+                     افزودن کالا
                   </button>
                </div>
             </div>

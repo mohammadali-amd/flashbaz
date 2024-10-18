@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
+
 import { IoMenuOutline } from 'react-icons/io5';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { categories } from './MegaMenuData';
