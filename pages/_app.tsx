@@ -6,7 +6,7 @@ import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
 
-import Layout from "@/components/Layout";
+import Layout from "@/components/Layout/Layout";
 import { store } from "@/store/store";
 
 import "@/styles/globals.css";

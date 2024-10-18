@@ -5,10 +5,13 @@ import Logo from '../Logo';
 import Cart from './Cart';
 import LoginButton from './LoginButton';
 import MegaMenu from './MegaMenu/MegaMenu';
-import { useScrollDirection } from '@/utils/ScrollDirection';
-import { useClickOutside } from '@/utils/ClickOutside';
-import { useIsClient } from '@/utils/useIsClient';
+import { useScrollDirection } from '@/hooks/useScrollDirection';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { useIsClient } from '@/hooks/useIsClient';
 import MobileMenu from './MobileMenu';
+import MobileMegaMenu from './MegaMenu/MobileMegaMenu';
+import { IoCloseOutline } from 'react-icons/io5';
+import { FaChevronLeft } from 'react-icons/fa6';
 
 const links = [
    { name: 'فروشگاه', slug: '/products' },
@@ -73,16 +76,25 @@ const Header: React.FC = () => {
          </div>
 
          {/* Mobile Menu */}
-         <div ref={mobileMenuRef} className={`${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} ${isScrolledUp ? 'translate-y-12' : ''} fixed z-20 right-0 bottom-0 h-full w-4/5 bg-slate-100 shadow-2xl transition-transform duration-200`}>
-            <i onClick={() => setMobileMenuOpen(false)} className="lni lni-close text-3xl absolute left-0 top-0 pl-6 pt-4 cursor-pointer"></i>
+         <div ref={mobileMenuRef} className={`${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} fixed z-20 right-0 bottom-0 h-full w-11/12 bg-slate-50 shadow-2xl transition-transform duration-200 overflow-y-auto`}>
+            <div className='flex justify-between items-center px-6 pt-6' onClick={() => setMobileMenuOpen(false)}>
+               <Logo />
+               <IoCloseOutline size={40} />
+            </div>
             <div className="relative">
-               <ul className="flex flex-col items-center content-start mt-16">
+               <ul className="mt-4 px-6 border-b" onClick={() => setMobileMenuOpen(false)}>
                   {links.map((link) => (
-                     <li key={link.slug} className="py-5 text-xl">
-                        <Link href={link.slug} onClick={() => setMobileMenuOpen(false)} className='hover:text-theme-color'>{link.name}</Link>
+                     <li key={link.slug} className="py-3 text-lg">
+                        <Link href={link.slug} className='flex justify-between items-center w-full hover:text-theme-color'>
+                           {link.name}
+                           <span>
+                              <FaChevronLeft size={16} />
+                           </span>
+                        </Link>
                      </li>
                   ))}
                </ul>
+               <MobileMegaMenu setMobileMenuOpen={setMobileMenuOpen} />
             </div>
          </div>
       </header>

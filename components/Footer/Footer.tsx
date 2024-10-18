@@ -1,10 +1,10 @@
 import React from 'react';
-import Logo from './Logo';
+import Logo from '../Logo';
 import { useGetTopProductsQuery } from '@/slices/productsApiSlice';
 import Link from 'next/link';
 import { Product } from '@/types/types';
-import Loader from './Loader';
-import ErrorMessage from './ErrorMessage';
+import Loader from '../UI/Loader';
+import ErrorMessage from '../UI/ErrorMessage';
 import Image from 'next/image';
 
 const Footer = () => {

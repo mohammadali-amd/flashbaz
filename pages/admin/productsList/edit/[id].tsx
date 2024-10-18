@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Loader from '@/components/Loader';
-import ErrorMessage from '@/components/ErrorMessage';
+import Loader from '@/components/UI/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
 import { useGetProductDetailsQuery, useUpdateProductMutation } from '@/slices/productsApiSlice';
 import { toast } from 'react-toastify';
 import Link from 'next/link';

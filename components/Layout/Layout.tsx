@@ -9,9 +9,9 @@ import 'nprogress/nprogress.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Header from './Header/Header';
-import Footer from './Footer';
-import InstallPromptModal from './InstallPromptModal';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import InstallPromptModal from '../InstallPromptModal';
 import { Vazirmatn } from "next/font/google";
 import { useRouter } from 'next/router';
 // NProgress.configure({ showSpinner: false, speed: 400 });

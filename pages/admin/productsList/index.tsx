@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 
 import { Product } from '@/types/types';
 import { RootState } from '@/store/store';
-import Loader from '@/components/Loader';
-import ErrorMessage from '@/components/ErrorMessage';
+import Loader from '@/components/UI/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
 import { useCreateProductMutation, useDeleteProductMutation, useGetAdminProductsQuery } from '@/slices/productsApiSlice';
 import Paginate from '@/components/Paginate';
 

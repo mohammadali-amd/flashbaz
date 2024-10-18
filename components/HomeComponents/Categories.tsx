@@ -5,7 +5,7 @@ import { SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 // import 'swiper/css/navigation';
 
-import CarouselLayout from '../CarouselLayout';
+import CarouselLayout from '../UI/CarouselLayout';
 import { speaker, laptop, accesories, watch, phone, ps5, printer, tablet, powerbank, airpod, } from '@/public/images/Categories'
 
 const categories = [

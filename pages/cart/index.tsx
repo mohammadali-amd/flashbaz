@@ -7,9 +7,9 @@ import { addItem, clearCart, removeItem } from '@/slices/cartSlice';
 import { RootState } from '@/store/store'
 import { Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
-import { useIsClient } from '@/utils/useIsClient';
+import { useIsClient } from '@/hooks/useIsClient';
 import Image from 'next/image';
-import Breadcrumb from '@/components/Breadcrumb';
+import Breadcrumb from '@/components/UI/Breadcrumb';
 
 const Cart = () => {
    const isClient = useIsClient();

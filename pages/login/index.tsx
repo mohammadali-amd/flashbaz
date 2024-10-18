@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
-import Loader from '@/components/Loader'
+import Loader from '@/components/UI/Loader'
 import { useLoginMutation } from '@/slices/usersApiSlice'
 import { setCredentials } from '@/slices/authSlice'
 import { RootState } from '@/store/store'

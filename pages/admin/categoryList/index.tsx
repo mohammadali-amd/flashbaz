@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGetCategoriesQuery, useCreateCategoryMutation, useUpdateCategoryMutation, useDeleteCategoryMutation, useAddSubCategoryMutation, useUpdateSubCategoryMutation, useDeleteSubCategoryMutation } from '@/slices/categoriesApiSlice';
-import Loader from '@/components/Loader';
+import Loader from '@/components/UI/Loader';
 import Link from 'next/link';
 interface Subcategory {
    _id: string;

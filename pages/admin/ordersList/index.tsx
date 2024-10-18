@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 import { type RootState } from '@/store/store';
 import { useGetOrdersQuery } from '@/slices/ordersApiSlice';
-import Loader from '@/components/Loader';
-import ErrorMessage from '@/components/ErrorMessage';
+import Loader from '@/components/UI/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
 import Paginate from '@/components/Paginate';
 
 type User = {

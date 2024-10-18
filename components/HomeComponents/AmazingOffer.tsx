@@ -2,11 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SwiperSlide } from 'swiper/react';
 
-import Loader from '../Loader';
-import ErrorMessage from '../ErrorMessage';
+import Loader from '../UI/Loader';
+import ErrorMessage from '../UI/ErrorMessage';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
 import { type Product } from '@/types/types';
-import CarouselLayout from '../CarouselLayout';
+import CarouselLayout from '../UI/CarouselLayout';
 import { PersianNumber } from '@/utils/PersianNumber';
 
 const AmazingOffer = () => {

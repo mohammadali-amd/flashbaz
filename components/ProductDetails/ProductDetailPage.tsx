@@ -8,10 +8,10 @@ import { Product, Review } from '@/types/types';
 import { RootState } from '@/store/store';
 import { addItem } from '@/slices/cartSlice';
 import { useAddReviewMutation } from '@/slices/productsApiSlice';
-import ErrorMessage from './ErrorMessage';
-import Loader from './Loader';
+import ErrorMessage from '../UI/ErrorMessage';
+import Loader from '../UI/Loader';
 import { PersianNumber } from '@/utils/PersianNumber';
-import ImageGallery from './ImageGallery';
+import ImageGallery from '../UI/ImageGallery';
 
 interface ProductDetailPageProps {
    productId: string;
@@ -210,7 +210,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                </div>
             </div>
 
-            <div className='fixed md:hidden bottom-14 right-0 w-full bg-white z-20'>
+            <div className='fixed md:hidden bottom-12 right-0 w-full bg-white z-20'>
                <div className='flex w-full gap-2 justify-between items-center border-t border-stone-300 shadow-lg shadow-gray-300 pt-2 pb-3 px-4 text-sm'>
                   {productDetails &&
                      <div className='flex justify-center gap-1'>

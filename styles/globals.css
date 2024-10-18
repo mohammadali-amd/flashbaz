@@ -17,16 +17,19 @@ body {
 }
 
 /* Scroll Bar Start */
-/* width */
-::-webkit-scrollbar {
-   width: 10px;
-   height: 0px;
-}
+@media (min-width: 768px) {
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-   @apply bg-theme-color;
-   border-radius: 5px;
+   /* width */
+   ::-webkit-scrollbar {
+      width: 10px;
+      height: 0px;
+   }
+
+   /* Handle */
+   ::-webkit-scrollbar-thumb {
+      @apply bg-theme-color;
+      border-radius: 5px;
+   }
 }
 
 /* Track */

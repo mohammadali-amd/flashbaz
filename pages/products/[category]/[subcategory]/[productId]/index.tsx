@@ -4,11 +4,11 @@ export const config = {
 
 import { useRouter } from 'next/router';
 
-import ProductDetailPage from '@/components/ProductDetailPage';
-import Loader from '@/components/Loader';
-import Breadcrumb from '@/components/Breadcrumb';
+import ProductDetailPage from '@/components/ProductDetails/ProductDetailPage';
+import Loader from '@/components/UI/Loader';
+import Breadcrumb from '@/components/UI/Breadcrumb';
 import { useGetProductDetailsQuery } from '@/slices/productsApiSlice';
-import ErrorMessage from '@/components/ErrorMessage';
+import ErrorMessage from '@/components/UI/ErrorMessage';
 import { Category } from '@/types/types';
 
 const ProductDetail = () => {

@@ -8,7 +8,7 @@ const Logo = () => {
          {/* <i className="lni lni-bolt text-4xl text-stone-700"></i> */}
          <Image src={'/icons/icon-192x192.png'} alt="Logo" width={50} height={50} className="h-10 w-10 md:h-12
 md:w-12" />
-         <p className='text-lg md:text-2xl'>فلش باز</p>
+         <p className='hidden md:block text-lg md:text-2xl'>فلش باز</p>
       </Link>
    )
 }

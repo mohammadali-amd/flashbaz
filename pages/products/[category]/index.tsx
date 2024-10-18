@@ -3,10 +3,10 @@ export const config = {
 };
 
 import { useRouter } from 'next/router';
-import ProductList from '@/components/ProductList';
-import Loader from '@/components/Loader';
-import ErrorMessage from '@/components/ErrorMessage';
-import Breadcrumb from '@/components/Breadcrumb';
+import ProductList from '@/components/ProductList/ProductList';
+import Loader from '@/components/UI/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
+import Breadcrumb from '@/components/UI/Breadcrumb';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
 import Paginate from '@/components/Paginate';
 import Filter from '@/components/Filter';

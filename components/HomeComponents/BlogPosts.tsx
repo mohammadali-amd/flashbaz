@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import CarouselLayout from '../CarouselLayout'
+import CarouselLayout from '../UI/CarouselLayout'
 import { SwiperSlide } from 'swiper/react'
 
 const posts = [

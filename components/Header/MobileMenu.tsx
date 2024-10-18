@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import LoginButton from './LoginButton'
-import { useClickOutside } from '@/utils/ClickOutside';
-import { useIsClient } from '@/utils/useIsClient';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { useIsClient } from '@/hooks/useIsClient';
 import Cart from './Cart';
 import Link from 'next/link';
 import { HiHome, HiOutlineHome } from 'react-icons/hi';
@@ -24,7 +24,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ mobileMenuOpen, setMobileMenuOp
    useClickOutside(dropdownRefMobile, () => setIsToggleMobile(false));
 
    return (
-      <div className='fixed bottom-0 right-0 w-full bg-white shadow-md border-t px-6 py-2 flex items-center justify-between z-30 text-xs text-center'>
+      <div className='fixed bottom-0 right-0 w-full bg-white shadow-md border-t px-6 py-1 flex items-center justify-between z-30 text-xs text-center'>
          <Link href={'/'}>
             <span className='flex justify-center'>
                {router.pathname === '/' ? (
@@ -35,12 +35,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ mobileMenuOpen, setMobileMenuOp
             </span>
             خانه
          </Link>
-         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+         <button>
             <span className='flex justify-center'>
                {mobileMenuOpen ? (
                   <BiSolidCategoryAlt size={24} />
                ) : (
-                  <BiCategoryAlt size={24} />
+                  <BiCategoryAlt size={24} onClick={() => setMobileMenuOpen(true)} />
                )}
             </span>
             دسته بندی

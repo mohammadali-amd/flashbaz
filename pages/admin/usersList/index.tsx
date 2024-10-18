@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 
 import { UserInfo } from '@/types/types';
 import { RootState } from '@/store/store';
-import Loader from '@/components/Loader';
-import ErrorMessage from '@/components/ErrorMessage';
+import Loader from '@/components/UI/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
 import { useDeleteUserMutation, useGetUsersQuery } from '@/slices/usersApiSlice';
 import Paginate from '@/components/Paginate';
 

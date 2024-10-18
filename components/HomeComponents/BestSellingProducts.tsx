@@ -3,11 +3,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { SwiperSlide } from 'swiper/react';
 
-import CarouselLayout from '../CarouselLayout';
+import CarouselLayout from '../UI/CarouselLayout';
 import { PersianNumber } from '@/utils/PersianNumber';
 import { useGetTopProductsQuery } from '@/slices/productsApiSlice';
-import Loader from '../Loader';
-import ErrorMessage from '../ErrorMessage';
+import Loader from '../UI/Loader';
+import ErrorMessage from '../UI/ErrorMessage';
 import { type Product } from '@/types/types';
 
 const BestSellingProducts = (): JSX.Element => {

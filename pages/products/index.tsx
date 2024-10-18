@@ -6,13 +6,13 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 
-import ErrorMessage from '@/components/ErrorMessage';
-import Loader from '@/components/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
+import Loader from '@/components/UI/Loader';
 import Filter from '@/components/Filter';
 import Paginate from '@/components/Paginate';
-import ProductList from '@/components/ProductList';
+import ProductList from '@/components/ProductList/ProductList';
 import { useGetProductsQuery } from '@/slices/productsApiSlice';
-import Breadcrumb from '@/components/Breadcrumb';
+import Breadcrumb from '@/components/UI/Breadcrumb';
 import { ProductsProps } from '@/types/ProductsProps';
 
 const Products: React.FC<ProductsProps> = ({ initialKeyword, initialPageNumber }) => {

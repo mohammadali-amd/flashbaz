@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 
-import Loader from '@/components/Loader';
-import ErrorMessage from '@/components/ErrorMessage';
+import Loader from '@/components/UI/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
 import { useGetUserDetailsQuery, useUpdateUserMutation } from '@/slices/usersApiSlice';
 
 const EditUserPage = () => {
