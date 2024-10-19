@@ -8,6 +8,7 @@ import Loader from '@/components/UI/Loader'
 import { useLoginMutation } from '@/slices/usersApiSlice'
 import { setCredentials } from '@/slices/authSlice'
 import { RootState } from '@/store/store'
+import InputField from '@/components/UI/InputField'
 
 const LoginPage = () => {
    const [email, setEmail] = useState('')
@@ -54,28 +55,28 @@ const LoginPage = () => {
    }
 
    return (
-      <div className='flex justify-center my-20'>
+      <div className='lg:flex lg:justify-center my-10 lg:my-20 px-6'>
          <form onSubmit={submitHandler}>
-            <div className='space-y-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10'>
-               <div className="flex justify-between items-center gap-10">
-                  <h4 className='text-xl'>ایمیل</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-               </div>
-               <div className="flex justify-between items-center gap-10">
-                  <h4 className='text-xl'>رمز عبور</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-               </div>
-               {/* <div className="flex justify-between items-center gap-10">
-                  <h4 className='text-xl'>کد امنیتی</h4>
-                  <input className='text-center border border-stone-300 rounded-md py-2' type="text" name="code" id="code" />
-               </div> */}
+            <div className='space-y-6 lg:border lg:border-stone-200 lg:shadow-lg  lg:shadow-gray-300 lg:rounded-xl py-8 lg:px-10'>
+               <InputField
+                  label='ایمیل'
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+               />
+               <InputField
+                  label='رمز عبور'
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+               />
 
                <button type='submit' className='flex justify-center bg-theme-color w-full text-xl py-3 rounded-md text-white disabled:bg-gray-400' disabled={isLoading}>
                   ورود
                </button>
 
                {isLoading && <Loader />}
-               <div className='text-center text-xl'>
+               <div className='text-center text-lg'>
                   <Link href={'/register'}>
                      ثبت نام
                   </Link>

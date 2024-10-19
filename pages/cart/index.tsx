@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,28 +8,19 @@ import { RootState } from '@/store/store'
 import { Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
 import { useIsClient } from '@/hooks/useIsClient';
-import Image from 'next/image';
 import Breadcrumb from '@/components/UI/Breadcrumb';
+import { IoTrashOutline } from 'react-icons/io5';
 
 const Cart = () => {
    const isClient = useIsClient();
+   const router = useRouter()
 
    const dispatch = useDispatch();
    const cartItems = useSelector((state: RootState) => state.cart.items);
 
-   const router = useRouter()
-
-   const handleAddItem = (product: Product) => {
-      dispatch(addItem(product));
-   };
-
-   const handleRemoveItem = (id: number) => {
-      dispatch(removeItem(id));
-   };
-
-   const handleClearCart = () => {
-      dispatch(clearCart());
-   };
+   const handleAddItem = (product: Product) => dispatch(addItem(product));
+   const handleRemoveItem = (id: number) => dispatch(removeItem(id));
+   const handleClearCart = () => dispatch(clearCart());
 
    const totalPrice = cartItems.reduce((total, { product, quantity }) => {
       const itemPrice = product.price || 0;
@@ -51,9 +42,17 @@ const Cart = () => {
                { name: 'سبد خرید', slug: '/cart' },
             ]}
          />
-         <h2 className='text-4xl my-8 font-medium'>
-            سبد خرید
-         </h2>
+         <div className='flex justify-between items-center'>
+            <h2 className='text-4xl my-8 font-medium'>
+               سبد خرید
+            </h2>
+            {cartItems.length > 0 && (
+               <button className='flex items-center gap-1 bg-theme-color py-1 px-2 rounded-md text-white text-sm' onClick={handleClearCart}>
+                  حذف کل سبد
+                  <IoTrashOutline />
+               </button>
+            )}
+         </div>
 
          {isClient && cartItems.length === 0 ? (
             <div className='lg:flex gap-4 items-center text-lg mt-4 mb-20'>
@@ -69,7 +68,7 @@ const Cart = () => {
                {/* Cart */}
                <div className='lg:w-3/4 space-y-8'>
                   {isClient && cartItems.map((item) => (
-                     <div key={item.product._id} className="md:flex justify-between gap-6 border border-stone-200 shadow-lg  shadow-gray-300 rounded-xl py-8 px-10 space-y-6 md:space-y-0">
+                     <div key={item.product._id} className="md:flex justify-between gap-6 border-t md:border md:border-stone-200 md:shadow-lg  md:shadow-gray-300 md:rounded-xl py-8 md:px-10 space-y-6 md:space-y-0">
                         <div>
                            <Link href={`/products/${item.product._id}`} className='text-lg lg:text-2xl'>
                               {item.product.name}

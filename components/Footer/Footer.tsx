@@ -6,6 +6,34 @@ import { Product } from '@/types/types';
 import Loader from '../UI/Loader';
 import ErrorMessage from '../UI/ErrorMessage';
 import Image from 'next/image';
+import CarouselLayout from '../UI/CarouselLayout';
+import { MdPayment } from 'react-icons/md';
+import { FiPhone, FiTruck } from 'react-icons/fi';
+import { AiOutlineSafety } from 'react-icons/ai';
+import { SwiperSlide } from 'swiper/react';
+
+const safetyData = [
+   {
+      id: 1,
+      title: 'امکان پرداخت در محل',
+      icon: <MdPayment size={36} />,
+   },
+   {
+      id: 2,
+      title: 'پشتیبانی ۲۴ ساعته',
+      icon: <FiPhone size={36} />,
+   },
+   {
+      id: 3,
+      title: 'ضمانت اصلالت کالا',
+      icon: <AiOutlineSafety size={36} />,
+   },
+   {
+      id: 4,
+      title: 'ارسال سریع',
+      icon: <FiTruck size={36} />,
+   },
+]
 
 const Footer = () => {
    const { data: products, isLoading, error } = useGetTopProductsQuery('bestSelling_products')
@@ -13,24 +41,17 @@ const Footer = () => {
    return (
       <footer className="mt-6">
          <div className="lg:flex space-y-4 lg:space-y-0 justify-between bg-theme-color text-white xl:text-2xl px-4 lg:px-20 py-8 lg:rounded-t-xl lg:mx-20">
-            <div className='flex justify-center items-center gap-4'>
-               <i className="lni lni-wallet text-3xl xl:text-4xl"></i>
-               <span>امکان پرداخت در محل</span>
-            </div>
-            <div className="border"></div>
-            <div className='flex justify-center items-center gap-4'>
-               <i className="lni lni-phone text-3xl xl:text-4xl"></i>
-               <span>پشتیبانی ۲۴ ساعته</span>
-            </div>
-            <div className="border"></div>
-            <div className='flex justify-center items-center gap-4'>
-               <i className="lni lni-protection text-3xl xl:text-4xl"></i>
-               <span>ضمانت اصلالت کالا</span>
-            </div>
-            <div className="border"></div>
-            <div className='flex justify-center items-center gap-4'>
-               <i className="lni lni-travel text-3xl xl:text-4xl"></i>
-               <span>ارسال سریع</span>
+            <div className='w-full'>
+               <CarouselLayout tabletSlidesPerView={1} laptopSlidesPerView={4} desktopSlidesPerView={4} padding='0px' navigation={false} autoplay={3000}>
+                  {safetyData.map((item) => (
+                     <SwiperSlide key={item.id}>
+                        <div className='flex justify-center items-center text-2xl gap-4'>
+                           {item.icon}
+                           <span>{item.title}</span>
+                        </div>
+                     </SwiperSlide>
+                  ))}
+               </CarouselLayout>
             </div>
          </div>
          <div className='bg-[#F0F0F0] px-8 pt-10'>

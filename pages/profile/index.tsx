@@ -12,6 +12,7 @@ import { useGetMyOrdersQuery } from '@/slices/ordersApiSlice'
 import ErrorMessage from '@/components/UI/ErrorMessage'
 import Link from 'next/link'
 import Paginate from '@/components/Paginate'
+import InputField from '@/components/UI/InputField'
 // import { GetServerSideProps } from 'next'
 
 interface Orders {
@@ -90,43 +91,59 @@ const ProfilePage = () => {
 
    return (
       <div className='my-10 mx-6 lg:mx-20'>
-         <h1 className='text-3xl mb-8 font-semibold'>پروفایل</h1>
+         <h1 className='text-3xl lg:mb-8 font-semibold'>حساب کاربری</h1>
          <div className='xl:flex xl:gap-10 space-y-10 xl:space-y-0'>
             <div className='xl:w-1/3'>
                <form onSubmit={submitHandler}>
-                  <div className='space-y-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl py-8 px-10'>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>نام</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-                     </div>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>شماره تماس</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="number" name="phone" value={phone !== 0 ? phone : ''} onChange={(e) => setPhoneNumber(e.target.value)} />
-                     </div>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>ایمیل</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                     </div>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>رمز عبور</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                     </div>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>تایید رمز عبور</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="password" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                     </div>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>شهر</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="text" name="city" value={city} onChange={(e) => setCity(e.target.value)} />
-                     </div>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>آدرس</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type='text' name="address" value={address} onChange={(e) => setAddress(e.target.value)} />
-                     </div>
-                     <div className="flex justify-between items-center gap-10">
-                        <h4 className='text-xl w-1/5'>کد پستی</h4>
-                        <input className='w-4/5 border border-stone-300 rounded-md p-2' type="text" name="postalCard" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
-                     </div>
+                  <div className='space-y-6 lg:border lg:border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 lg:px-10'>
+                     <InputField
+                        label='نام'
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                     />
+                     <InputField
+                        label='شماره تماس'
+                        type="number"
+                        value={phone !== 0 ? phone : ''}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                     />
+                     <InputField
+                        label='ایمیل'
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                     />
+                     <InputField
+                        label='رمز عبور'
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                     />
+                     <InputField
+                        label='تایید رمز عبور'
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                     />
+                     <InputField
+                        label='شهر'
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                     />
+                     <InputField
+                        label='آدرس'
+                        type="text"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                     />
+                     <InputField
+                        label='کد پستی'
+                        type="text"
+                        value={postalCode}
+                        onChange={(e) => setPostalCode(e.target.value)}
+                     />
 
                      <button type='submit' className='flex justify-center bg-theme-color hover:bg-theme-color/90 duration-200 w-full text-xl p-4 rounded-md text-white disabled:bg-gray-400'>
                         {loadingUpdateProfile ? <Loader size={20} /> : <>ثبت</>}
@@ -134,7 +151,7 @@ const ProfilePage = () => {
                   </div>
                </form>
             </div>
-            <div className="xl:w-2/3 space-y-6 border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-5">
+            <div className="xl:w-2/3 space-y-6 lg:border lg:border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl lg:p-5">
                {loadingMyOrders ? (
                   <Loader />
                ) : error ? (

@@ -1,13 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Loader from '@/components/UI/Loader';
-import ErrorMessage from '@/components/UI/ErrorMessage';
-import { useGetProductDetailsQuery, useUpdateProductMutation } from '@/slices/productsApiSlice';
-import { toast } from 'react-toastify';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useGetCategoriesQuery } from '@/slices/categoriesApiSlice';
+import { toast } from 'react-toastify';
+
+import Loader from '@/components/UI/Loader';
+import ErrorMessage from '@/components/UI/ErrorMessage';
+import InputField from '@/components/UI/InputField';
 import { Editor } from '@/components/Editor';
+import { calculateDiscount } from '@/utils/calculateDiscount';
+import { useGetProductDetailsQuery, useUpdateProductMutation } from '@/slices/productsApiSlice';
+import { useGetCategoriesQuery } from '@/slices/categoriesApiSlice';
+
+const initialState = {
+   name: '',
+   price: 0,
+   priceWithOff: 0,
+   discount: 0,
+   isAmazingOffer: false,
+   image: '',
+   additionalImages: [''],
+   brand: '',
+   category: { name: '', slug: '' },
+   subcategory: { name: '', slug: '' },
+   countInStock: 0,
+   description: ''
+}
 
 const EditProductPage = () => {
    const router = useRouter();
@@ -17,24 +35,7 @@ const EditProductPage = () => {
    const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
    const { data: categoriesData } = useGetCategoriesQuery(undefined);
 
-   const [formData, setFormData] = useState({
-      name: '',
-      price: 0,
-      priceWithOff: 0,
-      discount: 0,
-      isAmazingOffer: false,
-      image: '',
-      additionalImages: [''],
-      brand: '',
-      category: { name: '', slug: '' },
-      subcategory: { name: '', slug: '' },
-      countInStock: 0,
-      description: ''
-   });
-
-   const handleDescriptionChange = (value: string) => {
-      setFormData({ ...formData, description: value });
-   };
+   const [formData, setFormData] = useState(initialState);
 
    useEffect(() => {
       if (product) {
@@ -61,12 +62,12 @@ const EditProductPage = () => {
       setFormData((prev) => ({ ...prev, discount: calculateDiscount(prev.price, prev.priceWithOff) }));
    }, [formData.price, formData.priceWithOff]);
 
-   const calculateDiscount = (price: number, priceWithOff: number) => {
-      if (price && priceWithOff) {
-         const discount = ((price - priceWithOff) / price) * 100;
-         return Math.round(discount);
-      }
-      return 0;
+   // Filter subcategories based on the selected category
+   const selectedCategory = categoriesData?.find((cat: any) => cat.slug === formData.category.slug);
+   const subcategories = selectedCategory ? selectedCategory.subcategories : [];
+
+   const handleDescriptionChange = (value: string) => {
+      setFormData({ ...formData, description: value });
    };
 
    const addAdditionalImageField = () => {
@@ -95,20 +96,12 @@ const EditProductPage = () => {
       }
    };
 
-   if (isLoading) {
-      return <Loader />;
-   }
+   if (isLoading) (<Loader />);
 
-   if (error) {
-      return <ErrorMessage>Error</ErrorMessage>;
-   }
-
-   // Filter subcategories based on the selected category
-   const selectedCategory = categoriesData?.find((cat: any) => cat.slug === formData.category.slug);
-   const subcategories = selectedCategory ? selectedCategory.subcategories : [];
+   if (error) (<ErrorMessage>Error</ErrorMessage>);
 
    return (
-      <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 m-10">
+      <div className="lg:border lg:border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl lg:p-8 m-4 lg:m-10">
          <Link href='/admin/productsList' className='flex items-center gap-2 text-xl bg-slate-200 w-fit py-1 px-2 rounded-md hover:shadow-md hover:bg-slate-300 duration-200'>
             <i className="lni lni-arrow-right"></i>
             بازگشت
@@ -120,113 +113,70 @@ const EditProductPage = () => {
             <ErrorMessage>Error</ErrorMessage>
          ) : (
             <form onSubmit={submitHandler} className="space-y-4">
-               <div>
-                  <label className="block text-gray-700">نام محصول</label>
-                  <input
-                     type="text"
-                     value={formData.name}
-                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                     className="w-full px-4 py-2 border rounded-lg"
+               <InputField
+                  label='نام محصول'
+                  type='text'
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+               />
+               <div className="grid md:grid-cols-4 md:justify-between gap-4 md:gap-8">
+                  <InputField
+                     label='قیمت'
+                     type="number"
+                     value={formData.price}
+                     onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                  />
+                  <InputField
+                     label={`قیمت با تخفیف (${formData.discount}% درصد تخفیف)`}
+                     type="number"
+                     value={formData.priceWithOff}
+                     onChange={(e) => setFormData({ ...formData, priceWithOff: Number(e.target.value) })}
+                  />
+                  <InputField
+                     label='تعداد'
+                     type="number"
+                     value={formData.countInStock}
+                     onChange={(e) => setFormData({ ...formData, countInStock: Number(e.target.value) })}
+                  />
+                  <InputField
+                     label="تخفیف شگفت انگیز"
+                     type="checkbox"
+                     checked={formData.isAmazingOffer}
+                     onChange={(e) => setFormData({ ...formData, isAmazingOffer: (e.target as HTMLInputElement).checked })}
                   />
                </div>
-               <div className="grid md:grid-cols-4 md:justify-between gap-4 md:gap-8">
-                  <div>
-                     <label className="block text-gray-700">قیمت</label>
-                     <input
-                        type="number"
-                        value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                        className="w-full px-4 py-2 border rounded-lg"
-                     />
-                  </div>
-                  <div>
-                     <div className='flex items-center gap-2'>
-                        <label className="block text-gray-700">قیمت با تخفیف</label>
-                        ({formData.discount}% درصد تخفیف)
-                     </div>
-                     <input
-                        type="number"
-                        value={formData.priceWithOff}
-                        onChange={(e) => setFormData({ ...formData, priceWithOff: Number(e.target.value) })}
-                        className="w-full px-4 py-2 border rounded-lg"
-                     />
-                  </div>
-                  <div>
-                     <label className="block text-gray-700">تعداد</label>
-                     <input
-                        type="number"
-                        value={formData.countInStock}
-                        onChange={(e) => setFormData({ ...formData, countInStock: Number(e.target.value) })}
-                        className="w-full px-4 py-2 border rounded-lg"
-                     />
-                  </div>
-                  <div className="flex items-center gap-4">
-                     <label className="block text-gray-700">تخفیف شگفت انگیز</label>
-                     <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                           type="checkbox"
-                           checked={formData.isAmazingOffer}
-                           onChange={(e) => setFormData({ ...formData, isAmazingOffer: e.target.checked })}
-                           className="sr-only peer"
-                        />
-                        <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-theme-color rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-theme-color"></div>
-                     </label>
-                  </div>
-               </div>
                <div className="grid md:grid-cols-3 md:justify-between gap-4 md:gap-8">
-                  <div>
-                     <label className="block text-gray-700">دسته بندی</label>
-                     <select
-                        value={formData.category.slug}
-                        // onChange={(e: any) => setCategory(e.target.value)}
-                        onChange={(e) => {
-                           const selectedCategory = categoriesData?.find((cat: any) => cat.slug === e.target.value);
-                           if (selectedCategory) {
-                              setFormData({ ...formData, category: { name: selectedCategory.name, slug: selectedCategory.slug } });
-                           }
-                        }}
-                        className="w-full px-4 py-2 border rounded-lg"
-                     >
-                        <option value="">یک دسته بندی انتخاب کنید</option>
-                        {categoriesData?.map((cat: any) => (
-                           <option key={cat._id} value={cat.slug}>
-                              {cat.name}
-                           </option>
-                        ))}
-                     </select>
-                  </div>
-                  <div>
-                     <label className="block text-gray-700">زیر مجموعه</label>
-                     <select
-                        value={formData.subcategory.slug}
-                        // onChange={(e: any) => setSubcategory(e.target.value)}
-                        onChange={(e) => {
-                           const selectedSubcategory = subcategories.find((sub: any) => sub.slug === e.target.value);
-                           if (selectedSubcategory) {
-                              setFormData({ ...formData, subcategory: { name: selectedSubcategory.name, slug: selectedSubcategory.slug } });
-                           }
-                        }}
-                        className="w-full px-4 py-2 border rounded-lg"
-                        disabled={!formData.category.slug}
-                     >
-                        <option value="">یک زیر مجموعه انتخاب کنید</option>
-                        {subcategories.map((sub: any) => (
-                           <option key={sub._id} value={sub.slug}>
-                              {sub.name}
-                           </option>
-                        ))}
-                     </select>
-                  </div>
+                  <InputField
+                     label="دسته بندی"
+                     type='select'
+                     value={formData.category.slug}
+                     onChange={(e) => {
+                        const selectedCategory = categoriesData?.find((cat: any) => cat.slug === e.target.value);
+                        if (selectedCategory) {
+                           setFormData({ ...formData, category: { name: selectedCategory.name, slug: selectedCategory.slug } });
+                        }
+                     }}
+                     options={categoriesData?.map((cat: any) => ({ value: cat.slug, label: cat.name })) || []}
+                  />
+                  <InputField
+                     label="زیر مجموعه"
+                     type='select'
+                     value={formData.subcategory.slug}
+                     onChange={(e) => {
+                        const selectedSubcategory = subcategories.find((sub: any) => sub.slug === e.target.value);
+                        if (selectedSubcategory) {
+                           setFormData({ ...formData, subcategory: { name: selectedSubcategory.name, slug: selectedSubcategory.slug } });
+                        }
+                     }}
+                     options={subcategories?.map((cat: any) => ({ value: cat.slug, label: cat.name })) || []}
+                  />
 
-                  <div>
-                     <label className="block text-gray-700">برند</label>
-                     <input
-                        type="text"
-                        value={formData.brand}
-                        onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                        className="w-full px-4 py-2 border rounded-lg"
-                     />
-                  </div>
+                  <InputField
+                     label="برند"
+                     type="text"
+                     value={formData.brand}
+                     onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                  />
                </div>
                {/* <div>
                   <label className="block text-gray-700">توضیحات</label>
@@ -239,20 +189,20 @@ const EditProductPage = () => {
                </div> */}
                <div>
                   <label className="block text-gray-700">توضیحات</label>
-                  <div className="mb-52 md:mb-20">
+                  <div className="mb-40 md:mb-20">
                      <Editor value={formData.description} onChange={handleDescriptionChange} />
                   </div>
                </div>
 
                <div>
-                  <label className="block text-gray-700">تصویر اصلی</label>
-                  <input
+                  <InputField
+                     label="تصویر اصلی"
                      type="text"
                      value={formData.image}
                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                     className="w-full px-4 py-2 border rounded-lg"
                      placeholder='لینک تصویر را وارد کنید'
                   />
+
                   {formData?.image && (
                      <Image
                         src={`${formData.image}`}
@@ -264,15 +214,13 @@ const EditProductPage = () => {
                </div>
 
                <div>
-                  <label className="block text-gray-700">تصاویر اضافی</label>
                   {formData.additionalImages.map((image, index) => (
                      <div key={index} className="mb-4">
-                        <input
+                        <InputField
+                           label="تصاویر اضافی"
                            type="text"
                            value={image}
                            onChange={(e) => handleAdditionalImageChange(index, e.target.value)}
-                           className="w-full px-4 py-2 border rounded-lg"
-                           placeholder='لینک تصویر را وارد کنید'
                         />
                         {image && (
                            <Image
@@ -284,8 +232,8 @@ const EditProductPage = () => {
                         )}
                      </div>
                   ))}
-                  <button type="button" onClick={addAdditionalImageField} className="text-blue-600">
-                     بیشتر
+                  <button type="button" onClick={addAdditionalImageField} className="text-theme-color">
+                     + اضافه کردن تصویر بیشتر
                   </button>
                </div>
 

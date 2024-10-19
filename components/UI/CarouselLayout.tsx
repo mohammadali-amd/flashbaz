@@ -1,10 +1,10 @@
 import { Swiper } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
-type CarouselLayout = {
+type CarouselLayoutProps = {
    children?: React.ReactNode;
    mobileSlidesPerView?: number;
    tabletSlidesPerView?: number;
@@ -13,12 +13,13 @@ type CarouselLayout = {
    spaceBetween?: number;
    navigation?: boolean;
    pagination?: boolean;
+   autoplay?: number;
    className?: string;
    color?: string;
    padding?: string;
 }
 
-const CarouselLayout: React.FC<CarouselLayout> = ({ children, mobileSlidesPerView = 1, tabletSlidesPerView = 3, laptopSlidesPerView = 5, desktopSlidesPerView = 7, navigation = true, pagination = false, spaceBetween, className, color = "#000", padding = "40px" }) => {
+const CarouselLayout: React.FC<CarouselLayoutProps> = ({ children, mobileSlidesPerView = 1, tabletSlidesPerView = 3, laptopSlidesPerView = 5, desktopSlidesPerView = 7, navigation = true, pagination = false, autoplay = 6000, spaceBetween, className, color = "#000", padding = "40px" }) => {
    return (
       <Swiper
          style={{
@@ -30,7 +31,11 @@ const CarouselLayout: React.FC<CarouselLayout> = ({ children, mobileSlidesPerVie
          spaceBetween={spaceBetween}
          navigation={navigation}
          pagination={pagination}
-         modules={[Navigation, Pagination]}
+         autoplay={{
+            delay: autoplay,
+         }}
+
+         modules={[Navigation, Pagination, Autoplay]}
          className={className}
          breakpoints={{
             768: {

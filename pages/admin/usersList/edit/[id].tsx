@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Loader from '@/components/UI/Loader';
 import ErrorMessage from '@/components/UI/ErrorMessage';
 import { useGetUserDetailsQuery, useUpdateUserMutation } from '@/slices/usersApiSlice';
+import InputField from '@/components/UI/InputField';
 
 const EditUserPage = () => {
    const router = useRouter();
@@ -17,6 +18,7 @@ const EditUserPage = () => {
 
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
+   const [address, setAddress] = useState('')
    const [password, setPassword] = useState('');
    const [passwordConfirm, setPasswordConfirm] = useState('');
    const [isAdmin, setIsAdmin] = useState(false);
@@ -25,6 +27,7 @@ const EditUserPage = () => {
       if (user) {
          setName(user.name);
          setEmail(user.email);
+         setAddress(user.address || '')
          setPassword(user.password);
          setPasswordConfirm(user.passwordConfirm);
          setIsAdmin(user.isAdmin);
@@ -38,12 +41,13 @@ const EditUserPage = () => {
             userId,
             name,
             email,
+            address,
             password,
             passwordConfirm,
             isAdmin,
          }).unwrap()
 
-         toast.success('User updated successfully');
+         toast.success('مشخصات کاربر ثبت شد');
          refetch()
          router.push('/admin/usersList');
       } catch (error) {
@@ -51,13 +55,9 @@ const EditUserPage = () => {
       }
    };
 
-   if (isLoading) {
-      return <Loader />;
-   }
+   if (isLoading) (<Loader />);
 
-   if (error) {
-      return <ErrorMessage>Error</ErrorMessage>;
-   }
+   if (error) (<ErrorMessage>Error</ErrorMessage>)
 
    return (
       <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 m-10">
@@ -72,52 +72,42 @@ const EditUserPage = () => {
             <ErrorMessage>Error</ErrorMessage>
          ) : (
             <form onSubmit={submitHandler} className="space-y-4">
-               <div>
-                  <label className="block text-gray-700">نام کاربری</label>
-                  <input
-                     type="text"
-                     value={name}
-                     onChange={(e) => setName(e.target.value)}
-                     className="w-full px-4 py-2 border rounded-lg"
-                  />
-               </div>
-               <div>
-                  <label className="block text-gray-700">ایمیل</label>
-                  <input
-                     type="email"
-                     value={email}
-                     onChange={(e) => setEmail(e.target.value)}
-                     className="w-full px-4 py-2 border rounded-lg"
-                  />
-               </div>
-               <div>
-                  <label className="block text-gray-700">رمز عبور</label>
-                  <input
-                     type="password"
-                     value={password}
-                     onChange={(e) => setPassword(e.target.value)}
-                     className="w-full px-4 py-2 border rounded-lg"
-                  />
-               </div>
-               <div>
-                  <label className="block text-gray-700">تایید رمز عبور</label>
-                  <input
-                     type="password"
-                     value={passwordConfirm}
-                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                     className="w-full px-4 py-2 border rounded-lg"
-                  />
-               </div>
-               <div>
-                  <label className="flex items-center gap-2 text-gray-700">
-                     مدیر
-                     <input
-                        type="checkbox"
-                        checked={isAdmin}
-                        onChange={(e) => setIsAdmin(e.target.checked)}
-                     />
-                  </label>
-               </div>
+               <InputField
+                  label='نام کاربری'
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+               />
+               <InputField
+                  label='ایمیل'
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+               />
+               <InputField
+                  label='آدرس'
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+               />
+               <InputField
+                  label='رمز عبور'
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+               />
+               <InputField
+                  label='تایید رمز عبور'
+                  type="password"
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+               />
+               <InputField
+                  label='مدیر'
+                  type="checkbox"
+                  checked={isAdmin}
+                  onChange={(e) => setIsAdmin((e.target as HTMLInputElement).checked)}
+               />
                <button
                   type="submit"
                   className="w-full py-2 px-4 bg-theme-color text-white rounded-lg hover:shadow-md hover:bg-theme-color/90 duration-200"
