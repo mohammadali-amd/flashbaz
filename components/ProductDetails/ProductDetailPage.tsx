@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 
-import { Product, Review } from '@/types/types';
+import type { Color, Product, Review } from '@/types/types';
 import { RootState } from '@/store/store';
 import { addItem } from '@/slices/cartSlice';
 import { useAddReviewMutation } from '@/slices/productsApiSlice';
@@ -26,6 +26,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
    const [rating, setRating] = useState(0)
    const [comment, setComment] = useState('')
    const [reviewError, setReviewError] = useState('')
+   const [selectedColor, setSelectedColor] = useState({ name: '', code: '' });
 
    const mainImage = { url: productDetails?.image };
    const additionalImages = productDetails?.additionalImages?.map(url => ({ url })) || [];
@@ -36,9 +37,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
 
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
-   const handleAddToCart = () => {
-      if (productDetails) {
-         dispatch(addItem(productDetails)); // Pass productDetails to addItem
+   const handleAddToCart = (product: Product, color: { name: string; code: string }) => {
+      if (product) {
+         if (!selectedColor) setSelectedColor({ name: '', code: '' })
+         dispatch(addItem({ product, color: selectedColor }));
          // router.push('/cart')
          toast.success('محصول مورد نظر به سبد خرید شما اضافه شد')
       }
@@ -82,39 +84,79 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
 
          <div className='lg:flex lg:justify-between lg:gap-20'>
             <div className='w-full space-y-8'>
-               <div className="lg:flex lg:flex-row-reverse justify-between gap-6 lg:border lg:border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 px-2 lg:px-10 w-full">
+               <div className="xl:flex lg:flex-row-reverse justify-between gap-10 lg:border lg:border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 px-2 lg:px-10 w-full">
                   {/* Product Photo */}
-                  <div className='mb-10' dir='ltr'>
+                  <div className='xl:w-1/2' dir='ltr'>
                      <ImageGallery images={[mainImage, ...additionalImages]} />
                   </div>
                   {/* Product Details */}
-                  <div className='lg:w-3/5'>
+                  <div>
                      <h3 className='text-xl lg:text-2xl'>
                         {productDetails?.name}
                      </h3>
-                     <div className='text-stone-600 mt-10'>
-                        <h3 className='text-stone-800 py-2 mb-2 lg:text-xl'>
-                           ویژگی‌های اصلی:
-                        </h3>
-                        <div className='border lg:border-0 border-theme-color/70 rounded-lg py-2 px-4'>
-                           <h4 className='flex items-center gap-2 border-b lg:border-0 py-2'>
-                              <i className="lni lni-drop"></i>
-                              آبی
-                           </h4>
-                           <h4 className='flex items-center gap-2 border-b lg:border-0 py-2'>
-                              <i className="lni lni-checkmark-circle"></i>
-                              18 ماه گارانتی
-                           </h4>
-                           <h4 className='flex items-center gap-2 py-2'>
-                              <i className="lni lni-checkmark-circle"></i>
-                              موجود در انبار
-                           </h4>
-                        </div>
+                     {/* Colors */}
+                     <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 mt-6">
+                        {productDetails.colors?.map((color: Color) => (
+                           <div
+                              key={color.code}
+                              className={`flex justify-center items-center py-2 gap-3 border rounded-md px-2 cursor-pointer ${selectedColor === color ? 'border-2 border-theme-color' : ''
+                                 }`}
+                              onClick={() => setSelectedColor(color)}
+                           >
+                              <div
+                                 style={{ backgroundColor: color.code }}
+                                 className='w-5 h-5 border rounded-md'
+                              />
+                              <span>{color.name}</span>
+                           </div>
+                        ))}
                      </div>
+                     {/* Main Features */}
+                     {productDetails.features?.length !== 0 && (
+                        <div className="text-stone-600 mt-10">
+                           <h3 className="text-stone-800 py-2 mb-2 text-lg lg:text-xl font-semibold">
+                              ویژگی‌های اصلی:
+                           </h3>
+                           <div className="border border-theme-color/70 rounded-lg py-4 px-2 lg:px-8 bg-white shadow-sm">
+                              <table className="w-full text-right text-sm lg:text-base">
+                                 <tbody>
+                                    {productDetails.features?.filter(feature => feature.mainFeature).map((feature) => (
+                                       <tr key={feature.title + feature.value} className="border-b border-dashed last:border-none">
+                                          <td className="py-2 font-medium text-stone-700 w-1/2 lg:w-1/3">{feature.title}:</td>
+                                          <td className="py-2 text-stone-600">{feature.value}</td>
+                                       </tr>
+                                    ))}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     )}
                   </div>
                </div>
 
+               {/* More Details */}
                <div className='border-y lg:border border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 px-2 lg:px-10 mt-10'>
+                  {/* Features */}
+                  {productDetails.features?.length !== 0 && (
+                     <div className="text-stone-600 mb-10">
+                        <h3 className="text-stone-800 py-2 mb-2 text-lg lg:text-xl font-semibold">
+                           مشخصات فنی:
+                        </h3>
+                        <div className="border border-theme-color/70 rounded-lg py-4 px-2 lg:px-8 bg-white shadow-sm">
+                           <table className="w-full text-right text-sm lg:text-base">
+                              <tbody>
+                                 {productDetails.features?.map((feature) => (
+                                    <tr key={feature.title + feature.value} className="border-b border-dashed last:border-none">
+                                       <td className="py-2 font-medium text-stone-700 w-1/2 lg:w-1/3">{feature.title}:</td>
+                                       <td className="py-2 text-stone-600">{feature.value}</td>
+                                    </tr>
+                                 ))}
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  )}
+                  {/* Description */}
                   <h3 className='text-2xl mb-4 underline underline-offset-8'>نقد و بررسی</h3>
                   <div
                      className='py-2 lg:text-lg '
@@ -203,7 +245,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         فقط 1 عدد از این کالا در انبار موجود است.
                      </p>
                   )}
-                  <button onClick={handleAddToCart} className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white hover:shadow-xl hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
+                  <button onClick={() => handleAddToCart(productDetails, selectedColor)} className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white hover:shadow-xl hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
                      افزودن به سبد خرید
                   </button>
                </div>
@@ -224,7 +266,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         فقط 1 عدد از این کالا در انبار موجود است.
                      </p>
                   )}
-                  <button onClick={handleAddToCart} className='bg-theme-color w-fit px-3 py-2 rounded-md text-white hover:shadow-lg hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
+                  <button onClick={() => handleAddToCart(productDetails, selectedColor)} className='bg-theme-color w-fit px-3 py-2 rounded-md text-white hover:shadow-lg hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
                      افزودن کالا
                   </button>
                </div>
