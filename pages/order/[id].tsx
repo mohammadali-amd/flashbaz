@@ -15,20 +15,18 @@ const OrderPage = () => {
    const orderId = router.query.id
 
    const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId)
-
    const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
-
    const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation({})
-
    // const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery({})
 
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
    const onApproveTest = async () => {
       try {
-         await payOrder({ orderId, details: { payer: {} } }).unwrap()
-         refetch()
-         toast.success('عملیات پرداخت با موفقیت انجام شد.')
+         // await payOrder({ orderId, details: { payer: {} } }).unwrap()
+         // refetch()
+         // toast.success('عملیات پرداخت با موفقیت انجام شد')
+         toast.error('عملیات پرداخت با خطا مواجه شد')
       } catch (error) {
          console.log(error);
       }
@@ -105,6 +103,7 @@ const OrderPage = () => {
                      <thead className='bg-gray-100 border-b'>
                         <tr>
                            <th className='px-4 py-2 text-right'>نام محصول</th>
+                           <th className='px-4 py-2 text-center'>رنگ</th>
                            <th className='px-4 py-2 text-center'>قیمت (تومان)</th>
                            <th className='px-4 py-2 text-center'>تعداد</th>
                         </tr>
@@ -121,6 +120,12 @@ const OrderPage = () => {
                                     height={40}
                                  />
                                  <Link href={`/products/${item.product}`}>{item.name}</Link>
+                              </td>
+                              <td className='px-4 py-2 text-center'>
+                                 <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color.code }} />
+                                    {item.color.name}
+                                 </div>
                               </td>
                               <td className='px-4 py-2 text-center'>{PersianNumber(item.price.toLocaleString())}</td>
                               <td className='px-4 py-2 text-center'>{PersianNumber(item.qty.toLocaleString())}</td>

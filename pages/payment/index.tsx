@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -13,16 +12,16 @@ import { PersianNumber } from '@/utils/PersianNumber'
 import { toast } from 'react-toastify'
 
 const PaymentPage = () => {
+   const dispatch = useDispatch()
+   const router = useRouter()
+
+   const [isLoadingPage, setIsLoadingPage] = useState(true);
+
    const { userInfo } = useSelector((state: RootState) => state.auth)
    const cart = useSelector((state: RootState) => state.cart)
 
    const [createOrder, { isLoading, error }] = useCreateOrderMutation()
    const [paymentMethod, setPaymentMethod] = useState('PayPal')
-
-   const [isLoadingPage, setIsLoadingPage] = useState(true);
-
-   const dispatch = useDispatch()
-   const router = useRouter()
 
    useEffect(() => {
       if (!userInfo) {
@@ -47,10 +46,12 @@ const PaymentPage = () => {
                console.error('Invalid product in cart item:', item);
                throw new Error('Invalid product in cart item');
             }
+
             return {
                _id: item.product._id,
                quantity: item.quantity,
                name: item.product.name,
+               color: item.color
                // image: item.product.image,
             };
          });
@@ -77,6 +78,8 @@ const PaymentPage = () => {
          router.push(`/order/${res._id}`)
       } catch (error) {
          toast.error(error instanceof Error ? error.message : JSON.stringify(error))
+         console.log(error);
+
       }
    }
 
@@ -125,12 +128,13 @@ const PaymentPage = () => {
                                  <th className='px-4 py-2 text-right'>نام محصول</th>
                                  <th className='px-4 py-2 text-center'>قیمت (تومان)</th>
                                  <th className='px-4 py-2 text-center'>تخفیف</th>
+                                 <th className='px-4 py-2 text-center'>رنگ</th>
                                  <th className='px-4 py-2 text-center'>تعداد</th>
                               </tr>
                            </thead>
                            <tbody>
                               {cart.items.map((item) => (
-                                 <tr key={item.product._id} className='hover:bg-gray-50 border-b text-sm md:text-base'>
+                                 <tr key={item.product._id + item.color.code} className='hover:bg-gray-50 border-b text-sm md:text-base'>
                                     <td className='flex items-center gap-2 px-4 py-2 text-right'>
                                        <Image
                                           src={item.product.image}
@@ -146,6 +150,12 @@ const PaymentPage = () => {
                                     </td>
                                     <td className='px-4 py-2 text-center'>
                                        {PersianNumber((item.product.price - item.product.priceWithOff).toLocaleString())}
+                                    </td>
+                                    <td className='px-4 py-2 text-center'>
+                                       <div className="flex items-center gap-2">
+                                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color.code }} />
+                                          {item.color.name}
+                                       </div>
                                     </td>
                                     <td className='px-4 py-2 text-center'>{item.quantity}</td>
                                  </tr>
