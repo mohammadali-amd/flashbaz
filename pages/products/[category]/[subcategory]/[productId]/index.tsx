@@ -44,7 +44,7 @@ const ProductDetail = () => {
    }
 
    return (
-      <div className='mx-6 lg:mx-20 my-5'>
+      <div className='mx-4 lg:mx-20 my-5'>
          <Breadcrumb items={breadcrumbItems} />
          <ProductDetailPage
             productId={productId as string}

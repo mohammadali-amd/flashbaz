@@ -1,6 +1,23 @@
 export type Category = {
    name: string;
    slug: string;
+   subcategories?: Subcategory[];
+};
+
+export type Subcategory = {
+   name: string;
+   slug: string;
+}
+
+export type Features = {
+   title: string;
+   value: string;
+   mainFeature: boolean;
+};
+
+export type Color = {
+   name: string;
+   code: string;
 };
 
 export interface Product {
@@ -14,6 +31,8 @@ export interface Product {
    countInStock: number;
    category: Category;
    subcategory?: Category;
+   colors?: Color[];
+   features?: Features[];
    image: string;
    additionalImages?: string[];
    brand: string;
@@ -31,6 +50,10 @@ export interface Review {
 export interface CartItem {
    product: Product;
    quantity: number;
+   color: {
+      name: string,
+      code: string
+   }
 }
 
 export interface UserInfo {

@@ -37,7 +37,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
 
    const { userInfo } = useSelector((state: RootState) => state.auth)
 
-   const handleAddToCart = (product: Product, color: { name: string; code: string }) => {
+   const handleAddToCart = (product: Product, color: Color) => {
       if (product) {
          if (!selectedColor) setSelectedColor({ name: '', code: '' })
          dispatch(addItem({ product, color: selectedColor }));

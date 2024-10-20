@@ -55,9 +55,13 @@ const EditUserPage = () => {
       }
    };
 
-   if (isLoading) (<Loader />);
+   if (isLoading) {
+      return <Loader />
+   };
 
-   if (error) (<ErrorMessage>Error</ErrorMessage>)
+   if (error) {
+      return <ErrorMessage>Error</ErrorMessage>
+   }
 
    return (
       <div className="border border-stone-200 shadow-lg shadow-gray-300 rounded-xl p-8 m-10">
