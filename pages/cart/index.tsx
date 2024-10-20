@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addItem, clearCart, removeItem } from '@/slices/cartSlice';
 import { RootState } from '@/store/store'
-import { Product } from '@/types/types';
+import type { Color, Product } from '@/types/types';
 import { PersianNumber } from '@/utils/PersianNumber';
 import { useIsClient } from '@/hooks/useIsClient';
 import Breadcrumb from '@/components/UI/Breadcrumb';
@@ -18,7 +18,7 @@ const Cart = () => {
    const dispatch = useDispatch();
    const cartItems = useSelector((state: RootState) => state.cart.items);
 
-   const handleAddItem = (product: Product) => dispatch(addItem(product));
+   const handleAddItem = (product: Product, color: Color) => dispatch(addItem({ product, color }));
    const handleRemoveItem = (id: number) => dispatch(removeItem(id));
    const handleClearCart = () => dispatch(clearCart());
 
@@ -46,7 +46,7 @@ const Cart = () => {
             <h2 className='text-4xl my-8 font-medium'>
                سبد خرید
             </h2>
-            {cartItems.length > 0 && (
+            {isClient && cartItems.length > 0 && (
                <button className='flex items-center gap-1 bg-theme-color py-1 px-2 rounded-md text-white text-sm' onClick={handleClearCart}>
                   حذف کل سبد
                   <IoTrashOutline />
@@ -68,15 +68,15 @@ const Cart = () => {
                {/* Cart */}
                <div className='lg:w-3/4 space-y-8'>
                   {isClient && cartItems.map((item) => (
-                     <div key={item.product._id} className="md:flex justify-between gap-6 border-t md:border md:border-stone-200 md:shadow-lg  md:shadow-gray-300 md:rounded-xl py-8 md:px-10 space-y-6 md:space-y-0">
+                     <div key={item.product._id + item.color.code} className="md:flex justify-between gap-6 border-t md:border md:border-stone-200 md:shadow-lg  md:shadow-gray-300 md:rounded-xl py-8 md:px-10 space-y-6 md:space-y-0">
                         <div>
-                           <Link href={`/products/${item.product._id}`} className='text-lg lg:text-2xl'>
+                           <Link href={`/products/${item.product.category.slug ? `${item.product.category.slug}/` : ''}${item.product.subcategory?.slug ? `${item.product.subcategory?.slug}/` : ''}${item.product._id}`} className='text-lg lg:text-2xl'>
                               {item.product.name}
                            </Link>
                            <div className='text-stone-600 space-y-4 mt-10'>
                               <h4 className='flex items-center gap-2'>
                                  <i className="lni lni-drop"></i>
-                                 آبی
+                                 {item.color?.name}
                               </h4>
                               <h4 className='flex items-center gap-2'>
                                  <i className="lni lni-checkmark-circle"></i>
@@ -111,7 +111,7 @@ const Cart = () => {
                                     <span className='pr-2'>تومان</span>
                                  </h4>
                                  <div className="flex justify-between items-center gap-3">
-                                    <button onClick={() => handleAddItem(item.product)} className="lni lni-plus text-xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>
+                                    <button onClick={() => handleAddItem(item.product, item.color)} className="lni lni-plus text-xl cursor-pointer border border-stone-200 rounded-md p-2 hover:shadow-md duration-200 hover:border-stone-300"></button>
                                     <span className='text-xl font-medium'>
                                        {PersianNumber(item.quantity.toLocaleString())}
                                     </span>

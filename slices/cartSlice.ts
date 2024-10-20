@@ -1,9 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Product } from '@/types/types';
+import type { Color, Product } from '@/types/types';
 
 interface CartItem {
    product: Product;
    quantity: number;
+   color: {
+      name: string;
+      code: string;
+   }
 }
 
 interface CartState {
@@ -19,7 +23,7 @@ const initialState: CartState = {
 const getInitialCartState = (): CartState => {
    if (typeof window !== 'undefined') {
       const storedCartData = localStorage.getItem('cart');
-      const storedShippingAddress = localStorage.getItem('shippingAddress');
+      // const storedShippingAddress = localStorage.getItem('shippingAddress');
 
       return storedCartData
          ? {
@@ -37,13 +41,16 @@ export const cartSlice = createSlice({
    name: 'cart',
    initialState: initialCartState,
    reducers: {
-      addItem(state, action: PayloadAction<Product>) {
-         const existingItem = state.items.find(item => item.product._id === action.payload._id);
+      addItem(state, action: PayloadAction<{ product: Product, color: Color }>) {
+         const { product, color } = action.payload
+         const existingItem = state.items.find(
+            item => item.product._id === product._id && item.color.name === color.name && item.color.code === color.code
+         );
 
          if (existingItem) {
             existingItem.quantity += 1;
          } else {
-            state.items = [...state.items, { product: action.payload, quantity: 1 }];
+            state.items = [...state.items, { product, quantity: 1, color }];
          }
 
          localStorage.setItem('cart', JSON.stringify(state.items));
