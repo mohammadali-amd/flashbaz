@@ -20,9 +20,17 @@ export type Color = {
    code: string;
 };
 
+export type Image = {
+   link: string;
+   alt: string;
+};
+
 export interface Product {
    _id: number;
    name: string;
+   slug: string;
+   metaDescription: string;
+   shortDescription: string;
    price: number;
    priceWithOff: number;
    discount: number;
@@ -33,8 +41,8 @@ export interface Product {
    subcategory?: Category;
    colors?: Color[];
    features?: Features[];
-   image: string;
-   additionalImages?: string[];
+   image: Image;
+   additionalImages?: Image[];
    brand: string;
    tags: string[];
    reviews: Review[];

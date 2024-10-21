@@ -41,9 +41,10 @@ const AmazingOffer = () => {
                            <div className="relative flex justify-center pb-4">
                               <div className="relative w-full h-52 m-8">
                                  <Image
-                                    src={product.image}
+                                    src={product.image?.link || '/sample-image.jpg'}
+                                    alt={product.image?.alt || 'Product image'}
                                     className='rounded-t-xl'
-                                    alt={product.name}
+                                    // alt={product.name}
                                     layout='fill'
                                     objectFit='contain'
                                     quality={60}

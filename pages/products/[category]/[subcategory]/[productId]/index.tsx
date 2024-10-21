@@ -32,8 +32,8 @@ const ProductDetail = () => {
    }
 
    breadcrumbItems.push({
-      name: productDetails?.name || productId as string,
-      slug: `/products/${category}/${subcategory}/${productId}`,
+      name: productDetails?.name || productDetails?.slug as string,
+      slug: `/products/${category}/${subcategory}/${productDetails?.slug}`,
    });
 
    if (!productId || isLoading || !productDetails) return <Loader />;

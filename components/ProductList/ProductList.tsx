@@ -12,14 +12,14 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
   return (
     <div className="lg:grid lg:grid-cols-4 lg:gap-8">
       {products.map((product: Product) => (
-        <Link href={`/products/${product.category.slug ? `${product.category.slug}/` : ''}${product.subcategory?.slug ? `${product.subcategory?.slug}/` : ''}${product._id}`} key={product._id}>
+        <Link href={`/products/${product.category.slug ? `${product.category.slug}/` : ''}${product.subcategory?.slug ? `${product.subcategory?.slug}/` : ''}${product.slug}`} key={product._id}>
           <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl py-6 px-4 my-8 lg:my-0'>
             <div className="flex justify-center pb-4">
               <div className="relative min-w-full h-60">
                 <Image
-                  src={product.image}
+                  src={product.image?.link || '/sample-image.jpg'}
+                  alt={product.image?.alt || 'Product image'}
                   className='rounded-t-xl'
-                  alt='Product image'
                   layout='fill'
                   objectFit='contain'
                 />

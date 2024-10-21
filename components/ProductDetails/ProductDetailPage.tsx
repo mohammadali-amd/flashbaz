@@ -28,8 +28,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
    const [reviewError, setReviewError] = useState('')
    const [selectedColor, setSelectedColor] = useState({ name: '', code: '' });
 
-   const mainImage = { url: productDetails?.image };
-   const additionalImages = productDetails?.additionalImages?.map(url => ({ url })) || [];
+   const mainImage = { url: productDetails?.image?.link || '' };
+   const additionalImages = productDetails?.additionalImages?.map(url => ({ url: url.link })) || [];
 
    const [addReview, { isLoading: loadingAddReview }] = useAddReviewMutation()
 
@@ -74,10 +74,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
          {/* Meta Data */}
          <Head>
             <title>{productDetails?.name} | Flashbaz</title>
-            <meta name="description" content={productDetails?.description || 'Product details page'} />
+            <meta name="description" content={productDetails?.metaDescription || 'Product details page'} />
             <meta property="og:title" content={productDetails?.name} />
-            <meta property="og:description" content={productDetails?.description || 'Product details page'} />
-            <meta property="og:image" content={productDetails?.image || '/default-image.jpg'} />
+            <meta property="og:description" content={productDetails?.metaDescription || 'Product details page'} />
+            <meta property="og:image" content={productDetails?.image?.link || '/default-image.jpg'} />
             <meta property="og:url" content={`https://flashbaz.com/products/${productId}`} />
             <meta property="og:type" content="product" />
          </Head>
@@ -95,17 +95,17 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         {productDetails?.name}
                      </h3>
                      {/* Colors */}
-                     <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 mt-6">
+                     <div className="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3 mt-6 text-xs">
                         {productDetails.colors?.map((color: Color) => (
                            <div
                               key={color.code}
-                              className={`flex justify-center items-center py-2 gap-3 border rounded-md px-2 cursor-pointer ${selectedColor === color ? 'border-2 border-theme-color' : ''
+                              className={`flex justify-center items-center py-2 gap-2 border rounded-md px-1 cursor-pointer ${selectedColor === color ? 'border-2 border-theme-color' : ''
                                  }`}
                               onClick={() => setSelectedColor(color)}
                            >
                               <div
                                  style={{ backgroundColor: color.code }}
-                                 className='w-5 h-5 border rounded-md'
+                                 className='w-4 h-4 border rounded'
                               />
                               <span>{color.name}</span>
                            </div>
@@ -136,6 +136,12 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
 
                {/* More Details */}
                <div className='border-y lg:border border-stone-200 lg:shadow-lg lg:shadow-gray-300 lg:rounded-xl py-8 px-2 lg:px-10 mt-10'>
+                  {/* Sgort Description */}
+                  <div className="mb-6">
+                     <h3 className='text-2xl mb-4'>معرفی</h3>
+                     <p>
+                        {productDetails?.shortDescription}
+                     </p></div>
                   {/* Features */}
                   {productDetails.features?.length !== 0 && (
                      <div className="text-stone-600 mb-10">
@@ -157,7 +163,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                      </div>
                   )}
                   {/* Description */}
-                  <h3 className='text-2xl mb-4 underline underline-offset-8'>نقد و بررسی</h3>
+                  <h3 className='text-2xl mb-4'>نقد و بررسی</h3>
                   <div
                      className='py-2 lg:text-lg '
                      dangerouslySetInnerHTML={{ __html: productDetails?.description || '' }}
@@ -245,7 +251,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ productId, produc
                         فقط 1 عدد از این کالا در انبار موجود است.
                      </p>
                   )}
-                  <button onClick={() => handleAddToCart(productDetails, selectedColor)} className='flex justify-center bg-theme-color w-full text-xl p-4 rounded-md text-white hover:shadow-xl hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
+                  <button onClick={() => handleAddToCart(productDetails, selectedColor)} className='flex justify-center bg-theme-color w-full text-lg py-3 px-4 rounded-md text-white hover:shadow-xl hover:shadow-theme-color/30 hover:bg-theme-color/95 duration-200'>
                      افزودن به سبد خرید
                   </button>
                </div>

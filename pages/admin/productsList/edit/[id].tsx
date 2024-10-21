@@ -17,12 +17,15 @@ import type { Category, Color, Subcategory } from '@/types/types';
 
 const initialState = {
    name: '',
+   slug: '',
+   metaDescription: '',
+   shortDescription: '',
    price: 0,
    priceWithOff: 0,
    discount: 0,
    isAmazingOffer: false,
-   image: '',
-   additionalImages: [''],
+   image: { link: '', alt: '' },
+   additionalImages: [{ link: '', alt: '' }],
    brand: '',
    colors: [{ name: '', code: '' }],
    category: { name: '', slug: '' },
@@ -44,15 +47,19 @@ const EditProductPage = () => {
 
    useEffect(() => {
       if (product) {
-         const { name, price, priceWithOff, isAmazingOffer, image, additionalImages, brand, colors, category, subcategory, features, countInStock, description } = product;
+         const { name, slug, metaDescription, shortDescription,
+            price, priceWithOff, isAmazingOffer, image, additionalImages, brand, colors, category, subcategory, features, countInStock, description } = product;
          setFormData({
             name,
+            slug,
+            metaDescription,
+            shortDescription,
             price,
             priceWithOff,
             discount: calculateDiscount(price, priceWithOff),
             isAmazingOffer,
-            image,
-            additionalImages: additionalImages || [''],
+            image: { link: image?.link || '', alt: image?.alt || '' },
+            additionalImages: additionalImages || [{ link: '', alt: '' }],
             brand,
             colors: colors || [{ name: '', code: '' }],
             category: { name: category.name, slug: category.slug },
@@ -108,13 +115,13 @@ const EditProductPage = () => {
    };
 
    const addAdditionalImageField = () => {
-      setFormData(prev => ({ ...prev, additionalImages: [...prev.additionalImages, ''] }));
+      setFormData(prev => ({ ...prev, additionalImages: [...prev.additionalImages, { link: '', alt: '' }] }));
    };
 
-   const handleAdditionalImageChange = (index: number, value: string) => {
-      const newAdditionalImages = [...formData.additionalImages];
-      newAdditionalImages[index] = value;
-      setFormData({ ...formData, additionalImages: newAdditionalImages });
+   const removeAdditionalImageField = (index: number) => {
+      const newAdditionalImage = [...formData.additionalImages];
+      newAdditionalImage.splice(index, 1);
+      setFormData({ ...formData, additionalImages: newAdditionalImage });
    };
 
    const submitHandler = async (e: React.FormEvent) => {
@@ -155,11 +162,31 @@ const EditProductPage = () => {
             <ErrorMessage>Error</ErrorMessage>
          ) : (
             <form onSubmit={submitHandler} className="space-y-4">
+               <div className="grid md:grid-cols-2 gap-8">
+                  <InputField
+                     label='نام محصول'
+                     type='text'
+                     value={formData.name}
+                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
+                  <InputField
+                     label='لینک صفحه'
+                     type='text'
+                     value={formData.slug}
+                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  />
+               </div>
                <InputField
-                  label='نام محصول'
+                  label='توضیح کوتاه'
                   type='text'
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  value={formData.shortDescription}
+                  onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+               />
+               <InputField
+                  label='Meta Description برای سئو'
+                  type='text'
+                  value={formData.metaDescription}
+                  onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
                />
                <div className="grid md:grid-cols-4 md:justify-between gap-4 md:gap-8">
                   <InputField
@@ -220,18 +247,18 @@ const EditProductPage = () => {
                   />
                </div>
 
-               <div className="grid lg:grid-cols-4">
+               <div className="grid lg:grid-cols-6 gap-4">
                   {/* Color Palette for selecting colors */}
-                  <div>
-                     <h4>انتخاب رنگ</h4>
+                  <div className='col-span-1'>
+                     <h4 className='mb-2'>انتخاب رنگ</h4>
                      <ColorPalette onColorSelect={handleColorSelect} />
                   </div>
                   {/* Show selected colors */}
-                  <div>
-                     <h4>رنگ های محصول</h4>
-                     <div className="flex gap-4 w-screen px-2 overflow-auto">
+                  <div className='col-span-5'>
+                     <h4 className='mb-2'>رنگ های محصول</h4>
+                     <div className="grid grid-cols-2 md:md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4 px-2">
                         {formData.colors.map((color, index) => (
-                           <div key={index} className={`flex items-center py-2 gap-3 border rounded-md px-2`}>
+                           <div key={index} className={`flex justify-center items-center py-2 gap-3 border rounded-md px-2`}>
                               <div style={{ backgroundColor: color.code }} className='w-5 h-5 border rounded-md' />
                               <span>{color.name}</span>
                               <button type="button" className="text-red-500" onClick={() => removeColor(index)}>
@@ -244,9 +271,9 @@ const EditProductPage = () => {
                </div>
                <div>
                   <h3 className="text-xl mb-2">ویژگی‌ها</h3>
-                  <div className="grid md:grid-cols-3 gap-4">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                      {formData.features.map((feature, index) => (
-                        <div key={index} className="relative grid md:grid-cols-2 gap-4 border rounded-md px-4 py-4 bg-gray-50/80">
+                        <div key={index} className="relative grid md:grid-cols-2 gap-4 border rounded-md px-4 py-6 bg-gray-50/80">
                            <InputField
                               label={`عنوان ویژگی ${index + 1}`}
                               type="text"
@@ -273,7 +300,7 @@ const EditProductPage = () => {
                         </div>
                      ))}
                   </div>
-                  <button type="button" onClick={addFeatureField} className="text-theme-color mb-8">
+                  <button type="button" onClick={addFeatureField} className="text-theme-color my-8">
                      + افزودن ویژگی جدید
                   </button>
                </div>
@@ -293,45 +320,72 @@ const EditProductPage = () => {
                   </div>
                </div>
 
-               <div>
+               <div className='grid items-center    md:grid-cols-3 md:gap-8 border-b'>
                   <InputField
                      label="تصویر اصلی"
                      type="text"
-                     value={formData.image}
-                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                     value={formData.image.link}
+                     onChange={(e) => setFormData({ ...formData, image: { ...formData.image, link: e.target.value } })}
                      placeholder='لینک تصویر را وارد کنید'
+                  />
+                  <InputField
+                     label="Image Alt Text"
+                     type="text"
+                     value={formData.image.alt}
+                     onChange={(e) => setFormData({ ...formData, image: { ...formData.image, alt: e.target.value } })}
+                     placeholder='توضیح تصویر را وارد کنید'
                   />
 
                   {formData?.image && (
                      <Image
-                        src={`${formData.image}`}
-                        alt={formData.image}
+                        src={`${formData.image.link}` || '/sample-image.jpg'}
+                        alt={formData.image.alt || 'Main Image'}
                         width={200}
                         height={200}
+                        className='mx-auto'
                      />
                   )}
                </div>
 
-               <div>
+               <div className='pt-4'>
                   {formData.additionalImages.map((image, index) => (
-                     <div key={index} className="mb-4">
+                     <div key={index} className="grid items-center md:grid-cols-4 md:gap-8 border-b pb-4">
                         <InputField
-                           label="تصاویر اضافی"
+                           label={`لینک تصویر اضافه ${index + 1}`}
                            type="text"
-                           value={image}
-                           onChange={(e) => handleAdditionalImageChange(index, e.target.value)}
+                           value={image.link}
+                           onChange={(e) => {
+                              const updatedImages = [...formData.additionalImages];
+                              updatedImages[index] = { ...updatedImages[index], link: e.target.value };
+                              setFormData({ ...formData, additionalImages: updatedImages });
+                           }}
                         />
+                        <InputField
+                           label={`توضیح تصویر اضافه ${index + 1}`}
+                           type="text"
+                           value={image.alt}
+                           onChange={(e) => {
+                              const updatedImages = [...formData.additionalImages];
+                              updatedImages[index] = { ...updatedImages[index], alt: e.target.value };
+                              setFormData({ ...formData, additionalImages: updatedImages });
+                           }}
+                        />
+                        <button type="button" className="text-red-500 flex items-center gap-2" onClick={() => removeAdditionalImageField(index)}>
+                           <IoTrashOutline size={20} />
+                           حذف مورد
+                        </button>
                         {image && (
                            <Image
-                              src={`${image}`}
-                              alt={`additional image ${index + 1}`}
+                              src={`${image.link}` || '/image-sample.jpg'}
+                              alt={`${image.alt}` || 'Additional Image'}
                               width={200}
                               height={200}
+                              className='mx-auto'
                            />
                         )}
                      </div>
                   ))}
-                  <button type="button" onClick={addAdditionalImageField} className="text-theme-color">
+                  <button type="button" onClick={addAdditionalImageField} className="text-theme-color mt-4">
                      + اضافه کردن تصویر بیشتر
                   </button>
                </div>
