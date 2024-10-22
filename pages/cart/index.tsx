@@ -93,9 +93,9 @@ const Cart = () => {
                            <div className='mb-6'>
                               {/* <i className="lni lni-image text-[14rem] text-stone-600"></i> */}
                               <Image
-                                 src={item.product.image}
+                                 src={item.product.image.link}
                                  className='rounded-md lg:rounded-xl'
-                                 alt={item.product.name}
+                                 alt={item.product.image.alt}
                                  loading='lazy'
                                  width={300}
                                  height={300}

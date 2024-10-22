@@ -137,9 +137,9 @@ const PaymentPage = () => {
                                  <tr key={item.product._id + item.color.code} className='hover:bg-gray-50 border-b text-sm md:text-base'>
                                     <td className='flex items-center gap-2 px-4 py-2 text-right'>
                                        <Image
-                                          src={item.product.image}
+                                          src={item.product.image.link}
                                           className='rounded-sm'
-                                          alt={item.product.name}
+                                          alt={item.product.image.alt}
                                           width={40}
                                           height={40}
                                        />

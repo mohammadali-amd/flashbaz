@@ -113,9 +113,9 @@ const OrderPage = () => {
                            <tr key={item._id} className='hover:bg-gray-50 border-b'>
                               <td className='flex items-center gap-2 px-4 py-2 text-right'>
                                  <Image
-                                    src={item.image}
+                                    src={item.image.link}
                                     className='rounded-sm'
-                                    alt={item.name}
+                                    alt={item.image.alt}
                                     width={40}
                                     height={40}
                                  />
