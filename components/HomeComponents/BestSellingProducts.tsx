@@ -35,7 +35,7 @@ const BestSellingProducts = (): JSX.Element => {
             <CarouselLayout mobileSlidesPerView={1} tabletSlidesPerView={2} laptopSlidesPerView={3} desktopSlidesPerView={4} spaceBetween={50}>
                {products?.map((product: Product) => (
                   <SwiperSlide key={product._id}>
-                     <Link href={`/products/${product.category}/${product.subcategory}/${product._id}`}>
+                     <Link href={`/products/${product.category.slug ? `${product.category.slug}/` : ''}${product.subcategory?.slug ? `${product.subcategory?.slug}/` : ''}${product._id}`}>
                         <div className='border border-stone-200 shadow-lg hover:shadow-xl duration-200 shadow-gray-300 hover:shadow-gray-400 rounded-xl pt-2 pb-6'>
                            <div className="relative flex justify-center pb-4">
                               <div className="relative w-full h-52 m-8">
